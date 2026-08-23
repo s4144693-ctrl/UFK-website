@@ -1,0 +1,6 @@
+#EXTM3U
+#EXT-X-TARGETDURATION:6
+#EXT-X-PLAYLIST-TYPE:VOD
+#EXTINF:3,
+https://cdn-prod-ccv.adobe.com/5m6ENKNr_fL/rend/hls_1920/index-1.ts?hdnts=st%3D1787482280%7Eexp%3D1787741480%7Eacl%3D%2Fshared_assets%2Fimage%2F*%21%2Fz%2F5m6ENKNr_fL%2Frend%2F*%21%2Fi%2F5m6ENKNr_fL%2Frend%2F*%21%2F5m6ENKNr_fL%2Frend%2F*%21%2F5m6ENKNr_fL%2Fimage%2F*%21%2F5m6ENKNr_fL%2Fcaptions%2F*%7Ehmac%3Df2d417e22324050810f280ce1dc2b71a8ca282615fdeb85cfae2862d58cd9764
+#EXT-X-ENDLIST
