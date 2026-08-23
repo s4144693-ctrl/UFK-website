@@ -1,6 +1,6 @@
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
-import { useBlogPosts, type BlogPost } from './lib/blogData'
+import { useBlogPosts } from './lib/blogData'
 
 /* ── Corner brackets ── */
 function CornerBrackets() {

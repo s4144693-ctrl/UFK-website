@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
 import MarketeamSection from './MarketeamSection'
@@ -55,8 +55,6 @@ const ACCENT_SHADES = [
 ]
 
 export default function ClientsPage() {
-  const trackRef = useRef<HTMLDivElement>(null)
-
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
   return (

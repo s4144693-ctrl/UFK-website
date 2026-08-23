@@ -361,7 +361,7 @@ function IsometricBarCanvas({ hoveredRef }: CanvasProps) {
         //            front-right (C), front-left (D)
         const At = p(x0, hVal, z0),  Bt = p(x1, hVal, z0)
         const Ct = p(x1, hVal, z1),  Dt = p(x0, hVal, z1)
-        const Ab = p(x0, 0,    z0),  Bb = p(x1, 0,    z0)
+        const _Ab = p(x0, 0,    z0),  Bb = p(x1, 0,    z0)
         const Cb = p(x1, 0,    z1),  Db = p(x0, 0,    z1)
 
         // Depth cue: towers closer to viewer (higher col+row) render brighter
