@@ -170,7 +170,7 @@ export default function ContactPage() {
   const onMouseLeave = () => { mx.set(0); my.set(0) }
 
   return (
-    <div style={{ background: BG, minHeight: '100vh' }}>
+    <div style={{ background: BG, minHeight: '100vh', width: '100%' }}>
       <style>{FIELD_STYLES}</style>
       <SiteNav />
 
@@ -216,7 +216,7 @@ export default function ContactPage() {
               style={{
                 position:           'absolute',
                 inset:              '-20px',
-                backgroundImage:    "url('/contact-bg.png')",
+                backgroundImage:    "url('/contact-bg.webp')",
                 backgroundSize:     '75%',
                 backgroundPosition: 'center',
                 x: bgX,
@@ -260,7 +260,7 @@ export default function ContactPage() {
                 style={{ marginBottom: '28px' }}
               >
                 <img
-                  src="/logo.png"
+                  src="/logo.webp"
                   alt="UFK Solutions"
                   style={{ height: '30px', filter: 'brightness(0) invert(1)' }}
                 />

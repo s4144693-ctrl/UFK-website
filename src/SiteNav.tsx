@@ -8,7 +8,7 @@ export default function SiteNav({ theme = 'dark' }: { theme?: 'dark' | 'light' }
   return (
     <nav className={`nav${theme === 'light' ? ' nav--light' : ''}`}>
       <a href="/" className="nav-logo">
-        <img src="/logo.png" alt="Xero" height="28" />
+        <img src="/logo.webp" alt="Xero" height="28" />
       </a>
 
       <div className={`nav-menu${menuOpen ? ' active' : ''}`}>

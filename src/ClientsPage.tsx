@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { NeatGradient } from '@firecms/neat'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
-import MarketeamSection from './MarketeamSection'
 
 /* ─── Data ─── */
 const STATS = [
@@ -54,15 +55,104 @@ const ACCENT_SHADES = [
   'rgba(34,197,94,0.18)',
 ]
 
+const NEAT_CONFIG = {
+  colors: [
+    { color: '#010506', enabled: true },
+    { color: '#7CDC59', enabled: true },
+    { color: '#239E58', enabled: true },
+    { color: '#01423E', enabled: true },
+    { color: '#446C2A', enabled: true },
+  ],
+  speed: 4,
+  horizontalPressure: 3,
+  verticalPressure: 4,
+  waveFrequencyX: 10,
+  waveFrequencyY: 0,
+  waveAmplitude: 10,
+  shadows: 5,
+  highlights: 10,
+  colorBrightness: 1,
+  colorSaturation: 2,
+  wireframe: false,
+  antialias: false,
+  colorBlending: 9,
+  backgroundColor: '#000000',
+  backgroundAlpha: 1,
+  grainScale: 2,
+  grainSparsity: 0,
+  grainIntensity: 0.05,
+  grainSpeed: 1,
+  resolution: 0.5,
+  yOffset: 1723,
+  yOffsetWaveMultiplier: 1.5,
+  yOffsetColorMultiplier: 7.8,
+  yOffsetFlowMultiplier: 9.3,
+  flowDistortionA: 3.7,
+  flowDistortionB: 1.4,
+  flowScale: 2.9,
+  flowEase: 0.32,
+  flowEnabled: true,
+  enableProceduralTexture: false,
+  domainWarpEnabled: false,
+  vignetteIntensity: 0,
+  vignetteRadius: 0.8,
+  fresnelEnabled: false,
+  bloomIntensity: 0,
+  bloomThreshold: 0.7,
+  chromaticAberration: 0,
+  shapeType: 'plane' as const,
+  shapeRotationX: 0, shapeRotationY: 0, shapeRotationZ: 0,
+  shapeAutoRotateSpeedX: 0, shapeAutoRotateSpeedY: 0,
+  flatShading: true,
+  cameraLock: true,
+  cameraX: 0, cameraY: 0, cameraZ: 0,
+  cameraRotationX: 0, cameraRotationY: 0, cameraRotationZ: 0,
+  cameraZoom: 1,
+}
+
+const FEATURED_PROJECTS = [
+  { id: 23, title: 'FSTC',             year: '2025', image: '/fstc-cover.webp'    },
+  { id: 24, title: 'VFTI',             year: '2025', image: '/vfti-cover.webp'    },
+  { id: 22, title: 'The Qila',         year: '2025', image: '/qila-01.webp'       },
+  { id: 30, title: 'Obba',             year: '2025', image: '/obba-1.webp'        },
+  { id: 34, title: 'Nirvana Holidays', year: '2025', image: '/nirvana-cover.webp' },
+  { id: 21, title: 'Avyanna Aviation', year: '2025', image: '/avyanna-cover.webp' },
+]
+
+/* ─── Single gradient card ─── */
+function GradientCard({ seed = 0 }: { seed?: number }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    // Slightly vary yOffset per card so each looks distinct
+    const gradient = new NeatGradient({
+      ref: canvas,
+      ...NEAT_CONFIG,
+      yOffset: NEAT_CONFIG.yOffset + seed * 800,
+    })
+    return () => { gradient.destroy() }
+  }, [seed])
+
+  return (
+    <div className="cl-grad-card">
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', borderRadius: 'inherit' }}
+      />
+    </div>
+  )
+}
+
 export default function ClientsPage() {
+  const navigate = useNavigate()
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
   return (
     <div className="cl-page">
       <SiteNav />
-
-      {/* ── Marketeam hero (full-viewport, sits above clients content) ── */}
-      <MarketeamSection />
 
       {/* ── Hero ── */}
       <section className="cl-hero">
@@ -85,6 +175,13 @@ export default function ClientsPage() {
             <span className="cl-stat-label">{s.label}</span>
           </div>
         ))}
+      </div>
+
+      {/* ── 3 Gradient Cards ── */}
+      <div className="cl-grad-section">
+        <GradientCard seed={0} />
+        <GradientCard seed={1} />
+        <GradientCard seed={2} />
       </div>
 
       {/* ── Client logo grid ── */}
@@ -137,6 +234,36 @@ export default function ClientsPage() {
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </a>
+      </div>
+
+      {/* ── Featured Projects (bottom) ── */}
+      <div className="cl-projects-wrap">
+        <div className="cl-projects-header">
+          <h2 className="cl-section-title">Featured Work</h2>
+          <button className="cl-projects-view-all" onClick={() => navigate('/projects')}>
+            View All Projects ↗
+          </button>
+        </div>
+        <div className="pj-grid cl-pj-grid">
+          {FEATURED_PROJECTS.map(p => (
+            <div
+              key={p.id}
+              className="pj-item"
+              onClick={() => navigate(`/projects/${p.id}`)}
+            >
+              <div className="pj-label-row">
+                <span className="pj-label-title">↗ {p.title}</span>
+                <span className="pj-label-year">{p.year}</span>
+              </div>
+              <div
+                className="pj-thumb"
+                style={{ backgroundImage: `url(${p.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+              >
+                <div className="pj-thumb-overlay" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       <SiteFooter />

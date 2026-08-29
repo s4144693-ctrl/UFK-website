@@ -11,7 +11,7 @@ const BENEFITS = [
   {
     label: 'Streamline Integrations',
     desc:  'Connect your existing stack in minutes. Our SDK drops into any environment — cloud, hybrid, or on-prem — without rearchitecting your pipeline.',
-    accent: '#4ade80',
+    accent: '#038f59',
     graphic: (
       <div className="fp-benefit-graphic fp-benefit-graphic--green">
         <div className="fp-circuit">

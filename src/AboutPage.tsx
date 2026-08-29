@@ -4,7 +4,7 @@ import SiteFooter from './SiteFooter'
 
 export default function AboutPage() {
   return (
-    <div className="w-full min-h-screen" style={{ background: '#020d05' }}>
+    <div className="w-full min-h-screen" style={{ background: '#04090d' }}>
 
       <SiteNav />
 
@@ -58,7 +58,7 @@ export default function AboutPage() {
                 padding: '8px 18px',
                 background: 'rgba(74,222,128,0.08)',
                 border: '1px solid rgba(74,222,128,0.18)',
-                color: '#4ade80',
+                color: '#038f59',
                 fontSize: '0.72rem',
                 fontWeight: 600,
                 letterSpacing: '0.1em',
@@ -104,8 +104,8 @@ export default function AboutPage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 width: 'fit-content',
-                background: '#4ade80',
-                color: '#020d05',
+                background: '#038f59',
+                color: '#04090d',
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '1rem',
                 fontWeight: 600,

@@ -196,7 +196,7 @@ export default function ProjectDetailPage() {
 
   if (!project) {
     return (
-      <div style={{ background: '#020d05', minHeight: '100vh', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ background: '#04090d', minHeight: '100vh', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ textAlign: 'center' }}>
           <p style={{ color: 'rgba(255,255,255,0.4)', marginBottom: 24 }}>Project not found</p>
           <button className="pd-back-btn" onClick={() => navigate('/projects')}>← Back to Projects</button>
@@ -326,7 +326,7 @@ export default function ProjectDetailPage() {
 
       </main>
 
-      <SiteFooter />
+      <SiteFooter light />
     </div>
   )
 }

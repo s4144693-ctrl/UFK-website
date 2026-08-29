@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { NeatGradient } from '@firecms/neat'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
 import PremiumServicesSection from './PremiumServices'
@@ -375,23 +377,31 @@ function GlobalFootprintSection() {
 
 /* ── Featured Work section ── */
 function FeaturedWork() {
+  const navigate = useNavigate()
+
+  const photoStyle = (src: string): React.CSSProperties => ({
+    backgroundImage: `url(${src})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  })
+
   return (
     <section className="featured-work" id="projects">
       <div className="fw-header">
         <h2 className="fw-title">Featured Work <span className="fw-diamond">◆</span></h2>
-        <button className="fw-view-all">View All Projects ↗</button>
+        <button className="fw-view-all" onClick={() => navigate('/projects')}>View All Projects ↗</button>
       </div>
 
       {/* Row 1: large left + small right */}
       <div className="fw-row fw-row--split">
-        <article className="fw-card fw-card--large">
-          <div className="fw-card-bg fw-bg-nexaflow" />
+        <article className="fw-card fw-card--large" onClick={() => navigate('/projects/23')} style={{ cursor: 'pointer' }}>
+          <div className="fw-card-bg" style={photoStyle('/fstc-cover.webp')} />
           <div className="fw-card-overlay" />
           <div className="fw-card-body">
-            <h3 className="fw-card-title">NEXAFLOW</h3>
+            <h3 className="fw-card-title">FSTC</h3>
           </div>
           <div className="fw-card-meta">
-            <span className="fw-client">Digital Platform</span>
+            <span className="fw-client">Aviation Academy</span>
             <div className="fw-tags">
               <span className="fw-tag">Web Design</span>
               <span className="fw-tag">Development</span>
@@ -399,17 +409,16 @@ function FeaturedWork() {
           </div>
         </article>
 
-        <article className="fw-card fw-card--small">
-          <div className="fw-card-bg fw-bg-vaultkit" />
+        <article className="fw-card fw-card--small" onClick={() => navigate('/projects/22')} style={{ cursor: 'pointer' }}>
+          <div className="fw-card-bg" style={photoStyle('/qila-01.webp')} />
           <div className="fw-card-overlay" />
           <div className="fw-card-body">
-            <h3 className="fw-card-title fw-card-title--sm">VAULTKIT</h3>
+            <h3 className="fw-card-title fw-card-title--sm">THE QILA</h3>
           </div>
           <div className="fw-card-meta">
-            <span className="fw-client">Cybersecurity Brand</span>
+            <span className="fw-client">Hotel & Banquet</span>
             <div className="fw-tags">
               <span className="fw-tag">Brand Identity</span>
-              <span className="fw-tag">Web Design</span>
             </div>
           </div>
         </article>
@@ -417,17 +426,17 @@ function FeaturedWork() {
 
       {/* Row 2: full-width */}
       <div className="fw-row">
-        <article className="fw-card fw-card--full">
-          <div className="fw-card-bg fw-bg-terra" />
+        <article className="fw-card fw-card--full" onClick={() => navigate('/projects/21')} style={{ cursor: 'pointer' }}>
+          <div className="fw-card-bg" style={photoStyle('/avyanna-cover.webp')} />
           <div className="fw-card-overlay fw-card-overlay--terra" />
           <div className="fw-card-body fw-card-body--center">
-            <h3 className="fw-card-title fw-card-title--xl">TERRA<br />DYNAMICS</h3>
+            <h3 className="fw-card-title fw-card-title--xl">AVYANNA<br />AVIATION</h3>
           </div>
           <div className="fw-card-meta">
-            <span className="fw-client">Terra Dynamics</span>
+            <span className="fw-client">Aviation Academy</span>
             <div className="fw-tags">
-              <span className="fw-tag">Brand Identity</span>
-              <span className="fw-tag">Motion & 3D</span>
+              <span className="fw-tag">Web Design</span>
+              <span className="fw-tag">Development</span>
             </div>
           </div>
         </article>
@@ -435,45 +444,44 @@ function FeaturedWork() {
 
       {/* Row 3: three equal cards */}
       <div className="fw-row fw-row--thirds">
-        <article className="fw-card">
-          <div className="fw-card-bg fw-bg-enzo" />
+        <article className="fw-card" onClick={() => navigate('/projects/30')} style={{ cursor: 'pointer' }}>
+          <div className="fw-card-bg" style={photoStyle('/obba-1.webp')} />
           <div className="fw-card-overlay" />
           <div className="fw-card-body">
-            <h3 className="fw-card-title fw-card-title--sm">ENZO DIGITAL</h3>
+            <h3 className="fw-card-title fw-card-title--sm">OBBA</h3>
           </div>
           <div className="fw-card-meta">
-            <span className="fw-client">Creative Agency</span>
+            <span className="fw-client">Brand Identity</span>
             <div className="fw-tags">
-              <span className="fw-tag">Web Design & Dev</span>
+              <span className="fw-tag">Branding</span>
             </div>
           </div>
         </article>
 
-        <article className="fw-card">
-          <div className="fw-card-bg fw-bg-cipher" />
+        <article className="fw-card" onClick={() => navigate('/projects/34')} style={{ cursor: 'pointer' }}>
+          <div className="fw-card-bg" style={photoStyle('/nirvana-cover.webp')} />
           <div className="fw-card-overlay" />
           <div className="fw-card-body">
-            <h3 className="fw-card-title fw-card-title--sm">CIPHER AI</h3>
+            <h3 className="fw-card-title fw-card-title--sm">NIRVANA HOLIDAYS</h3>
           </div>
           <div className="fw-card-meta">
-            <span className="fw-client">AI Platform</span>
+            <span className="fw-client">Travel Brand</span>
             <div className="fw-tags">
               <span className="fw-tag">Brand Identity</span>
-              <span className="fw-tag">Motion & 3D</span>
             </div>
           </div>
         </article>
 
-        <article className="fw-card">
-          <div className="fw-card-bg fw-bg-orion" />
+        <article className="fw-card" onClick={() => navigate('/projects/24')} style={{ cursor: 'pointer' }}>
+          <div className="fw-card-bg" style={photoStyle('/vfti-cover.webp')} />
           <div className="fw-card-overlay" />
           <div className="fw-card-body">
-            <h3 className="fw-card-title fw-card-title--sm">ORION FINANCE</h3>
+            <h3 className="fw-card-title fw-card-title--sm">VFTI</h3>
           </div>
           <div className="fw-card-meta">
-            <span className="fw-client">FinTech</span>
+            <span className="fw-client">Pilot Training</span>
             <div className="fw-tags">
-              <span className="fw-tag">Web Design & Dev</span>
+              <span className="fw-tag">Web Design</span>
             </div>
           </div>
         </article>
@@ -489,7 +497,7 @@ const TESTIMONIALS = [
     role: 'E-Commerce 2.0',
     quote: 'Xero completely transformed how we protect customer data. Their zero-trust pipeline reduced our attack surface by 80% in the first quarter — results I never thought were possible.',
     bg: 'linear-gradient(155deg, #0e1f12 0%, #060e08 100%)',
-    accent: '#4ade80',
+    accent: '#038f59',
   },
   {
     name: 'Timothée Moiroux',
@@ -684,9 +692,93 @@ const RESULTS_STATS = [
   { value: '5×',     label: 'Average ROI on Ad Spend' },
 ]
 
+const RESULTS_GRADIENT_CONFIG = {
+  colors: [
+    { color: '#010506', enabled: true },
+    { color: '#b2ff59', enabled: true },
+    { color: '#239E58', enabled: true },
+    { color: '#01423E', enabled: true },
+    { color: '#446C2A', enabled: true },
+  ],
+  speed: 4,
+  horizontalPressure: 3,
+  verticalPressure: 4,
+  waveFrequencyX: 10,
+  waveFrequencyY: 0,
+  waveAmplitude: 10,
+  shadows: 5,
+  highlights: 10,
+  colorBrightness: 1,
+  colorSaturation: 2,
+  wireframe: false,
+  antialias: false,
+  colorBlending: 9,
+  backgroundColor: '#000000',
+  backgroundAlpha: 1,
+  grainScale: 2,
+  grainSparsity: 0,
+  grainIntensity: 0.05,
+  grainSpeed: 1,
+  resolution: 0.5,
+  yOffset: 3169,
+  yOffsetWaveMultiplier: 1.5,
+  yOffsetColorMultiplier: 7.8,
+  yOffsetFlowMultiplier: 9.3,
+  flowDistortionA: 3.7,
+  flowDistortionB: 1.4,
+  flowScale: 2.9,
+  flowEase: 0.32,
+  flowEnabled: true,
+  enableProceduralTexture: false,
+  domainWarpEnabled: false,
+  vignetteIntensity: 0,
+  vignetteRadius: 0.8,
+  fresnelEnabled: false,
+  bloomIntensity: 0,
+  bloomThreshold: 0.7,
+  chromaticAberration: 0,
+  shapeType: 'plane' as const,
+  shapeRotationX: 0,
+  shapeRotationY: 0,
+  shapeRotationZ: 0,
+  shapeAutoRotateSpeedX: 0,
+  shapeAutoRotateSpeedY: 0,
+  flatShading: true,
+  cameraLock: true,
+  cameraX: 0,
+  cameraY: 0,
+  cameraZ: 0,
+  cameraRotationX: 0,
+  cameraRotationY: 0,
+  cameraRotationZ: 0,
+  cameraZoom: 1,
+}
+
 function ResultsSection() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const gradient = new NeatGradient({ ref: canvas, ...RESULTS_GRADIENT_CONFIG })
+    return () => { gradient.destroy() }
+  }, [])
+
   return (
     <section className="rs-section">
+      {/* NeatGradient canvas background */}
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
       <div className="rs-inner">
 
         {/* Left — text */}
@@ -804,6 +896,115 @@ export default function App() {
   const beamCoreRef  = useRef<SVGPathElement>(null)
   const gradientRef  = useRef<SVGLinearGradientElement>(null)
   const splashRef    = useRef<HTMLDivElement>(null)
+  const neatCanvasRef = useRef<HTMLCanvasElement>(null)
+  // ── NeatGradient background ─────────────────────────────────────────────
+  useEffect(() => {
+    const canvas = neatCanvasRef.current
+    if (!canvas) return
+    const gradient = new NeatGradient({
+      ref: canvas,
+      colors: [
+        { color: '#010104', enabled: true },
+        { color: '#00313F', enabled: true },
+        { color: '#038F59', enabled: true },
+        { color: '#1B231B', enabled: true },
+        { color: '#067552', enabled: true },
+        { color: '#FF9A9E', enabled: false },
+      ],
+      speed: 6,
+      horizontalPressure: 3,
+      verticalPressure: 4,
+      waveFrequencyX: 2,
+      waveFrequencyY: 3,
+      waveAmplitude: 5,
+      shadows: 1,
+      highlights: 5,
+      colorBrightness: 1,
+      colorSaturation: 7,
+      wireframe: false,
+      antialias: false,
+      colorBlending: 8,
+      backgroundColor: '#142014',
+      backgroundAlpha: 1,
+      grainScale: 0,
+      grainSparsity: 0,
+      grainIntensity: 0.15,
+      grainSpeed: 1,
+      resolution: 1,
+      yOffset: 1050,
+      yOffsetWaveMultiplier: 4,
+      yOffsetColorMultiplier: 4,
+      yOffsetFlowMultiplier: 4,
+      flowDistortionA: 0,
+      flowDistortionB: 0,
+      flowScale: 1,
+      flowEase: 0,
+      flowEnabled: true,
+      enableProceduralTexture: false,
+      transparentTextureVoid: false,
+      textureVoidLikelihood: 0.45,
+      textureVoidWidthMin: 200,
+      textureVoidWidthMax: 486,
+      textureBandDensity: 2.15,
+      textureColorBlending: 0.01,
+      textureSeed: 333,
+      textureEase: 0.5,
+      proceduralBackgroundColor: '#000000',
+      textureShapeTriangles: 20,
+      textureShapeCircles: 15,
+      textureShapeBars: 15,
+      textureShapeSquiggles: 10,
+      domainWarpEnabled: false,
+      domainWarpIntensity: 0,
+      domainWarpScale: 3,
+      vignetteIntensity: 0,
+      vignetteRadius: 0.8,
+      fresnelEnabled: false,
+      fresnelPower: 2,
+      fresnelIntensity: 0.5,
+      fresnelColor: '#FFFFFF',
+      iridescenceEnabled: false,
+      iridescenceIntensity: 0.5,
+      iridescenceSpeed: 1,
+      bloomIntensity: 0,
+      bloomThreshold: 0.7,
+      chromaticAberration: 0,
+      shapeType: 'plane',
+      shapeRotationX: -1.54,
+      shapeRotationY: -0.09,
+      shapeRotationZ: 0,
+      shapeAutoRotateSpeedX: 0,
+      shapeAutoRotateSpeedY: 0,
+      sphereRadius: 15,
+      torusRadius: 15,
+      torusTube: 5,
+      cylinderRadius: 10,
+      cylinderHeight: 40,
+      planeBend: 0,
+      planeTwist: 0,
+      silhouetteFade: 0.25,
+      cylinderFade: 0.08,
+      ribbonFade: 0.05,
+      flatShading: true,
+      cameraLock: true,
+      cameraX: 0,
+      cameraY: 0,
+      cameraZ: 0,
+      cameraRotationX: 0,
+      cameraRotationY: 0,
+      cameraRotationZ: 0,
+      cameraZoom: 1,
+    })
+
+    const onScroll = () => { gradient.yOffset = window.scrollY }
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      gradient.destroy()
+    }
+  }, [])
+
   // ── Hero card scroll-shrink + brands fade-in animation ──────────────────
   useEffect(() => {
     const card   = heroCardRef.current
@@ -975,11 +1176,20 @@ export default function App() {
       ═══════════════════════════════════════════════════════ */}
       <div className="hero-scroll-canvas">
       <section className="hero-card" ref={heroCardRef}>
-        {/* Liquid animated blobs — create organic green motion in bg */}
-        <div className="hero-blob hero-blob-1" aria-hidden="true" />
-        <div className="hero-blob hero-blob-2" aria-hidden="true" />
-        <div className="hero-blob hero-blob-3" aria-hidden="true" />
-        <div className="hero-blob hero-blob-4" aria-hidden="true" />
+        {/* NeatGradient animated background */}
+        <canvas
+          ref={neatCanvasRef}
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 0,
+            pointerEvents: 'none',
+            transform: 'scale(1.2)',
+          }}
+        />
 
         {/* Grid overlay — only visible inside the arc via mask */}
         <div className="hero-grid" />
@@ -1014,11 +1224,11 @@ export default function App() {
                 x1="-5%" x2="5%"
                 y1="0%"  y2="0%"
               >
-                <stop offset="0%"   stopColor="#22c55e" stopOpacity="0"   />
-                <stop offset="20%"  stopColor="#22c55e" stopOpacity="0.8" />
-                <stop offset="50%"  stopColor="#86efac" stopOpacity="1"   />
-                <stop offset="80%"  stopColor="#4ade80" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#4ade80" stopOpacity="0"   />
+                <stop offset="0%"   stopColor="#038f59" stopOpacity="0"   />
+                <stop offset="20%"  stopColor="#038f59" stopOpacity="0.8" />
+                <stop offset="50%"  stopColor="#038f59" stopOpacity="1"   />
+                <stop offset="80%"  stopColor="#038f59" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#038f59" stopOpacity="0"   />
               </linearGradient>
             </defs>
 

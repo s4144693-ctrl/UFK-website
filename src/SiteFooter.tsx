@@ -23,8 +23,8 @@ const LINKS = {
   ],
 }
 
-export default function SiteFooter() {
-  return (
+export default function SiteFooter({ light = false }: { light?: boolean }) {
+  const inner = (
     /* ── Outer wrapper: mesh gradient stage ── */
     <div className="footer-stage">
 
@@ -46,7 +46,7 @@ export default function SiteFooter() {
           {/* Brand column */}
           <div className="footer-brand-col">
             <div className="footer-logo">
-              <img src="/logo.png" alt="Xero" height="36" style={{ height: '36px', width: 'auto', display: 'block' }} />
+              <img src="/logo.webp" alt="Xero" height="36" style={{ height: '36px', width: 'auto', display: 'block' }} />
             </div>
             <p className="footer-desc">
               Designing products, powering ecosystems and laying the foundation of a
@@ -86,6 +86,15 @@ export default function SiteFooter() {
           </div>
         </div>
       </motion.footer>
+    </div>
+  )
+
+  if (!light) return inner
+
+  /* Light-page variant: gradient ramp from white → dark before the footer card */
+  return (
+    <div className="footer-light-wrap">
+      {inner}
     </div>
   )
 }

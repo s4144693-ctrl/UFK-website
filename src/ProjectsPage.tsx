@@ -53,7 +53,7 @@ export default function ProjectsPage() {
     : PROJECTS.filter(p => p.category === activeFilter)
 
   return (
-    <div style={{ background: '#020d05', minHeight: '100vh' }}>
+    <div style={{ background: '#04090d', minHeight: '100vh', width: '100%' }}>
       <SiteNav />
 
       {/* Hero header */}
