@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { NeatGradient } from '@firecms/neat'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
-import PremiumServicesSection from './PremiumServices'
-import ClassicServicesSection from './ClassicServicesSection'
 import BlogPreviewSection from './BlogPreviewSection'
 import AviationSection from './AviationSection'
 
@@ -156,12 +154,6 @@ const GF_STATS = [
   { value: '98%',   label: 'Success Rate'       },
 ]
 
-const GF_CLIENTS = [
-  'NexaFlow', 'VaultKit', 'Orbis Health', 'Prism Labs',
-  'Crestline', 'Edura', 'Stackbase', 'Lumio',
-  'Terrafund', 'Cognify', 'Bloom & Co', 'Axiom Sport',
-  'CipherAI',  'Orion Finance', 'TerraDynamics',
-]
 
 /* Countries: geographic lon/lat and initial visual offset on this particular globe video */
 const GLOBE_COUNTRIES = [
