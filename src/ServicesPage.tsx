@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
+import ClassicServicesSection from './ClassicServicesSection'
 
 /* ─────────────────────────────────────────────────────────
    DATA
@@ -240,6 +241,7 @@ export default function ServicesPage() {
         ))}
       </div>
 
+      <ClassicServicesSection />
       <SiteFooter />
     </div>
   )

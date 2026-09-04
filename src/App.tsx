@@ -4,7 +4,9 @@ import { NeatGradient } from '@firecms/neat'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
 import PremiumServicesSection from './PremiumServices'
+import ClassicServicesSection from './ClassicServicesSection'
 import BlogPreviewSection from './BlogPreviewSection'
+import AviationSection from './AviationSection'
 
 /* ── One full set of brand logos ── */
 function BrandSet() {
@@ -148,10 +150,10 @@ function BrandSet() {
 
 /* ── Global Footprint section ── */
 const GF_STATS = [
-  { value: '15+',   label: 'Clients Worldwide' },
-  { value: '10+',   label: 'Industries Served'  },
-  { value: '340+',  label: 'Projects Delivered' },
-  { value: '98%',   label: 'Retention Rate'     },
+  { value: '154+',  label: 'Clients Worldwide'  },
+  { value: '15+',   label: 'Industries Served'  },
+  { value: '200+',  label: 'Projects Delivered' },
+  { value: '98%',   label: 'Success Rate'       },
 ]
 
 const GF_CLIENTS = [
@@ -164,10 +166,11 @@ const GF_CLIENTS = [
 /* Countries: geographic lon/lat and initial visual offset on this particular globe video */
 const GLOBE_COUNTRIES = [
   // lon/lat = true geographic coords; latAdjust = visual nudge (+ = up, - = down)
-  { name: 'USA',       lon: -100, lat:  38, latAdjust:  8 },   // shift up
-  { name: 'UAE',       lon:   55, lat:  24, latAdjust:  9 },   // shift up
-  { name: 'India',     lon:   78, lat:  22, latAdjust:  0 },
-  { name: 'Australia', lon:  134, lat: -25, latAdjust: -9 },   // shift down
+  { name: 'USA',            lon:  -95, lat:  40, latAdjust:  6 },   // central USA
+  { name: 'United Kingdom', lon:   -2, lat:  54, latAdjust:  5 },   // UK, top-center-left
+  { name: 'Dubai',          lon:   55, lat:  25, latAdjust:  7 },   // Dubai, Middle East
+  { name: 'Qatar',          lon:   51, lat:  25, latAdjust:  1 },   // Qatar, just below Dubai
+  { name: 'India',          lon:   78, lat:  20, latAdjust:  3 },   // central India
 ]
 
 /*
@@ -181,101 +184,96 @@ const GLOBE_COUNTRIES = [
  * GLOBE_TILT_DEG: axial tilt of the globe in the video (0 = equator is flat,
  *   23.5 = realistic Earth tilt). Adjust if the equator appears slanted.
  */
-const INITIAL_LON_OFFSET_DEG = 20   // ← tune: longitude at frame 0
-const GLOBE_TILT_DEG          = 10  // ← tune: visual axial tilt
+/*
+ * CALIBRATION
+ * DEG_PER_SECOND   — how fast the globe rotates in degrees/sec (tune to match video visually)
+ * INITIAL_LON_DEG  — which longitude faces the camera at t=0 (tune to align starting position)
+ * GLOBE_TILT_DEG   — axial tilt of the globe in the video
+ */
+const DEG_PER_SECOND   = 20    // ← tune: lower = slower tags
+const INITIAL_LON_DEG  = 20    // ← tune: longitude at center on page load
+const GLOBE_TILT_DEG   = 10    // ← tune: visual axial tilt
 
 function GlobalFootprintSection() {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const tagRefs  = useRef<(HTMLDivElement | null)[]>([])
-  const rafRef   = useRef<number>(0)
+  const videoRef  = useRef<HTMLVideoElement>(null)
+  const tagRefs   = useRef<(HTMLDivElement | null)[]>([])
+  const rafRef    = useRef<number>(0)
+  const startTime = useRef<number>(0)
 
-  /* Slow video to 70% speed */
+  /* Slow video */
   useEffect(() => {
     const v = videoRef.current
     if (!v) return
-    const setRate = () => { v.playbackRate = 0.7 }
+    const setRate = () => { v.playbackRate = 0.35 }
     setRate()
-    v.addEventListener('play',     setRate)
+    v.addEventListener('play', setRate)
     v.addEventListener('ratechange', setRate)
     return () => {
-      v.removeEventListener('play',     setRate)
+      v.removeEventListener('play', setRate)
       v.removeEventListener('ratechange', setRate)
     }
   }, [])
 
-  /* Animate tags locked to video.currentTime — guaranteed same pace as globe */
+  /* Animate tags — transform-only for GPU-composited, jitter-free animation */
   useEffect(() => {
-    const tiltRad   = (GLOBE_TILT_DEG * Math.PI) / 180
-    const initRad   = (INITIAL_LON_OFFSET_DEG * Math.PI) / 180
-    const cosTilt   = Math.cos(tiltRad)
-    const sinTilt   = Math.sin(tiltRad)
+    const tiltRad  = (GLOBE_TILT_DEG  * Math.PI) / 180
+    const initRad  = (INITIAL_LON_DEG * Math.PI) / 180
+    const rateRad  = (DEG_PER_SECOND  * Math.PI) / 180
+    const cosTilt  = Math.cos(tiltRad)
+    const sinTilt  = Math.sin(tiltRad)
 
-    const tick = () => {
-      const v = videoRef.current
-      if (!v || !v.duration) {
-        rafRef.current = requestAnimationFrame(tick)
-        return
-      }
+    // Cache container size once — avoids getBoundingClientRect every frame
+    const container = tagRefs.current[0]?.parentElement
+    let cW = container?.offsetWidth  ?? 400
+    let cH = container?.offsetHeight ?? 400
+    const ro = new ResizeObserver(() => {
+      cW = container?.offsetWidth  ?? cW
+      cH = container?.offsetHeight ?? cH
+    })
+    if (container) ro.observe(container)
 
-      /*
-       * Derive rotation angle directly from the video's own playhead.
-       * This is frame-perfect: the tags move exactly as fast as the globe,
-       * including the 0.7× slowdown and any seek/loop behaviour.
-       */
-      const progress = v.currentTime / v.duration          // 0 → 1
-      const rotAngle = progress * Math.PI * 2 + initRad    // radians, eastward
+    startTime.current = performance.now()
+
+    const tick = (now: number) => {
+      const elapsed  = (now - startTime.current) / 1000
+      const rotAngle = elapsed * rateRad + initRad
 
       GLOBE_COUNTRIES.forEach((c, i) => {
         const el = tagRefs.current[i]
         if (!el) return
 
         const lonRad = (c.lon * Math.PI) / 180
-        /* Apply per-country vertical nudge on top of true latitude */
         const latRad = ((c.lat + c.latAdjust) * Math.PI) / 180
+        const theta  = lonRad - rotAngle
 
-        /* Longitude relative to current front-facing meridian */
-        const theta = lonRad - rotAngle
-
-        /* 3-D cartesian on unit sphere */
         const x0 =  Math.sin(theta) * Math.cos(latRad)
         const y0 = -Math.sin(latRad)
         const z0 =  Math.cos(theta) * Math.cos(latRad)
 
-        /* Apply axial tilt (rotate around screen-X axis) */
         const y3 = y0 * cosTilt - z0 * sinTilt
         const z3 = y0 * sinTilt + z0 * cosTilt
         const x3 = x0
 
-        /*
-         * Only show the tag when the country is clearly on the front hemisphere.
-         * Threshold z3 > 0.18 means the tag becomes visible only after crossing
-         * ~80° of the front face — hides near the horizon / back of globe.
-         * The 0.22-wide ramp gives a quick but smooth fade-in.
-         */
-        const opacity = z3 > 0.18
-          ? Math.min(1, (z3 - 0.18) / 0.22)
-          : 0
+        const opacity = z3 > 0.15 ? Math.min(1, (z3 - 0.15) / 0.20) : 0
+        const scale   = 0.80 + z3 * 0.20
 
-        /* Perspective scale */
-        const scale = 0.78 + z3 * 0.22
+        // Pixel offsets from centre — only transform & opacity, zero layout cost
+        const tx = x3 * 0.36 * cW * 0.5
+        const ty = y3 * 0.32 * cH * 0.5
 
-        /* 2-D projection inside the globe-inner div */
-        const left = 50 + x3 * 36
-        const top  = 50 + y3 * 32
-
-        el.style.left           = `${left}%`
-        el.style.top            = `${top}%`
-        el.style.opacity        = `${opacity}`
-        el.style.transform      = `translate(-50%, -50%) scale(${scale})`
-        el.style.zIndex         = z3 > 0 ? '4' : '1'
-        el.style.pointerEvents  = opacity > 0 ? 'auto' : 'none'
+        el.style.opacity   = `${opacity}`
+        el.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(${scale})`
+        el.style.zIndex    = z3 > 0 ? '4' : '1'
       })
 
       rafRef.current = requestAnimationFrame(tick)
     }
 
     rafRef.current = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(rafRef.current)
+    return () => {
+      cancelAnimationFrame(rafRef.current)
+      ro.disconnect()
+    }
   }, [])
 
   return (
@@ -304,29 +302,18 @@ function GlobalFootprintSection() {
               loop
               playsInline
             />
+          </div>
 
-            {/* Animated country tags — positions driven by rAF loop above */}
+          {/* Location chips — fixed, always accurate */}
+          <div className="gf-locations">
             {GLOBE_COUNTRIES.map((c, i) => (
-              <div
-                key={c.name}
-                ref={el => { tagRefs.current[i] = el }}
-                className="gf-pin gf-pin--orbit"
-                style={{ opacity: 0 }}   /* rAF sets real value on first frame */
-              >
+              <div key={c.name} className="gf-location-chip" style={{ animationDelay: `${i * 0.1}s` }}>
                 <span className="gf-pin-dot" />
                 {c.name}
               </div>
             ))}
           </div>
 
-          {/* Client ticker at bottom of card */}
-          <div className="gf-client-ticker">
-            <div className="gf-client-track">
-              {[...GF_CLIENTS, ...GF_CLIENTS].map((name, i) => (
-                <span key={i} className="gf-client-chip">{name}</span>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* ── Right card — Stats / content ── */}
@@ -354,8 +341,9 @@ function GlobalFootprintSection() {
               we deliver results
             </h3>
             <p className="gf-panel-sub">
-              Xero partners with forward-thinking businesses across every continent,
-              bringing the same commitment to quality no matter the scale or sector.
+              UFK partners with forward-thinking businesses across the globe, delivering
+              the same commitment to quality, innovation, and excellence — regardless of
+              industry, location, or scale.
             </p>
           </div>
 
@@ -372,6 +360,46 @@ function GlobalFootprintSection() {
         </div>
       </div>
     </section>
+  )
+}
+
+/* ── Slideshow background for a card ── */
+const FSTC_SLIDES = [
+  '/fstc-cover.webp',
+  '/fstc-2.webp',
+  '/fstc-3.webp',
+  '/fstc-6.webp',
+  '/fstc-5.webp',
+  '/fstc-7.webp',
+  '/fstc-8.webp',
+]
+
+function SlideshowBg({ images, interval = 800 }: { images: string[], interval?: number }) {
+  const [idx, setIdx] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => setIdx(i => (i + 1) % images.length), interval)
+    return () => clearInterval(id)
+  }, [images.length, interval])
+
+  return (
+    <>
+      {images.map((src, i) => (
+        <div
+          key={src}
+          className={`fw-card-bg fw-slide-bg${i === idx ? ' fw-slide-bg--active' : ''}`}
+          style={{
+            backgroundImage: `url(${src})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: i === idx ? 1 : 0,
+            transition: 'opacity 0.6s ease',
+            position: 'absolute',
+            inset: 0,
+          }}
+        />
+      ))}
+    </>
   )
 }
 
@@ -395,7 +423,7 @@ function FeaturedWork() {
       {/* Row 1: large left + small right */}
       <div className="fw-row fw-row--split">
         <article className="fw-card fw-card--large" onClick={() => navigate('/projects/23')} style={{ cursor: 'pointer' }}>
-          <div className="fw-card-bg" style={photoStyle('/fstc-cover.webp')} />
+          <SlideshowBg images={FSTC_SLIDES} interval={2000} />
           <div className="fw-card-overlay" />
           <div className="fw-card-body">
             <h3 className="fw-card-title">FSTC</h3>
@@ -409,42 +437,7 @@ function FeaturedWork() {
           </div>
         </article>
 
-        <article className="fw-card fw-card--small" onClick={() => navigate('/projects/22')} style={{ cursor: 'pointer' }}>
-          <div className="fw-card-bg" style={photoStyle('/qila-01.webp')} />
-          <div className="fw-card-overlay" />
-          <div className="fw-card-body">
-            <h3 className="fw-card-title fw-card-title--sm">THE QILA</h3>
-          </div>
-          <div className="fw-card-meta">
-            <span className="fw-client">Hotel & Banquet</span>
-            <div className="fw-tags">
-              <span className="fw-tag">Brand Identity</span>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      {/* Row 2: full-width */}
-      <div className="fw-row">
-        <article className="fw-card fw-card--full" onClick={() => navigate('/projects/21')} style={{ cursor: 'pointer' }}>
-          <div className="fw-card-bg" style={photoStyle('/avyanna-cover.webp')} />
-          <div className="fw-card-overlay fw-card-overlay--terra" />
-          <div className="fw-card-body fw-card-body--center">
-            <h3 className="fw-card-title fw-card-title--xl">AVYANNA<br />AVIATION</h3>
-          </div>
-          <div className="fw-card-meta">
-            <span className="fw-client">Aviation Academy</span>
-            <div className="fw-tags">
-              <span className="fw-tag">Web Design</span>
-              <span className="fw-tag">Development</span>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      {/* Row 3: three equal cards */}
-      <div className="fw-row fw-row--thirds">
-        <article className="fw-card" onClick={() => navigate('/projects/30')} style={{ cursor: 'pointer' }}>
+        <article className="fw-card fw-card--small" onClick={() => navigate('/projects/30')} style={{ cursor: 'pointer' }}>
           <div className="fw-card-bg" style={photoStyle('/obba-1.webp')} />
           <div className="fw-card-overlay" />
           <div className="fw-card-body">
@@ -457,17 +450,52 @@ function FeaturedWork() {
             </div>
           </div>
         </article>
+      </div>
 
-        <article className="fw-card" onClick={() => navigate('/projects/34')} style={{ cursor: 'pointer' }}>
-          <div className="fw-card-bg" style={photoStyle('/nirvana-cover.webp')} />
+      {/* Row 2: full-width */}
+      <div className="fw-row">
+        <article className="fw-card fw-card--full" onClick={() => navigate('/projects/38')} style={{ cursor: 'pointer' }}>
+          <div className="fw-card-bg" style={{ ...photoStyle('/sme-cover.jpg'), backgroundPosition: '50% 30%' }} />
           <div className="fw-card-overlay" />
           <div className="fw-card-body">
-            <h3 className="fw-card-title fw-card-title--sm">NIRVANA HOLIDAYS</h3>
+            <h3 className="fw-card-title">SME BUSINESS</h3>
           </div>
           <div className="fw-card-meta">
-            <span className="fw-client">Travel Brand</span>
+            <span className="fw-client">Brand Identity</span>
+            <div className="fw-tags">
+              <span className="fw-tag">Branding</span>
+              <span className="fw-tag">Corporate</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      {/* Row 3: three equal cards */}
+      <div className="fw-row fw-row--thirds">
+        <article className="fw-card" onClick={() => navigate('/projects/22')} style={{ cursor: 'pointer' }}>
+          <div className="fw-card-bg" style={photoStyle('/qila-01.webp')} />
+          <div className="fw-card-overlay" />
+          <div className="fw-card-body">
+            <h3 className="fw-card-title fw-card-title--sm">THE QILA</h3>
+          </div>
+          <div className="fw-card-meta">
+            <span className="fw-client">Hotel & Banquet</span>
             <div className="fw-tags">
               <span className="fw-tag">Brand Identity</span>
+            </div>
+          </div>
+        </article>
+
+        <article className="fw-card" onClick={() => navigate('/projects/21')} style={{ cursor: 'pointer' }}>
+          <div className="fw-card-bg" style={photoStyle('/avyanna-cover.webp')} />
+          <div className="fw-card-overlay" />
+          <div className="fw-card-body">
+            <h3 className="fw-card-title fw-card-title--sm">AVYANNA AVIATION</h3>
+          </div>
+          <div className="fw-card-meta">
+            <span className="fw-client">Aviation Academy</span>
+            <div className="fw-tags">
+              <span className="fw-tag">Web Design</span>
             </div>
           </div>
         </article>
@@ -686,16 +714,16 @@ function TestimonialsSection() {
    RESULTS SECTION
 ───────────────────────────────────────────────────── */
 const RESULTS_STATS = [
-  { value: '200K+',  label: 'Monthly Organic Visitors' },
-  { value: '1M+',    label: 'Monthly Search Impressions' },
-  { value: '300+',   label: 'Qualified Leads / Month' },
-  { value: '5×',     label: 'Average ROI on Ad Spend' },
+  { value: '2M+',     label: 'Monthly Organic Visitors' },
+  { value: '1M+',     label: 'Monthly Search Impressions' },
+  { value: '200+',    label: 'Lead Generation for Clients' },
+  { value: '₹172CR+', label: 'Business Generated for Clients' },
 ]
 
 const RESULTS_GRADIENT_CONFIG = {
   colors: [
     { color: '#010506', enabled: true },
-    { color: '#b2ff59', enabled: true },
+    { color: '#b2ff59', enabled: false },
     { color: '#239E58', enabled: true },
     { color: '#01423E', enabled: true },
     { color: '#446C2A', enabled: true },
@@ -754,6 +782,204 @@ const RESULTS_GRADIENT_CONFIG = {
   cameraZoom: 1,
 }
 
+/* ─────────────────────────────────────────────────────────────
+   NEAT GRADIENT CARD SECTION
+───────────────────────────────────────────────────────────── */
+const NEAT_CARD_CONFIG = {
+  colors: [
+    { color: '#031712', enabled: true  },
+    { color: '#000000', enabled: true  },
+    { color: '#304138', enabled: true  },
+    { color: '#135E47', enabled: true  },
+    { color: '#334333', enabled: true  },
+    { color: '#FF9A9E', enabled: false },
+  ],
+  speed: 5,
+  horizontalPressure: 3,
+  verticalPressure: 4,
+  waveFrequencyX: 2,
+  waveFrequencyY: 3,
+  waveAmplitude: 5,
+  secondaryWaveEnabled: false,
+  secondaryWaveFrequencyX: 3,
+  secondaryWaveFrequencyY: 3,
+  secondaryWaveAmplitude: 5,
+  secondaryWaveSpeed: 0.6,
+  secondaryWaveAngle: 1,
+  shadows: 1,
+  highlights: 5,
+  colorBrightness: 1,
+  colorSaturation: 7,
+  wireframe: false,
+  antialias: false,
+  colorBlending: 10,
+  backgroundColor: '#000000',
+  backgroundAlpha: 1,
+  grainScale: 0,
+  grainSparsity: 0,
+  grainIntensity: 0.125,
+  grainSpeed: 1.9,
+  resolution: 1,
+  yOffset: 0,
+  yOffsetWaveMultiplier: 4,
+  yOffsetColorMultiplier: 4,
+  yOffsetFlowMultiplier: 4,
+  flowDistortionA: 1.5,
+  flowDistortionB: 0.8,
+  flowScale: 1.6,
+  flowEase: 0.32,
+  flowEnabled: true,
+  enableProceduralTexture: false,
+  transparentTextureVoid: false,
+  textureMode: 'bitmap' as const,
+  bakeEdgeSoftness: 1,
+  textureVoidLikelihood: 0.29,
+  textureVoidWidthMin: 120,
+  textureVoidWidthMax: 420,
+  textureBandDensity: 2.9,
+  textureColorBlending: 0.06,
+  textureSeed: 536,
+  textureEase: 0.5,
+  proceduralBackgroundColor: '#775454',
+  textureShapeTriangles: 20,
+  textureShapeCircles: 15,
+  textureShapeBars: 15,
+  textureShapeSquiggles: 10,
+  domainWarpEnabled: false,
+  domainWarpIntensity: 0,
+  domainWarpScale: 3,
+  vignetteIntensity: 0,
+  vignetteRadius: 0.8,
+  fresnelEnabled: false,
+  fresnelPower: 2,
+  fresnelIntensity: 0.5,
+  fresnelColor: '#FFFFFF',
+  iridescenceEnabled: false,
+  iridescenceIntensity: 0.5,
+  iridescenceSpeed: 1,
+  prismEdgeEnabled: false,
+  prismEdgeIntensity: 0.5,
+  prismEdgeThinness: 3,
+  prismEdgeSpread: 1,
+  prismEdgeSpeed: 0.5,
+  prismEdgeRipple: 1,
+  bloomIntensity: 0,
+  bloomThreshold: 0.7,
+  chromaticAberration: 0,
+  shapeType: 'plane' as const,
+  shapeRotationX: 0, shapeRotationY: 0, shapeRotationZ: 0,
+  shapeAutoRotateSpeedX: 0, shapeAutoRotateSpeedY: 0,
+  sphereRadius: 15,
+  torusRadius: 15,
+  torusTube: 5,
+  cylinderRadius: 10,
+  cylinderHeight: 40,
+  planeBend: 0,
+  planeTwist: 0,
+  silhouetteFade: 0.25,
+  cylinderFade: 0.08,
+  ribbonFade: 0.05,
+  flatShading: true,
+  cameraLock: true,
+  cameraX: 0, cameraY: 0, cameraZ: 0,
+  cameraRotationX: 0, cameraRotationY: 0, cameraRotationZ: 0,
+  cameraZoom: 1,
+}
+
+const NGC_SERVICES = [
+  { num: '01', title: 'Digital Product & Software Development',
+    items: ['Software Development', 'Mobile App Development', 'Web App Development', 'UI/UX Design', 'API & System Integrations'] },
+  { num: '02', title: 'AI, Automation & Cloud',
+    items: ['AI Development', 'AI Chatbots', 'AI Workflow Automation / RPA', 'Cloud Solutions', 'DevOps'] },
+  { num: '03', title: 'Branding, Creative & Digital Marketing',
+    items: ['Branding & Design', 'Social Media Marketing', 'Content & Creative Design', 'Search Engine Optimisation', 'Digital Campaigns'] },
+  { num: '04', title: 'Industry & Enterprise Solutions',
+    items: ['Healthcare EHR Solutions', 'Aviation Solutions', 'Enterprise Platforms', 'Custom Business Solutions'] },
+  { num: '05', title: 'Business & Proposal Development',
+    items: ['Proposal Development', 'RFP / RFQ Responses', 'Capability Statements', 'Business & Technical Proposals', 'U.S. Market & Business Support'] },
+]
+
+function NeatGradientCardSection() {
+  const canvasRef    = useRef<HTMLCanvasElement>(null)
+  const [activeIdx, setActiveIdx] = useState(0)
+  const [visibleIdx, setVisibleIdx] = useState(0)
+  const [fading, setFading]   = useState(false)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const gradient = new NeatGradient({ ref: canvas, ...NEAT_CARD_CONFIG })
+    const onScroll = () => { gradient.yOffset = window.scrollY }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => { gradient.destroy(); window.removeEventListener('scroll', onScroll) }
+  }, [])
+
+  const handleHover = (i: number) => {
+    if (i === activeIdx) return
+    setFading(true)
+    setTimeout(() => {
+      setVisibleIdx(i)
+      setActiveIdx(i)
+      setFading(false)
+    }, 180)
+  }
+
+  const svc = NGC_SERVICES[visibleIdx]
+
+  return (
+    <section className="ngc-section">
+      <div className="ngc-inner">
+
+        {/* Left — services list */}
+        <div className="ngc-services">
+          <p className="ngc-label">Our Services</p>
+          <h2 className="ngc-heading">Solutions That Move<br />Businesses Forward</h2>
+          {NGC_SERVICES.map((s, i) => (
+            <div
+              key={s.num}
+              className={`ngc-item${i === activeIdx ? ' active' : ''}`}
+              onClick={() => handleHover(i)}
+            >
+              <span className="ngc-item-num">{s.num}</span>
+              <span className="ngc-item-title">{s.title}</span>
+              <span className="ngc-item-arrow">→</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Right — gradient card with laptop */}
+        <div className="ngc-card">
+
+          {/* Gradient canvas — clipped to card shape via its own wrapper */}
+          <div className="ngc-canvas-clip">
+            <canvas ref={canvasRef} aria-hidden="true" className="ngc-canvas" />
+          </div>
+
+          {/* Service number — top-left of card */}
+          <div className={`ngc-card-num${fading ? ' fading' : ''}`}>{svc.num}</div>
+
+          {/* Items list — floats in upper card area */}
+          <ul className={`ngc-card-items${fading ? ' fading' : ''}`}>
+            {svc.items.map(item => <li key={item}>{item}</li>)}
+          </ul>
+
+          {/* Laptop — fully visible, not clipped. Title sits inside screen area */}
+          <div className="ngc-laptop-wrap">
+            <img src="/laptop2.png" alt="" draggable={false} className="ngc-laptop-img" />
+
+            {/* Title inside the laptop screen */}
+            <div className={`ngc-screen-title-wrap${fading ? ' fading' : ''}`}>
+              <p className="ngc-screen-title">{svc.title}</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
 function ResultsSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -789,10 +1015,10 @@ function ResultsSection() {
             <span className="rs-heading-em">Speak for Themselves</span>
           </h2>
           <p className="rs-sub">
-            From 200 to 200,000+ monthly organic visitors, 1M+ monthly search
-            impressions, 300+ qualified leads every month, and high-impact aviation
-            marketing funnels — we build digital growth that delivers measurable
-            business outcomes.
+            Across all our clients — 2M+ monthly organic visitors, 1M+ monthly
+            search impressions, 200+ leads generated, and ₹172CR+ in business
+            revenue created. We build digital growth that delivers real,
+            measurable outcomes.
           </p>
         </div>
 
@@ -879,6 +1105,49 @@ function FaqSection() {
           ))}
         </div>
 
+      </div>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────────────
+   GRADIENT BANNER SECTION
+───────────────────────────────────────────────────── */
+function GradientBannerSection() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const gradient = new NeatGradient({ ref: canvas, ...NEAT_CARD_CONFIG })
+    return () => { gradient.destroy() }
+  }, [])
+
+  return (
+    <section className="gb-section">
+      <div className="gb-card">
+        {/* NeatGradient canvas — same config as Our Services card */}
+        <canvas ref={canvasRef} aria-hidden="true" className="gb-neat-canvas" />
+
+        {/* Content */}
+        <div className="gb-content">
+          <p className="gb-eyebrow">Our Approach</p>
+          <h2 className="gb-heading">
+            We don't just build products —<br />
+            <span className="gb-heading-em">we engineer growth engines</span>
+          </h2>
+          <p className="gb-body">
+            Every decision we make is rooted in strategy, backed by data, and executed
+            with craft. From brand identity to full-stack development, we create digital
+            ecosystems that compound in value over time.
+          </p>
+          <div className="gb-chips">
+            <span className="gb-chip">Strategy</span>
+            <span className="gb-chip">Design</span>
+            <span className="gb-chip">Development</span>
+            <span className="gb-chip">Growth</span>
+          </div>
+        </div>
       </div>
     </section>
   )
@@ -1368,9 +1637,19 @@ export default function App() {
       <FeaturedWork />
 
       {/* ═══════════════════════════════════════════════════════
+          AVIATION SOLUTIONS
+      ═══════════════════════════════════════════════════════ */}
+      <AviationSection />
+
+      {/* ═══════════════════════════════════════════════════════
+          GRADIENT BANNER
+      ═══════════════════════════════════════════════════════ */}
+      <GradientBannerSection />
+
+      {/* ═══════════════════════════════════════════════════════
           SERVICES
       ═══════════════════════════════════════════════════════ */}
-      <PremiumServicesSection />
+      <NeatGradientCardSection />
 
       {/* ═══════════════════════════════════════════════════════
           GLOBAL FOOTPRINT
