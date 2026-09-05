@@ -5,6 +5,7 @@ import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
 import BlogPreviewSection from './BlogPreviewSection'
 import AviationSection from './AviationSection'
+import TestimonialsSection from './TestimonialsSection'
 
 /* ── One full set of brand logos ── */
 function BrandSet() {
@@ -366,7 +367,7 @@ const FSTC_SLIDES = [
   '/fstc-8.webp',
 ]
 
-function SlideshowBg({ images, interval = 800 }: { images: string[], interval?: number }) {
+function SlideshowBg({ images, interval = 800, fit = 'cover' }: { images: string[], interval?: number, fit?: 'cover' | 'contain' }) {
   const [idx, setIdx] = useState(0)
 
   useEffect(() => {
@@ -382,8 +383,9 @@ function SlideshowBg({ images, interval = 800 }: { images: string[], interval?: 
           className={`fw-card-bg fw-slide-bg${i === idx ? ' fw-slide-bg--active' : ''}`}
           style={{
             backgroundImage: `url(${src})`,
-            backgroundSize: 'cover',
+            backgroundSize: fit,
             backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
             opacity: i === idx ? 1 : 0,
             transition: 'opacity 0.6s ease',
             position: 'absolute',
@@ -414,8 +416,8 @@ function FeaturedWork() {
 
       {/* Row 1: large left + small right */}
       <div className="fw-row fw-row--split">
-        <article className="fw-card fw-card--large" onClick={() => navigate('/projects/23')} style={{ cursor: 'pointer' }}>
-          <SlideshowBg images={FSTC_SLIDES} interval={2000} />
+        <article className="fw-card fw-card--large" onClick={() => navigate('/projects/23')} style={{ cursor: 'pointer', background: 'linear-gradient(170deg, #e2e2e2 0%, #b8b8b8 100%)' }}>
+          <SlideshowBg images={FSTC_SLIDES} interval={2000} fit="contain" />
           <div className="fw-card-overlay" />
           <div className="fw-card-body">
             <h3 className="fw-card-title">FSTC</h3>
@@ -510,197 +512,7 @@ function FeaturedWork() {
   )
 }
 
-/* ── Testimonials data ── */
-const TESTIMONIALS = [
-  {
-    name: 'Yomi Denzel',
-    role: 'E-Commerce 2.0',
-    quote: 'Xero completely transformed how we protect customer data. Their zero-trust pipeline reduced our attack surface by 80% in the first quarter — results I never thought were possible.',
-    bg: 'linear-gradient(155deg, #0e1f12 0%, #060e08 100%)',
-    accent: '#038f59',
-  },
-  {
-    name: 'Timothée Moiroux',
-    role: 'Investissement Immo',
-    quote: 'Building my real estate portfolio in parallel with my studies demanded airtight financial security. Xero delivered infrastructure I could trust at every step of the journey.',
-    bg: 'linear-gradient(155deg, #0d1628 0%, #08101e 100%)',
-    accent: '#6080ff',
-  },
-  {
-    name: 'David Sequeira',
-    role: 'Closing',
-    quote: 'From discovery to launch the team was surgical. Our key management scales across 40+ regions with zero incidents. Genuinely world-class execution every single time.',
-    bg: 'linear-gradient(155deg, #160d28 0%, #0d081a 100%)',
-    accent: '#a060ff',
-  },
-  {
-    name: 'Manuel Ravier',
-    role: 'Investissement Immobilier',
-    quote: 'The quarterly red-team reviews alone have been invaluable. Xero found and patched vulnerabilities we didn\'t even know existed — before anyone could exploit them.',
-    bg: 'linear-gradient(155deg, #1a1408 0%, #100e06 100%)',
-    accent: '#d08840',
-  },
-  {
-    name: 'Sarah Mitchell',
-    role: 'CEO, NexaFlow',
-    quote: 'Enterprise-grade security without the enterprise overhead. Compliance audits now take days instead of months. The ROI was evident within the very first sprint.',
-    bg: 'linear-gradient(155deg, #081e1e 0%, #061414 100%)',
-    accent: '#40c8b8',
-  },
-  {
-    name: 'James Okafor',
-    role: 'CTO, VaultKit',
-    quote: 'Their cryptographic layers passed every compliance audit on the first try. These are professionals who understand enterprise security at the deepest architectural level.',
-    bg: 'linear-gradient(155deg, #180d22 0%, #10081a 100%)',
-    accent: '#c050d0',
-  },
-  {
-    name: 'Priya Sharma',
-    role: 'Founder, CipherAI',
-    quote: 'Zero-downtime rollout on a live platform with millions of users. Xero delivered exactly that — flawless execution, cryptographic integrity, and absolutely zero surprises.',
-    bg: 'linear-gradient(155deg, #200e0e 0%, #140808 100%)',
-    accent: '#e05040',
-  },
-  {
-    name: 'Amara Chen',
-    role: 'CISO, Orion Finance',
-    quote: 'Automated key rotation and continuous monitoring freed our security team to focus on strategy instead of firefighting. An absolute game-changer for our security posture.',
-    bg: 'linear-gradient(155deg, #0e1c0e 0%, #081208 100%)',
-    accent: '#80d040',
-  },
-]
-
-const T_VISIBLE = 4
-const T_GAP     = 20   /* px gap between cards */
-
-function TestimonialsSection() {
-  const [index, setIndex]   = useState(0)
-  const [cardW, setCardW]   = useState(0)
-  const viewportRef         = useRef<HTMLDivElement>(null)
-  const maxIndex            = TESTIMONIALS.length - T_VISIBLE
-  const step                = cardW + T_GAP
-
-  /* Compute card width from viewport */
-  useEffect(() => {
-    const el = viewportRef.current
-    if (!el) return
-    const update = () => {
-      setCardW((el.offsetWidth - (T_VISIBLE - 1) * T_GAP) / T_VISIBLE)
-    }
-    update()
-    const ro = new ResizeObserver(update)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
-
-  /* Auto-scroll every 3.5 s */
-  useEffect(() => {
-    const id = setInterval(() => {
-      setIndex(i => (i >= maxIndex ? 0 : i + 1))
-    }, 3500)
-    return () => clearInterval(id)
-  }, [maxIndex])
-
-  const prev = () => setIndex(i => Math.max(0, i - 1))
-  const next = () => setIndex(i => Math.min(maxIndex, i + 1))
-
-  return (
-    <section className="testi-section">
-
-      {/* ── Top row: heading left + arrows right ── */}
-      <div className="testi-top-row">
-        <div className="testi-heading-group">
-          <h2 className="testi-h2">Partnered with most of the</h2>
-          <p className="testi-h2-em">top people at each industry</p>
-        </div>
-        <div className="testi-controls">
-          <button
-            className="testi-arrow"
-            onClick={prev}
-            disabled={index === 0}
-            aria-label="Previous"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
-          </button>
-          <button
-            className="testi-arrow"
-            onClick={next}
-            disabled={index === maxIndex}
-            aria-label="Next"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* ── Cards viewport ── */}
-      <div className="testi-viewport" ref={viewportRef}>
-        <div
-          className="testi-track"
-          style={{
-            transform:  `translateX(${-(index * step)}px)`,
-            transition: cardW ? 'transform 0.55s cubic-bezier(0.4,0,0.2,1)' : 'none',
-            gap:        `${T_GAP}px`,
-          }}
-        >
-          {TESTIMONIALS.map(t => (
-            <div
-              key={t.name}
-              className="testi-card"
-              style={{ background: t.bg, width: cardW || undefined }}
-            >
-              {/* Subtle dot grid */}
-              <div className="testi-card-grid" />
-
-              {/* Accent bottom glow */}
-              <div
-                className="testi-card-glow"
-                style={{ background: `radial-gradient(ellipse 100% 55% at 50% 115%, ${t.accent}2e 0%, transparent 65%)` }}
-              />
-
-              {/* DEFAULT state — initials badge + name/role */}
-              <div className="testi-card-face">
-                <div className="testi-badge">
-                  {t.name.split(' ').map(n => n[0]).join('')}
-                </div>
-                <div className="testi-face-label">
-                  <p className="testi-face-name">{t.name}</p>
-                  <p className="testi-face-role" style={{ color: t.accent }}>{t.role}</p>
-                </div>
-              </div>
-
-              {/* HOVER state — slides up */}
-              <div className="testi-hover-panel">
-                <p className="testi-hp-name">{t.name}</p>
-                <p className="testi-hp-role" style={{ color: t.accent }}>{t.role}</p>
-                <p className="testi-hp-quote">{t.quote}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Dot indicators ── */}
-      <div className="testi-dots">
-        {Array.from({ length: maxIndex + 1 }, (_, i) => (
-          <button
-            key={i}
-            className={`testi-dot${i === index ? ' testi-dot--active' : ''}`}
-            onClick={() => setIndex(i)}
-            aria-label={`Page ${i + 1}`}
-          />
-        ))}
-      </div>
-
-    </section>
-  )
-}
+/* TestimonialsSection imported from TestimonialsSection.tsx */
 
 /* ─────────────────────────────────────────────────────
    RESULTS SECTION
@@ -1107,6 +919,9 @@ function FaqSection() {
 ───────────────────────────────────────────────────── */
 function GradientBannerSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const outerRef  = useRef<HTMLDivElement>(null)
+  const hand1Ref  = useRef<HTMLImageElement>(null)
+  const hand2Ref  = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -1115,33 +930,81 @@ function GradientBannerSection() {
     return () => { gradient.destroy() }
   }, [])
 
+  /* Smooth ease-in/out parallax via RAF + lerp */
+  useEffect(() => {
+    let raf: number
+    let cur1 = -100   // current translateX% for left hand
+    let cur2 =  100   // current translateX% for right hand
+
+    const getTargets = () => {
+      const outer = outerRef.current
+      if (!outer) return { t1: -100, t2: 100 }
+      const rect = outer.getBoundingClientRect()
+      const VH   = window.innerHeight
+      // p: 0 = section below viewport, 1 = animation fully complete
+      const raw  = (VH - rect.top) / (VH * 0.88)
+      const p    = Math.max(0, Math.min(1, raw))
+      return {
+        t1: -100 + p * 75,   // left hand:  -100% → -25%  (~75% of image visible)
+        t2:  100 - p * 67,   // right hand:  100% →  33%  (~67% of image visible)
+      }
+    }
+
+    const tick = () => {
+      const { t1, t2 } = getTargets()
+      cur1 += (t1 - cur1) * 0.07   // lerp factor — lower = more easing
+      cur2 += (t2 - cur2) * 0.07
+      if (hand1Ref.current) hand1Ref.current.style.transform = `translateX(${cur1}%)`
+      if (hand2Ref.current) hand2Ref.current.style.transform = `translateX(${cur2}%)`
+      raf = requestAnimationFrame(tick)
+    }
+
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
   return (
-    <section className="gb-section">
+    <div ref={outerRef} className="gb-outer">
+      {/* Left hand — upper-left, arm exits at viewport left edge */}
+      <img ref={hand1Ref} src="/hand1.png" alt="" draggable={false} className="gb-hand gb-hand--left" />
+      {/* Right hand — lower-right, arm exits at viewport right edge */}
+      <img ref={hand2Ref} src="/hand2.png" alt="" draggable={false} className="gb-hand gb-hand--right" />
+      <section className="gb-section">
       <div className="gb-card">
         {/* NeatGradient canvas — same config as Our Services card */}
         <canvas ref={canvasRef} aria-hidden="true" className="gb-neat-canvas" />
 
         {/* Content */}
         <div className="gb-content">
-          <p className="gb-eyebrow">Our Approach</p>
+          <p className="gb-eyebrow">Proposal Development</p>
           <h2 className="gb-heading">
-            We don't just build products —<br />
-            <span className="gb-heading-em">we engineer growth engines</span>
+            Turn Opportunities Into<br />
+            <span className="gb-heading-em">Winning Proposals</span>
           </h2>
           <p className="gb-body">
-            Every decision we make is rooted in strategy, backed by data, and executed
-            with craft. From brand identity to full-stack development, we create digital
-            ecosystems that compound in value over time.
+            Entering new markets and competing for contracts requires more than a well-written document.
+            UFK Solutions helps businesses develop strategic, compelling, and professionally structured
+            proposals that clearly communicate their capabilities, value, and competitive advantage.
           </p>
-          <div className="gb-chips">
-            <span className="gb-chip">Strategy</span>
-            <span className="gb-chip">Design</span>
-            <span className="gb-chip">Development</span>
-            <span className="gb-chip">Growth</span>
+          <div className="gb-chips-marquee">
+            {/* Row 1 — scrolls left */}
+            <div className="gb-marquee-track gb-marquee-track--left">
+              {['Government & Commercial Proposals', 'RFP / RFQ Response Development', 'Proposal Strategy & Planning', 'Capability Statements',
+                'Government & Commercial Proposals', 'RFP / RFQ Response Development', 'Proposal Strategy & Planning', 'Capability Statements'].map((c, i) => (
+                <span key={i} className="gb-chip">{c}</span>
+              ))}
+            </div>
+            {/* Row 2 — scrolls right */}
+            <div className="gb-marquee-track gb-marquee-track--right">
+              {['Business & Technical Proposals', 'U.S. Market Opportunity Support', 'Proposal Content & Presentation', 'Business & Technical Proposals', 'U.S. Market Opportunity Support', 'Proposal Content & Presentation'].map((c, i) => (
+                <span key={i} className="gb-chip">{c}</span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </section>
+      </section>
+    </div>
   )
 }
 

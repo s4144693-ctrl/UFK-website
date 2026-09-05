@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react'
-import { motion, useMotionValue, useTransform, useSpring } from 'motion/react'
+import { useState, useRef, useEffect } from 'react'
+import { NeatGradient } from '@firecms/neat'
+import { motion } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import SiteNav from './SiteNav'
@@ -154,20 +155,41 @@ const stagger = (delay = 0) => ({
 export default function ContactPage() {
   const [btnHov, setBtnHov] = useState(false)
 
+  /* NeatGradient canvas */
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const neat = new NeatGradient({
+      ref: canvas,
+      colors: [
+        { color: '#012C19', enabled: true },
+        { color: '#4AA551', enabled: true },
+        { color: '#156939', enabled: true },
+        { color: '#2E904C', enabled: true },
+        { color: '#054A28', enabled: true },
+      ],
+      speed: 2,
+      horizontalPressure: 4,
+      verticalPressure: 5,
+      waveFrequencyX: 2,
+      waveFrequencyY: 3,
+      waveAmplitude: 5,
+      shadows: 0,
+      highlights: 2,
+      colorBrightness: 1,
+      colorSaturation: 7,
+      wireframe: true,
+      colorBlending: 6,
+      backgroundColor: '#00313F',
+      backgroundAlpha: 1,
+      resolution: 1,
+    })
+    return () => neat.destroy()
+  }, [])
+
   /* Parallax — background image drifts slightly with mouse */
   const panelRef = useRef<HTMLDivElement>(null)
-  const mx = useMotionValue(0)
-  const my = useMotionValue(0)
-  const bgX = useSpring(useTransform(mx, [-0.5, 0.5], [-12, 12]), { stiffness: 80, damping: 20 })
-  const bgY = useSpring(useTransform(my, [-0.5, 0.5], [-10, 10]), { stiffness: 80, damping: 20 })
-
-  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const r = panelRef.current?.getBoundingClientRect()
-    if (!r) return
-    mx.set((e.clientX - r.left) / r.width  - 0.5)
-    my.set((e.clientY - r.top)  / r.height - 0.5)
-  }
-  const onMouseLeave = () => { mx.set(0); my.set(0) }
 
   return (
     <div style={{ background: BG, minHeight: '100vh', width: '100%' }}>
@@ -198,8 +220,6 @@ export default function ContactPage() {
           ══════════════════════════════════════════ */}
           <motion.div
             ref={panelRef}
-            onMouseMove={onMouseMove}
-            onMouseLeave={onMouseLeave}
             initial={{ opacity: 0, x: -28 }}
             animate={{ opacity: 1, x: 0  }}
             transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
@@ -211,16 +231,15 @@ export default function ContactPage() {
               position:     'relative',
             }}
           >
-            {/* Background image with parallax */}
-            <motion.div
+            {/* NeatGradient animated background */}
+            <canvas
+              ref={canvasRef}
+              aria-hidden="true"
               style={{
-                position:           'absolute',
-                inset:              '-20px',
-                backgroundImage:    "url('/contact-bg.webp')",
-                backgroundSize:     '75%',
-                backgroundPosition: 'center',
-                x: bgX,
-                y: bgY,
+                position: 'absolute',
+                inset:    0,
+                width:    '100%',
+                height:   '100%',
               }}
             />
 
@@ -230,10 +249,10 @@ export default function ContactPage() {
               inset:    0,
               background: `
                 linear-gradient(to top,
-                  rgba(10,10,10,0.92) 0%,
-                  rgba(10,10,10,0.58) 38%,
-                  rgba(10,10,10,0.18) 72%,
-                  transparent        100%
+                  rgba(0,0,0,0.82) 0%,
+                  rgba(0,0,0,0.42) 38%,
+                  rgba(0,0,0,0.10) 72%,
+                  transparent      100%
                 )
               `,
             }} />
