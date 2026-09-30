@@ -37,7 +37,7 @@ const FIELD_STYLES = `
   .cp-right-panel {
     flex: 1;
     border-radius: 32px;
-    background: ${PANEL};
+    background: #0F0F0F;
     border: 1px solid rgba(255,255,255,0.06);
     display: flex;
     align-items: center;
@@ -77,7 +77,6 @@ const FIELD_STYLES = `
 ───────────────────────────────────────────── */
 const ACCENT  = '#D7FF3F'
 const BG      = '#0A0A0A'
-const PANEL   = '#0F0F0F'
 
 /* ─────────────────────────────────────────────
    STEP — vertical progress indicator
