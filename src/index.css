@@ -14121,16 +14121,28 @@ body {
   .mk2-folder-pill { display: none; }
 }
 @media (max-width: 600px) {
-  .mk2-hero-folder-wrap { display: none; }
+  .mk2-hero-folder-wrap {
+    display: block;
+    height: 42%;
+    opacity: 0.9;
+    z-index: 2;
+  }
+  .mk2-folder-pill {
+    display: inline-flex;
+    font-size: 0.7rem;
+    padding: 5px 10px;
+    gap: 5px;
+  }
+  .mk2-fp-num { font-size: 0.78rem; }
+  .mk2-fp-lbl { font-size: 0.65rem; }
   .mk2-hero-overlay {
     display: block;
     position: absolute;
     inset: 0;
-    background: rgba(4, 12, 6, 0.72);
+    background: rgba(4, 12, 6, 0.65);
     z-index: 1;
   }
-  .mk2-hero-content,
-  .mk2-hero-bg { position: relative; z-index: 2; }
+  .mk2-hero-content { position: relative; z-index: 2; }
 }
 /* Floating pills */
 .mk2-pill {
