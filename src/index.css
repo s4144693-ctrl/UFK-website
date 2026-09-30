@@ -14121,6 +14121,7 @@ body {
   .mk2-folder-pill { display: none; }
 }
 @media (max-width: 600px) {
+  .mk2-hero-sub { display: none; }
   .mk2-hero-folder-wrap {
     display: block;
     height: 42%;

@@ -1746,7 +1746,6 @@ function MarketingPage({ data }: { data: ServiceData }) {
           </p>
           <div className="mk2-hero-btns">
             <Link to="/contact" className="mk2-btn-primary">Talk to a Strategist →</Link>
-            <Link to="/contact" className="mk2-btn-outline">Book a Call</Link>
           </div>
         </div>
       </section>
