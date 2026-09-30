@@ -14122,6 +14122,15 @@ body {
 }
 @media (max-width: 600px) {
   .mk2-hero-folder-wrap { display: none; }
+  .mk2-hero-overlay {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: rgba(4, 12, 6, 0.72);
+    z-index: 1;
+  }
+  .mk2-hero-content,
+  .mk2-hero-bg { position: relative; z-index: 2; }
 }
 /* Floating pills */
 .mk2-pill {
