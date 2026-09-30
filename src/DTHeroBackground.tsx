@@ -199,7 +199,7 @@ export default function DTHeroBackground() {
         // Edge vignette baked into base opacity
         const ex = 1 - Math.abs(x / (W3 / 2))
         const ez = 1 - Math.abs(z / (D3 / 2))
-        const edge = Math.min(ex, ez)
+        void Math.min(ex, ez) // edge unused
         opa[idx] = 0.55 + rand() * 0.40
 
         // Left = chaotic, right = structured

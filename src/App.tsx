@@ -1061,7 +1061,7 @@ export default function App() {
 
     const onScroll = () => {
       const sy       = window.scrollY
-      const isMobile = window.innerWidth <= 768
+      void (window.innerWidth <= 768) // isMobile unused
 
       // Hero animation range = scroll needed for canvas to fully pass viewport
       const heroRange    = Math.max(canvas.offsetHeight - window.innerHeight, 1)

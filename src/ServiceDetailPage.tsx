@@ -1704,7 +1704,7 @@ function MarketingPage({ data }: { data: ServiceData }) {
     { num: '6', total: '6', title: 'Report & Refine', desc: 'Monthly executive dashboard with clear ROI, attribution data, and forward-looking recommendations.', shape: 'dot' },
   ]
 
-  const BLOG_POSTS = [
+  const _BLOG_POSTS = [
     { date: 'Sep 12, 2025', title: 'How AI Is Changing Paid Search — And What To Do About It', img: '/nirvana-cover.webp' },
     { date: 'Aug 28, 2025', title: '5 Meta Ad Mistakes That Kill Your ROAS (And How To Fix Them)', img: '/flavourhub-cover.webp' },
     { date: 'Aug 05, 2025', title: 'SEO in 2025: Why Technical Foundations Still Win', img: '/sarai-cover.webp' },
@@ -2000,7 +2000,7 @@ function MarketingPage({ data }: { data: ServiceData }) {
       </div>
 
       {/* dummy closing tag to satisfy old block removal */}
-      {false && PROCESS_STEPS.map((step,i) => (
+      {false && PROCESS_STEPS.map((step, _i) => (
         <section key={step.num} className="mk2-process-panel" style={{}}>
           <div className="mk2-process-left"/>
           <div className="mk2-process-right">
