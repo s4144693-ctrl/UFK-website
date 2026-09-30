@@ -1744,9 +1744,15 @@ function MarketingPage({ data }: { data: ServiceData }) {
             We help brands harness data, creative, and AI to find their audience,
             cut acquisition costs, and make smarter decisions — at scale.
           </p>
-          <div className="mk2-hero-btns">
+          {/* Desktop button — hidden on mobile */}
+          <div className="mk2-hero-btns mk2-hero-btns--desktop">
             <Link to="/contact" className="mk2-btn-primary">Talk to a Strategist →</Link>
           </div>
+        </div>
+
+        {/* Mobile button — shown after image on mobile only */}
+        <div className="mk2-hero-btns mk2-hero-btns--mobile">
+          <Link to="/contact" className="mk2-btn-primary">Talk to a Strategist →</Link>
         </div>
       </section>
 

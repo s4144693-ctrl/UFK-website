@@ -14120,30 +14120,81 @@ body {
   .mk2-hero-folder-wrap { height: 55%; opacity: 0.85; }
   .mk2-folder-pill { display: none; }
 }
+/* Desktop: show desktop button, hide mobile button */
+.mk2-hero-btns--mobile { display: none; }
+.mk2-hero-btns--desktop { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 44px; }
+
 @media (max-width: 600px) {
-  .mk2-hero-sub { display: none; }
-  .mk2-hero-folder-wrap {
-    display: block;
-    height: 52%;
-    opacity: 0.9;
-    z-index: 2;
+  /* Column stack: title → image → button */
+  .mk2-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 90px 6% 40px;
+    min-height: auto;
   }
+
+  /* Hide the sub paragraph */
+  .mk2-hero-sub { display: none; }
+
+  /* Hero content: just title at top, no bottom button */
+  .mk2-hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+  .mk2-hero-btns--desktop { display: none; }
+
+  /* Image: in-flow below title */
+  .mk2-hero-folder-wrap {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    height: 260px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 2;
+    margin: 16px 0;
+  }
+  .mk2-hero-hand {
+    height: 100%;
+    width: auto;
+    object-position: center bottom;
+  }
+
+  /* Pills: show smaller */
   .mk2-folder-pill {
     display: inline-flex;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     padding: 5px 10px;
     gap: 5px;
   }
-  .mk2-fp-num { font-size: 0.78rem; }
-  .mk2-fp-lbl { font-size: 0.65rem; }
+  .mk2-fp-num { font-size: 0.75rem; }
+  .mk2-fp-lbl { font-size: 0.62rem; }
+
+  /* Mobile button: below image */
+  .mk2-hero-btns--mobile {
+    display: flex;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+  .mk2-hero-btns--mobile .mk2-btn-primary {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Dark overlay over bg image */
   .mk2-hero-overlay {
     display: block;
     position: absolute;
     inset: 0;
-    background: rgba(4, 12, 6, 0.65);
+    background: rgba(4, 12, 6, 0.70);
     z-index: 1;
   }
-  .mk2-hero-content { position: relative; z-index: 2; }
 }
 /* Floating pills */
 .mk2-pill {
@@ -14547,7 +14598,7 @@ body {
 
 /* ── Mobile ── */
 @media (max-width: 767px) {
-  .mk2-hero { padding: 110px 6% 60px; min-height: 100vh; }
+  .mk2-hero { padding: 110px 6% 60px; }
   .mk2-pill--tr, .mk2-pill--br { display: none; }
   .mk2-h1 { font-size: clamp(2.2rem,9vw,3rem); }
   .mk2-hero-proof { flex-wrap: wrap; padding: 16px; }
