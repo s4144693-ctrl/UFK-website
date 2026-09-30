@@ -14124,7 +14124,7 @@ body {
   .mk2-hero-sub { display: none; }
   .mk2-hero-folder-wrap {
     display: block;
-    height: 42%;
+    height: 52%;
     opacity: 0.9;
     z-index: 2;
   }
@@ -14547,7 +14547,7 @@ body {
 
 /* ── Mobile ── */
 @media (max-width: 767px) {
-  .mk2-hero { padding: 110px 6% 60px; min-height: unset; }
+  .mk2-hero { padding: 110px 6% 60px; min-height: 100vh; }
   .mk2-pill--tr, .mk2-pill--br { display: none; }
   .mk2-h1 { font-size: clamp(2.2rem,9vw,3rem); }
   .mk2-hero-proof { flex-wrap: wrap; padding: 16px; }
