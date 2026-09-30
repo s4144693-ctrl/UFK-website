@@ -11,6 +11,65 @@ const FIELD_STYLES = `
   .cp-field input::placeholder,
   .cp-field textarea::placeholder { color: rgba(255,255,255,0.22); }
   .cp-field textarea { font-family: inherit; }
+
+  .cp-outer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px);
+    padding: 80px 20px 40px;
+  }
+  .cp-pair {
+    display: flex;
+    width: 92vw;
+    max-width: 1680px;
+    height: calc(100vh - 100px);
+    min-height: 680px;
+    gap: 20px;
+  }
+  .cp-left-panel {
+    width: 48%;
+    flex-shrink: 0;
+    border-radius: 32px;
+    overflow: hidden;
+    position: relative;
+  }
+  .cp-right-panel {
+    flex: 1;
+    border-radius: 32px;
+    background: ${PANEL};
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 60px 72px;
+  }
+
+  @media (max-width: 768px) {
+    .cp-outer {
+      padding: 80px 16px 40px;
+      align-items: flex-start;
+    }
+    .cp-pair {
+      flex-direction: column;
+      width: 100%;
+      height: auto;
+      min-height: unset;
+    }
+    .cp-left-panel {
+      width: 100%;
+      min-height: 260px;
+      flex-shrink: unset;
+    }
+    .cp-left-panel .cp-left-inner {
+      padding: 32px !important;
+    }
+    .cp-right-panel {
+      padding: 36px 24px;
+      width: 100%;
+    }
+  }
 `
 
 /* ─────────────────────────────────────────────
@@ -197,23 +256,10 @@ export default function ContactPage() {
       <SiteNav />
 
       {/* ── Outer shell ── */}
-      <div style={{
-        display:        'flex',
-        alignItems:     'center',
-        justifyContent: 'center',
-        minHeight:      'calc(100vh - 80px)',
-        padding:        '80px 20px 40px',
-      }}>
+      <div className="cp-outer">
 
         {/* ── Card pair — 92vw wide, up to 1680px ── */}
-        <div style={{
-          display:   'flex',
-          width:     '92vw',
-          maxWidth:  '1680px',
-          height:    'calc(100vh - 100px)',
-          minHeight: '680px',
-          gap:       '20px',
-        }}>
+        <div className="cp-pair">
 
           {/* ══════════════════════════════════════════
               LEFT PANEL
@@ -223,13 +269,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, x: -28 }}
             animate={{ opacity: 1, x: 0  }}
             transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              width:        '48%',
-              flexShrink:   0,
-              borderRadius: '32px',
-              overflow:     'hidden',
-              position:     'relative',
-            }}
+            className="cp-left-panel"
           >
             {/* NeatGradient animated background */}
             <canvas
@@ -271,6 +311,7 @@ export default function ContactPage() {
                 justifyContent: 'flex-end',
                 padding:        '56px',
               }}
+              className="cp-left-inner"
             >
               {/* Logo */}
               <motion.div
@@ -331,17 +372,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, x: 28 }}
             animate={{ opacity: 1, x: 0  }}
             transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.10 }}
-            style={{
-              flex:           1,
-              borderRadius:   '32px',
-              background:     PANEL,
-              border:         '1px solid rgba(255,255,255,0.06)',
-              display:        'flex',
-              alignItems:     'center',
-              justifyContent: 'center',
-              overflow:       'hidden',
-              padding:        '60px 72px',
-            }}
+            className="cp-right-panel"
           >
             <motion.div
               variants={stagger(0.40)}
