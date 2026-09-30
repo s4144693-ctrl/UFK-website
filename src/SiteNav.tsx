@@ -13,7 +13,24 @@ export default function SiteNav({ theme = 'dark' }: { theme?: 'dark' | 'light' }
 
       <div className={`nav-menu${menuOpen ? ' active' : ''}`}>
         <ul className="nav-links">
-          <li><Link to="/services">Services</Link></li>
+          <li className="nav-has-dropdown">
+            <span className="nav-services-trigger">
+              <span>Services</span>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <div className="nav-dropdown">
+              <div className="nav-dropdown-inner">
+                <Link to="/services/software-development" className="nav-dd-item">Software Development</Link>
+                <Link to="/services/web-development" className="nav-dd-item">Web Development</Link>
+                <Link to="/services/digital-transformation" className="nav-dd-item">Digital Transformation</Link>
+                <Link to="/services/branding" className="nav-dd-item">Branding</Link>
+                <Link to="/services/marketing" className="nav-dd-item">Marketing</Link>
+                <Link to="/services/proposal-development" className="nav-dd-item">Proposal Development</Link>
+              </div>
+            </div>
+          </li>
           <li><Link to="/industries">Industries</Link></li>
           <li><Link to="/clients">Clients</Link></li>
           <li><Link to="/projects">Projects</Link></li>

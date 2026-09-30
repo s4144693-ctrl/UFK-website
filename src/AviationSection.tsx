@@ -39,7 +39,6 @@ export default function AviationSection() {
     const setPlaneX     = gsap.quickTo(plane, 'x',     { duration: DURATION, ease: EASE })
     const setPlaneY     = gsap.quickTo(plane, 'y',     { duration: DURATION, ease: EASE })
     const setPlaneScale = gsap.quickTo(plane, 'scale', { duration: DURATION, ease: EASE })
-    const setBgX        = gsap.quickTo(bg,    'x',     { duration: DURATION * 0.7, ease: EASE })
 
     // ScrollTrigger drives the target values via onUpdate
     const st = ScrollTrigger.create({
@@ -49,19 +48,15 @@ export default function AviationSection() {
       onUpdate(self) {
         const p = self.progress  // 0 → 1
 
-        // Plane: x from -200px → max +120px (capped), y from +30px → -40px, scale 0.96 → 1.08
+        // Plane: x from -200px → max +220px (capped), y from +30px → -40px, scale 0.96 → 1.08
         const rawX        = -200 + p * 800
-        const targetX     = Math.min(rawX, 220)   // never travel past this point
+        const targetX     = Math.min(rawX, 220)
         const targetY     =   30 + p * -70
         const targetScale = 0.96 + p * 0.12
-
-        // Background: counter-parallax ~120px opposite
-        const bgX = p * -120
 
         setPlaneX(targetX)
         setPlaneY(targetY)
         setPlaneScale(targetScale)
-        setBgX(bgX)
       },
     })
 

@@ -11,7 +11,7 @@ const BENEFITS = [
   {
     label: 'Streamline Integrations',
     desc:  'Connect your existing stack in minutes. Our SDK drops into any environment — cloud, hybrid, or on-prem — without rearchitecting your pipeline.',
-    accent: '#038f59',
+    accent: '#b2ff59',
     graphic: (
       <div className="fp-benefit-graphic fp-benefit-graphic--green">
         <div className="fp-circuit">
@@ -218,7 +218,7 @@ export default function FeaturesPage() {
             without adding friction to your team or your users.
           </p>
           <div className="fp-hero-btns">
-            <button className="fp-btn-primary">Get Started Free</button>
+            <a href="/contact" className="fp-btn-primary">Get Started Free</a>
             <button className="fp-btn-ghost">Watch Demo</button>
           </div>
         </FadeIn>
@@ -332,7 +332,7 @@ export default function FeaturesPage() {
           <span className="fp-pill">Core Features</span>
           <h2 className="fp-section-h2">Everything you need to<br />unlock excellence</h2>
           <p className="fp-section-sub">The complete cryptographic toolkit — built for teams that can't afford to compromise.</p>
-          <button className="fp-btn-primary" style={{ marginTop: '8px' }}>Get Started for Free</button>
+          <a href="/contact" className="fp-btn-primary" style={{ marginTop: '8px' }}>Get Started for Free</a>
         </FadeIn>
 
         <div className="fp-features-grid">

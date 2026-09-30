@@ -1,272 +1,190 @@
-import { useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { NeatGradient } from '@firecms/neat'
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
 
-/* ─── Data ─── */
-const STATS = [
-  { value: '120+', label: 'Clients Worldwide' },
-  { value: '98%',  label: 'Retention Rate' },
-  { value: '340+', label: 'Projects Delivered' },
-  { value: '8yrs', label: 'In Business' },
+/* ─── All real client logos ─── */
+const CLIENTS = [
+  { file: 'asset-41.png', name: 'Avyanna Aviation' },
+  { file: 'asset-60.png', name: 'Vision Flying Training' },
+  { file: 'asset-59.png', name: 'Adani Defence & FSTC' },
+  { file: 'asset-34.png', name: 'ArZan Energy' },
+  { file: 'asset-55.png', name: 'JKMSF' },
+  { file: 'asset-47.png', name: 'BizLaw' },
+  { file: 'asset-38.png', name: 'Pacific Consulting' },
+  { file: 'asset-40.png', name: 'Nets' },
+  { file: 'asset-37.png', name: 'Abid Builders' },
+  { file: 'asset-27.png', name: 'KMD Jewellers' },
+  { file: 'asset-35.png', name: 'Marilyn Resort' },
+  { file: 'asset-44.png', name: 'The Grand Kaisar' },
+  { file: 'asset-48.png', name: 'The Kaisar' },
+  { file: 'asset-58.png', name: 'The Qila' },
+  { file: 'asset-43.png', name: 'Le Garden Banquets' },
+  { file: 'logo-1.png',   name: 'Dreamland Vows' },
+  { file: 'asset-52.png', name: 'Zareef' },
+  { file: 'asset-45.png', name: 'House Of Nur' },
+  { file: 'asset-42.png', name: 'Daljit Sudan' },
+  { file: 'asset-49.png', name: 'The Sarai' },
+  { file: 'logo-9.png',   name: 'The Silver Woods' },
+  { file: 'logo-4.png',   name: 'Wanderlust Cottages' },
+  { file: 'asset-32.png', name: 'The Locale Shack' },
+  { file: 'asset-31.png', name: 'Nirvana Holidays' },
+  { file: 'asset-51.png', name: 'BTC Travels' },
+  { file: 'asset-53.png', name: 'Shikara Travels' },
+  { file: 'asset-50.png', name: 'Sea & Sky Travel' },
+  { file: 'asset-56.png', name: 'Vibgyor Travels' },
+  { file: 'logo-8.png',   name: 'The Navigator' },
+  { file: 'asset-36.png', name: 'Abyad' },
+  { file: 'asset-30.png', name: 'Veggie Delight' },
+  { file: 'asset-33.png', name: 'Flavour Hub' },
+  { file: 'asset-46.png', name: 'Rolls Rice' },
+  { file: 'asset-57.png', name: 'Tiffin Aaw' },
+  { file: 'asset-29.png', name: 'One Stop' },
+  { file: 'asset-39.png', name: 'Pashm-e-Kash' },
+  { file: 'logo-5.png',   name: 'OBBA' },
+  { file: 'logo-6.png',   name: 'Hyémath Kashmir' },
+  { file: 'asset-54.png', name: 'Exceptional Academy' },
+  { file: 'logo-3.png',   name: 'QUL' },
+  { file: 'logo-10.png',  name: 'Value Agra' },
+  { file: 'logo-7.png',   name: 'Coral Quartz' },
+  { file: 'logo2.png',    name: 'Nifty Focus' },
+  { file: 'asset-28.png', name: 'EH' },
 ]
 
-const CLIENTS = [
-  { name: 'NexaFlow',     industry: 'SaaS / Productivity',        initials: 'NF' },
-  { name: 'VaultKit',     industry: 'Cybersecurity',               initials: 'VK' },
-  { name: 'Orbis Health', industry: 'Healthcare & Wellness',       initials: 'OH' },
-  { name: 'Prism Labs',   industry: 'Fintech',                     initials: 'PL' },
-  { name: 'Crestline',    industry: 'Real Estate & PropTech',      initials: 'CL' },
-  { name: 'Edura',        industry: 'EdTech',                      initials: 'ED' },
-  { name: 'Stackbase',    industry: 'Developer Tools',             initials: 'SB' },
-  { name: 'Lumio',        industry: 'E-commerce / Retail',         initials: 'LM' },
-  { name: 'Terrafund',    industry: 'Impact Investing',            initials: 'TF' },
-  { name: 'Cognify',      industry: 'AI / Machine Learning',       initials: 'CG' },
-  { name: 'Bloom & Co',   industry: 'Consumer Goods',              initials: 'BC' },
-  { name: 'Axiom Sport',  industry: 'Sports & Fitness',            initials: 'AS' },
+const STATS = [
+  { value: '44+',  label: 'Clients Served' },
+  { value: '340+', label: 'Projects Delivered' },
+  { value: '98%',  label: 'Retention Rate' },
+  { value: '8+',   label: 'Years in Business' },
 ]
 
 const TESTIMONIALS = [
   {
     quote: 'Working with this team completely transformed how we present ourselves to the market. The rebrand drove a 40% increase in inbound leads within three months.',
-    author: 'Sarah K.',
-    role: 'CEO, NexaFlow',
-    initials: 'SK',
+    author: 'Ravi Sharma',
+    role: 'CEO, ArZan Energy',
+    initials: 'RS',
   },
   {
-    quote: "They don't just execute — they think strategically. Our new platform launched ahead of schedule and exceeded every performance benchmark we set.",
-    author: 'Marcus T.',
-    role: 'CTO, Prism Labs',
-    initials: 'MT',
+    quote: "They don't just execute — they think strategically. Our platform launched ahead of schedule and exceeded every performance benchmark we set.",
+    author: 'Aamir Bhat',
+    role: 'Director, Avyanna Aviation Academy',
+    initials: 'AB',
   },
   {
-    quote: 'The digital marketing strategy they built for us has been a game-changer. We went from 2k to 50k monthly visitors in under six months.',
-    author: 'Priya R.',
-    role: 'Head of Growth, Edura',
-    initials: 'PR',
+    quote: 'The digital presence they built for Nirvana Holidays has been a game-changer. We went from near-zero online presence to our best booking season ever.',
+    author: 'Tariq Mir',
+    role: 'Founder, Nirvana Holidays',
+    initials: 'TM',
   },
 ]
-
-const ACCENT_SHADES = [
-  'rgba(74,222,128,0.15)',
-  'rgba(34,197,94,0.12)',
-  'rgba(74,222,128,0.08)',
-  'rgba(34,197,94,0.18)',
-]
-
-const NEAT_CONFIG = {
-  colors: [
-    { color: '#010506', enabled: true },
-    { color: '#7CDC59', enabled: true },
-    { color: '#239E58', enabled: true },
-    { color: '#01423E', enabled: true },
-    { color: '#446C2A', enabled: true },
-  ],
-  speed: 4,
-  horizontalPressure: 3,
-  verticalPressure: 4,
-  waveFrequencyX: 10,
-  waveFrequencyY: 0,
-  waveAmplitude: 10,
-  shadows: 5,
-  highlights: 10,
-  colorBrightness: 1,
-  colorSaturation: 2,
-  wireframe: false,
-  antialias: false,
-  colorBlending: 9,
-  backgroundColor: '#000000',
-  backgroundAlpha: 1,
-  grainScale: 2,
-  grainSparsity: 0,
-  grainIntensity: 0.05,
-  grainSpeed: 1,
-  resolution: 0.5,
-  yOffset: 1723,
-  yOffsetWaveMultiplier: 1.5,
-  yOffsetColorMultiplier: 7.8,
-  yOffsetFlowMultiplier: 9.3,
-  flowDistortionA: 3.7,
-  flowDistortionB: 1.4,
-  flowScale: 2.9,
-  flowEase: 0.32,
-  flowEnabled: true,
-  enableProceduralTexture: false,
-  domainWarpEnabled: false,
-  vignetteIntensity: 0,
-  vignetteRadius: 0.8,
-  fresnelEnabled: false,
-  bloomIntensity: 0,
-  bloomThreshold: 0.7,
-  chromaticAberration: 0,
-  shapeType: 'plane' as const,
-  shapeRotationX: 0, shapeRotationY: 0, shapeRotationZ: 0,
-  shapeAutoRotateSpeedX: 0, shapeAutoRotateSpeedY: 0,
-  flatShading: true,
-  cameraLock: true,
-  cameraX: 0, cameraY: 0, cameraZ: 0,
-  cameraRotationX: 0, cameraRotationY: 0, cameraRotationZ: 0,
-  cameraZoom: 1,
-}
-
-const FEATURED_PROJECTS = [
-  { id: 23, title: 'FSTC',             year: '2025', image: '/fstc-cover.webp'    },
-  { id: 24, title: 'VFTI',             year: '2025', image: '/vfti-cover.webp'    },
-  { id: 22, title: 'The Qila',         year: '2025', image: '/qila-01.webp'       },
-  { id: 30, title: 'Obba',             year: '2025', image: '/obba-1.webp'        },
-  { id: 34, title: 'Nirvana Holidays', year: '2025', image: '/nirvana-cover.webp' },
-  { id: 21, title: 'Avyanna Aviation', year: '2025', image: '/avyanna-cover.webp' },
-]
-
-/* ─── Single gradient card ─── */
-function GradientCard({ seed = 0 }: { seed?: number }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    // Slightly vary yOffset per card so each looks distinct
-    const gradient = new NeatGradient({
-      ref: canvas,
-      ...NEAT_CONFIG,
-      yOffset: NEAT_CONFIG.yOffset + seed * 800,
-    })
-    return () => { gradient.destroy() }
-  }, [seed])
-
-  return (
-    <div className="cl-grad-card">
-      <canvas
-        ref={canvasRef}
-        aria-hidden="true"
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', borderRadius: 'inherit' }}
-      />
-    </div>
-  )
-}
 
 export default function ClientsPage() {
-  const navigate = useNavigate()
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
   return (
-    <div className="cl-page">
-      <SiteNav />
+    <div className="cl2-page">
+      <SiteNav theme="light" />
 
-      {/* ── Hero ── */}
-      <section className="cl-hero">
-        <p className="cl-hero-label">Our Clients</p>
-        <h1 className="cl-hero-h1">
-          Trusted by teams<br />
-          <span className="cl-hero-accent">building what's next</span>
-        </h1>
-        <p className="cl-hero-sub">
-          From early-stage startups to established enterprises, we partner with
-          businesses that have big ambitions and the drive to achieve them.
-        </p>
+      {/* ══ HERO + ICON CLOUD ═══════════════════════════════════════════════ */}
+      <section className="cl2-hero-wall">
+        <div className="cl2-hero-inner">
+
+          {/* Left: text */}
+          <div className="cl2-hero-text">
+            <span className="cl2-eyebrow">Our Clients</span>
+            <h1 className="cl2-h1">
+              Trusted by<br />
+              <span className="cl2-h1-dim">44+ brands</span>
+            </h1>
+            <p className="cl2-hero-desc">
+              From aviation and hospitality to food, retail and government — we
+              partner with businesses that have big ambitions and the drive to
+              achieve them.
+            </p>
+            <Link to="/contact" className="cl2-hero-btn">
+              Work with us →
+            </Link>
+          </div>
+
+          {/* Right: icon grid */}
+          <div className="cl2-icon-cloud">
+            {CLIENTS.map((c, i) => (
+              <div
+                key={c.file}
+                className="cl2-icon-card"
+                style={{ '--ci': i } as React.CSSProperties}
+              >
+                <div className="cl2-icon-img-wrap">
+                  <img
+                    src={`/clients/${c.file}`}
+                    alt={c.name}
+                    className="cl2-icon-img"
+                    loading="lazy"
+                  />
+                </div>
+                <span className="cl2-icon-name">{c.name}</span>
+              </div>
+            ))}
+          </div>
+
+        </div>
+        {/* Bottom fade overlay */}
+        <div className="cl2-wall-fade" />
       </section>
 
-      {/* ── Stats ── */}
-      <div className="cl-stats">
-        {STATS.map(s => (
-          <div key={s.label} className="cl-stat">
-            <span className="cl-stat-val">{s.value}</span>
-            <span className="cl-stat-label">{s.label}</span>
+      {/* ══ STATS BAND ════════════════════════════════════════════════════════ */}
+      <div className="cl2-stats-band">
+        {STATS.map((s, i) => (
+          <div
+            key={s.label}
+            className="cl2-stat"
+            style={{ borderLeft: i === 0 ? 'none' : '1px solid rgba(0,0,0,0.08)' }}
+          >
+            <div className="cl2-stat-num">{s.value}</div>
+            <div className="cl2-stat-label">{s.label}</div>
           </div>
         ))}
       </div>
 
-      {/* ── 3 Gradient Cards ── */}
-      <div className="cl-grad-section">
-        <GradientCard seed={0} />
-        <GradientCard seed={1} />
-        <GradientCard seed={2} />
-      </div>
-
-      {/* ── Client logo grid ── */}
-      <div className="cl-logos-wrap">
-        <h2 className="cl-section-title">Companies we've worked with</h2>
-        <div className="cl-logos-grid">
-          {CLIENTS.map((c, i) => (
-            <div
-              key={c.name}
-              className="cl-logo-card"
-              style={{ '--accent-bg': ACCENT_SHADES[i % ACCENT_SHADES.length] } as React.CSSProperties}
-            >
-              <div className="cl-logo-initials">{c.initials}</div>
-              <div className="cl-logo-info">
-                <span className="cl-logo-name">{c.name}</span>
-                <span className="cl-logo-industry">{c.industry}</span>
-              </div>
-            </div>
-          ))}
+      {/* ══ TESTIMONIALS ══════════════════════════════════════════════════════ */}
+      <section className="cl2-testi-section">
+        <div className="cl2-testi-head">
+          <span className="cl2-section-eyebrow">CLIENT STORIES</span>
+          <h2 className="cl2-section-h2">What our clients say</h2>
         </div>
-      </div>
-
-      {/* ── Testimonials ── */}
-      <div className="cl-testi-wrap">
-        <h2 className="cl-section-title">What our clients say</h2>
-        <div className="cl-testi-grid">
+        <div className="cl2-testi-grid">
           {TESTIMONIALS.map((t, i) => (
-            <div key={i} className="cl-testi-card">
-              <div className="cl-testi-quote-mark">"</div>
-              <p className="cl-testi-quote">{t.quote}</p>
-              <div className="cl-testi-author">
-                <div className="cl-testi-avatar">{t.initials}</div>
+            <div key={i} className="cl2-testi-card">
+              <div className="cl2-testi-quote-mark">"</div>
+              <p className="cl2-testi-quote">{t.quote}</p>
+              <div className="cl2-testi-author">
+                <div className="cl2-testi-avatar">{t.initials}</div>
                 <div>
-                  <div className="cl-testi-name">{t.author}</div>
-                  <div className="cl-testi-role">{t.role}</div>
+                  <div className="cl2-testi-name">{t.author}</div>
+                  <div className="cl2-testi-role">{t.role}</div>
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* ── CTA ── */}
-      <div className="cl-cta">
-        <p className="cl-cta-sub">Ready to join them?</p>
-        <h2 className="cl-cta-h2">Let's build something<br />great together.</h2>
-        <a href="/contact" className="cl-cta-btn">
-          Start a project
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </a>
-      </div>
-
-      {/* ── Featured Projects (bottom) ── */}
-      <div className="cl-projects-wrap">
-        <div className="cl-projects-header">
-          <h2 className="cl-section-title">Featured Work</h2>
-          <button className="cl-projects-view-all" onClick={() => navigate('/projects')}>
-            View All Projects ↗
-          </button>
+      {/* ══ CTA ═══════════════════════════════════════════════════════════════ */}
+      <section className="cl2-cta-section">
+        <div className="cl2-cta-inner">
+          <span className="cl2-section-eyebrow" style={{ color: '#b2ff59' }}>GET STARTED</span>
+          <h2 className="cl2-cta-h2">Ready to join them?</h2>
+          <p className="cl2-cta-sub">
+            Let's build something remarkable together. Tell us about your project.
+          </p>
+          <Link to="/contact" className="cl2-cta-btn">Start a Conversation →</Link>
         </div>
-        <div className="pj-grid cl-pj-grid">
-          {FEATURED_PROJECTS.map(p => (
-            <div
-              key={p.id}
-              className="pj-item"
-              onClick={() => navigate(`/projects/${p.id}`)}
-            >
-              <div className="pj-label-row">
-                <span className="pj-label-title">↗ {p.title}</span>
-                <span className="pj-label-year">{p.year}</span>
-              </div>
-              <div
-                className="pj-thumb"
-                style={{ backgroundImage: `url(${p.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-              >
-                <div className="pj-thumb-overlay" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      </section>
 
-      <SiteFooter />
+      <div className="cl2-footer-wrap">
+        <SiteFooter />
+      </div>
     </div>
   )
 }

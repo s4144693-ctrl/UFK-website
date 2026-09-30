@@ -144,7 +144,7 @@ function BrandGraphic() {
   return (
     <div className="sv-gfx sv-gfx--brand">
       <div className="sv-swatches">
-        {['#038f59','#038f59','#00313f','#f0f5f0','#12313F','#06282B'].map((c, i) => (
+        {['#b2ff59','#b2ff59','#00313f','#f0f5f0','#12313F','#06282B'].map((c, i) => (
           <div key={i} className="sv-swatch" style={{ background: c }} />
         ))}
       </div>

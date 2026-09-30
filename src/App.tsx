@@ -7,141 +7,19 @@ import BlogPreviewSection from './BlogPreviewSection'
 import AviationSection from './AviationSection'
 import TestimonialsSection from './TestimonialsSection'
 
-/* ── One full set of brand logos ── */
+const TECH_LOGOS = [
+  'tech1.png','tech2.png','tech3.png','tech4.png','tech5.png',
+  'tech6.png','tech7.png','tech8.png','tech9.png','tech10.png',
+  'tech11.png','tech12.png','tech13.png','tech14.png','tech15.png',
+]
+
+/* ── One full set of tech logos ── */
 function BrandSet() {
   return (
     <div className="brands-set">
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" fill="currentColor"/>
-          <path fill="var(--bg)" d="M8 9h8v2H8zm0 4h6v2H8z"/>
-        </svg>
-        Expedia
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <circle cx="12" cy="7"  r="4"  />
-          <circle cx="5"  cy="16" r="3.5"/>
-          <circle cx="19" cy="16" r="3.5"/>
-        </svg>
-        asana
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-          <line x1="4" y1="8"  x2="20" y2="8" />
-          <line x1="4" y1="12" x2="12" y2="12"/>
-          <line x1="4" y1="16" x2="20" y2="16"/>
-        </svg>
-        zenefits
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="15.5" cy="8.5" r="2.5" fill="currentColor"/>
-          <circle cx="8.5"  cy="8.5" r="2"   fill="none" stroke="currentColor" strokeWidth="1.5"/>
-          <line x1="10.5" y1="8.5"  x2="13"   y2="8.5" stroke="currentColor" strokeWidth="1.5"/>
-          <line x1="8.5"  y1="10.5" x2="8.5"  y2="17"  stroke="currentColor" strokeWidth="1.5"/>
-          <line x1="15.5" y1="11"   x2="15.5" y2="17"  stroke="currentColor" strokeWidth="1.5"/>
-        </svg>
-        <span>HubSp<span className="hubspot-dot"/>t</span>
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="9"/>
-          <line x1="12"  y1="3"    x2="12"  y2="21"  />
-          <line x1="3"   y1="12"   x2="21"  y2="12"  />
-          <line x1="5.5" y1="5.5"  x2="18.5" y2="18.5"/>
-          <line x1="18.5" y1="5.5" x2="5.5"  y2="18.5"/>
-        </svg>
-        loom
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-          <path d="M6 8c0-1.7 1.4-2.5 3.5-2.5 2.8 0 4.5 1.4 4.5 1.4"/>
-          <path d="M18 16c0 1.7-1.4 2.5-3.5 2.5C11.7 18.5 10 17 10 17"/>
-          <path d="M6 8c0 2 2 3 5 3.5s5 1.5 5 3.5"/>
-        </svg>
-        Stripe
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 3L22 20H2L12 3Z"/>
-        </svg>
-        Vercel
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-          <rect x="8" y="3"  width="8" height="6" rx="2"/>
-          <rect x="8" y="9"  width="8" height="6" rx="2"/>
-          <rect x="8" y="15" width="4" height="6" rx="2"/>
-          <circle cx="16" cy="12" r="3"/>
-        </svg>
-        Figma
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z"/>
-        </svg>
-        GitHub
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M4 4.5C4 3.67 4.67 3 5.5 3h8.75l5.75 5.5V19.5c0 .83-.67 1.5-1.5 1.5h-13C4.67 21 4 20.33 4 19.5v-15zm9 0v5h4.5L13 4.5z"/>
-        </svg>
-        Notion
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <circle cx="8.5"  cy="6"    r="2.5"/>
-          <circle cx="15.5" cy="18"   r="2.5"/>
-          <circle cx="18"   cy="8.5"  r="2.5"/>
-          <circle cx="6"    cy="15.5" r="2.5"/>
-          <rect x="6.5"  y="3.5"  width="4" height="9" rx="2"/>
-          <rect x="13.5" y="11.5" width="4" height="9" rx="2"/>
-          <rect x="11.5" y="6.5"  width="9" height="4" rx="2"/>
-          <rect x="3.5"  y="13.5" width="9" height="4" rx="2"/>
-        </svg>
-        Slack
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M3.5 14.5L9.5 20.5L20.5 3.5L3.5 14.5Z"/>
-          <path d="M3.5 14.5L9.5 20.5L3.5 20.5L3.5 14.5Z" fill="var(--bg)"/>
-        </svg>
-        Linear
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-          strokeLinejoin="round" aria-hidden="true">
-          <path d="M6 2h12l1 5H5L6 2z"/>
-          <path d="M5 7l1 13h12l1-13"/>
-          <line x1="12" y1="7" x2="12" y2="20"/>
-          <circle cx="9"  cy="21" r="1" fill="currentColor" stroke="none"/>
-          <circle cx="15" cy="21" r="1" fill="currentColor" stroke="none"/>
-        </svg>
-        Shopify
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M11.5 3.5C8 8 6 11 6 14a6 6 0 0012 0c0-3-2-6-5.5-10.5-.3-.4-.7-.4-1 0z"/>
-          <ellipse cx="12" cy="18" rx="3" ry="1.5" fill="var(--bg)" opacity="0.6"/>
-        </svg>
-        Atlassian
-      </div>
-      <div className="brand-item">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <circle cx="12" cy="12" r="10"/>
-          <circle cx="9"  cy="9"  r="1.8" fill="var(--bg)"/>
-          <circle cx="15" cy="9"  r="1.8" fill="var(--bg)"/>
-          <circle cx="9"  cy="15" r="1.8" fill="var(--bg)"/>
-          <circle cx="15" cy="15" r="1.8" fill="var(--bg)"/>
-        </svg>
-        Twilio
-      </div>
+      {TECH_LOGOS.map(src => (
+        <img key={src} src={`/${src}`} alt="" draggable={false} className="brand-item brand-item--logo" />
+      ))}
     </div>
   )
 }
@@ -156,119 +34,45 @@ const GF_STATS = [
 ]
 
 
-/* Countries: geographic lon/lat and initial visual offset on this particular globe video */
-const GLOBE_COUNTRIES = [
-  // lon/lat = true geographic coords; latAdjust = visual nudge (+ = up, - = down)
-  { name: 'USA',            lon:  -95, lat:  40, latAdjust:  6 },   // central USA
-  { name: 'United Kingdom', lon:   -2, lat:  54, latAdjust:  5 },   // UK, top-center-left
-  { name: 'Dubai',          lon:   55, lat:  25, latAdjust:  7 },   // Dubai, Middle East
-  { name: 'Qatar',          lon:   51, lat:  25, latAdjust:  1 },   // Qatar, just below Dubai
-  { name: 'India',          lon:   78, lat:  20, latAdjust:  3 },   // central India
+/*
+ * Positions are % of the globe image itself (6030 × 2681 px).
+ * The .gf-globe-wrap div matches the image's exact rendered size,
+ * so left/top % land precisely on the correct landmass at any viewport width.
+ */
+const GLOBE_PINS = [
+  { name: 'USA',       pinX: 18.5, pinY: 32.4 },
+  { name: 'UK',        pinX: 52.0, pinY: 15.6 },
+  { name: 'Dubai',     pinX: 61.2, pinY: 24.8 },
+  { name: 'Qatar',     pinX: 62.3, pinY: 25.2 },
+  { name: 'India',     pinX: 70.0, pinY: 31.3 },
+  { name: 'Australia', pinX: 86.5, pinY: 70.0 },
 ]
 
-/*
- * CALIBRATION — tune these two constants to align tags with the actual video.
- *
- * INITIAL_LON_OFFSET_DEG: the longitude (°) that is facing the camera at the
- *   very first frame of the video. For example if frame-0 shows Africa/Europe,
- *   set this to ~20. If it shows the Americas, set to ~-80.
- *   Positive = shift tags eastward. Negative = shift tags westward.
- *
- * GLOBE_TILT_DEG: axial tilt of the globe in the video (0 = equator is flat,
- *   23.5 = realistic Earth tilt). Adjust if the equator appears slanted.
- */
-/*
- * CALIBRATION
- * DEG_PER_SECOND   — how fast the globe rotates in degrees/sec (tune to match video visually)
- * INITIAL_LON_DEG  — which longitude faces the camera at t=0 (tune to align starting position)
- * GLOBE_TILT_DEG   — axial tilt of the globe in the video
- */
-const DEG_PER_SECOND   = 20    // ← tune: lower = slower tags
-const INITIAL_LON_DEG  = 20    // ← tune: longitude at center on page load
-const GLOBE_TILT_DEG   = 10    // ← tune: visual axial tilt
+/* Route: USA → UK → Dubai → India → Australia (static base rails) */
+const GLOBE_CONNECTIONS = [
+  [0, 1], // USA → UK
+  [1, 2], // UK → Dubai
+  [2, 4], // Dubai → India
+  [4, 5], // India → Australia
+]
+
+/* Single compound path for the one traveling beam */
+function buildRoutePath(): string {
+  const segs = GLOBE_CONNECTIONS.map(([fi, ti]) => {
+    const f  = GLOBE_PINS[fi]
+    const t  = GLOBE_PINS[ti]
+    const cx = (f.pinX + t.pinX) / 2
+    const cy = Math.min(f.pinY, t.pinY) - Math.abs(t.pinX - f.pinX) * 0.22
+    return `Q ${cx.toFixed(2)} ${cy.toFixed(2)} ${t.pinX} ${t.pinY}`
+  })
+  const start = GLOBE_PINS[GLOBE_CONNECTIONS[0][0]]
+  return `M ${start.pinX} ${start.pinY} ` + segs.join(' ')
+}
+const ROUTE_PATH = buildRoutePath()
+
+const GLOBE_CHIPS = ['USA', 'United Kingdom', 'Dubai', 'Qatar', 'India', 'Australia']
 
 function GlobalFootprintSection() {
-  const videoRef  = useRef<HTMLVideoElement>(null)
-  const tagRefs   = useRef<(HTMLDivElement | null)[]>([])
-  const rafRef    = useRef<number>(0)
-  const startTime = useRef<number>(0)
-
-  /* Slow video */
-  useEffect(() => {
-    const v = videoRef.current
-    if (!v) return
-    const setRate = () => { v.playbackRate = 0.35 }
-    setRate()
-    v.addEventListener('play', setRate)
-    v.addEventListener('ratechange', setRate)
-    return () => {
-      v.removeEventListener('play', setRate)
-      v.removeEventListener('ratechange', setRate)
-    }
-  }, [])
-
-  /* Animate tags — transform-only for GPU-composited, jitter-free animation */
-  useEffect(() => {
-    const tiltRad  = (GLOBE_TILT_DEG  * Math.PI) / 180
-    const initRad  = (INITIAL_LON_DEG * Math.PI) / 180
-    const rateRad  = (DEG_PER_SECOND  * Math.PI) / 180
-    const cosTilt  = Math.cos(tiltRad)
-    const sinTilt  = Math.sin(tiltRad)
-
-    // Cache container size once — avoids getBoundingClientRect every frame
-    const container = tagRefs.current[0]?.parentElement
-    let cW = container?.offsetWidth  ?? 400
-    let cH = container?.offsetHeight ?? 400
-    const ro = new ResizeObserver(() => {
-      cW = container?.offsetWidth  ?? cW
-      cH = container?.offsetHeight ?? cH
-    })
-    if (container) ro.observe(container)
-
-    startTime.current = performance.now()
-
-    const tick = (now: number) => {
-      const elapsed  = (now - startTime.current) / 1000
-      const rotAngle = elapsed * rateRad + initRad
-
-      GLOBE_COUNTRIES.forEach((c, i) => {
-        const el = tagRefs.current[i]
-        if (!el) return
-
-        const lonRad = (c.lon * Math.PI) / 180
-        const latRad = ((c.lat + c.latAdjust) * Math.PI) / 180
-        const theta  = lonRad - rotAngle
-
-        const x0 =  Math.sin(theta) * Math.cos(latRad)
-        const y0 = -Math.sin(latRad)
-        const z0 =  Math.cos(theta) * Math.cos(latRad)
-
-        const y3 = y0 * cosTilt - z0 * sinTilt
-        const z3 = y0 * sinTilt + z0 * cosTilt
-        const x3 = x0
-
-        const opacity = z3 > 0.15 ? Math.min(1, (z3 - 0.15) / 0.20) : 0
-        const scale   = 0.80 + z3 * 0.20
-
-        // Pixel offsets from centre — only transform & opacity, zero layout cost
-        const tx = x3 * 0.36 * cW * 0.5
-        const ty = y3 * 0.32 * cH * 0.5
-
-        el.style.opacity   = `${opacity}`
-        el.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(${scale})`
-        el.style.zIndex    = z3 > 0 ? '4' : '1'
-      })
-
-      rafRef.current = requestAnimationFrame(tick)
-    }
-
-    rafRef.current = requestAnimationFrame(tick)
-    return () => {
-      cancelAnimationFrame(rafRef.current)
-      ro.disconnect()
-    }
-  }, [])
-
   return (
     <section className="gf-section">
       {/* Section heading */}
@@ -283,26 +87,64 @@ function GlobalFootprintSection() {
       {/* Two-card row */}
       <div className="gf-cards">
 
-        {/* ── Left card — Globe video ── */}
+        {/* ── Left card — Globe image ── */}
         <div className="gf-card gf-card--globe">
           <div className="gf-globe-inner">
-            <video
-              ref={videoRef}
-              className="gf-globe-video"
-              src="/globe.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-            />
+            {/*
+              .gf-globe-wrap mirrors the image's rendered position & aspect ratio
+              (bottom-aligned, 115% wide, aspect 6030:2681).
+              Pins inside use left/top % of this wrapper = % of the image.
+            */}
+            <div className="gf-globe-wrap">
+              <img
+                src="/global-presence.png"
+                className="gf-globe-img"
+                alt="Global presence map"
+                draggable={false}
+              />
+
+              {/* Animated connection lines */}
+              <svg
+                className="gf-globe-lines"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* Static faint base rails for every segment */}
+                {GLOBE_CONNECTIONS.map(([fi, ti], i) => {
+                  const f  = GLOBE_PINS[fi]
+                  const t  = GLOBE_PINS[ti]
+                  const cx = (f.pinX + t.pinX) / 2
+                  const cy = Math.min(f.pinY, t.pinY) - Math.abs(t.pinX - f.pinX) * 0.22
+                  return <path key={i} d={`M ${f.pinX} ${f.pinY} Q ${cx.toFixed(2)} ${cy.toFixed(2)} ${t.pinX} ${t.pinY}`} className="gf-line-base" />
+                })}
+                {/* ONE beam traveling the full route and back */}
+                <g>
+                  <path d={ROUTE_PATH} className="gf-line-glow" pathLength="100" />
+                  <path d={ROUTE_PATH} className="gf-line-core" pathLength="100" />
+                </g>
+              </svg>
+
+              {GLOBE_PINS.map((p, i) => (
+                <div
+                  key={p.name}
+                  className="gf-map-pin"
+                  style={{
+                    left: `${p.pinX}%`,
+                    top:  `${p.pinY}%`,
+                    animationDelay: `${i * 0.5}s`,
+                  }}
+                />
+              ))}
+            </div>
           </div>
 
-          {/* Location chips — fixed, always accurate */}
+          {/* Location chips */}
           <div className="gf-locations">
-            {GLOBE_COUNTRIES.map((c, i) => (
-              <div key={c.name} className="gf-location-chip" style={{ animationDelay: `${i * 0.1}s` }}>
+            {GLOBE_CHIPS.map((name, i) => (
+              <div key={name} className="gf-location-chip" style={{ animationDelay: `${i * 0.1}s` }}>
                 <span className="gf-pin-dot" />
-                {c.name}
+                {name}
               </div>
             ))}
           </div>
@@ -417,7 +259,7 @@ function FeaturedWork() {
       {/* Row 1: large left + small right */}
       <div className="fw-row fw-row--split">
         <article className="fw-card fw-card--large" onClick={() => navigate('/projects/23')} style={{ cursor: 'pointer', background: 'linear-gradient(170deg, #e2e2e2 0%, #b8b8b8 100%)' }}>
-          <SlideshowBg images={FSTC_SLIDES} interval={2000} fit="contain" />
+          <SlideshowBg images={FSTC_SLIDES} interval={2000} fit="cover" />
           <div className="fw-card-overlay" />
           <div className="fw-card-body">
             <h3 className="fw-card-title">FSTC</h3>
@@ -518,11 +360,49 @@ function FeaturedWork() {
    RESULTS SECTION
 ───────────────────────────────────────────────────── */
 const RESULTS_STATS = [
-  { value: '2M+',     label: 'Monthly Organic Visitors' },
-  { value: '1M+',     label: 'Monthly Search Impressions' },
-  { value: '200+',    label: 'Lead Generation for Clients' },
-  { value: '₹172CR+', label: 'Business Generated for Clients' },
+  { num: 2,   prefix: '',  suffix: 'M+',  label: 'Monthly Organic Visitors' },
+  { num: 1,   prefix: '',  suffix: 'M+',  label: 'Monthly Search Impressions' },
+  { num: 200, prefix: '',  suffix: '+',   label: 'Lead Generation for Clients' },
+  { num: 172, prefix: '₹', suffix: 'CR+', label: 'Business Generated for Clients' },
 ]
+
+function StatCounter({ num, prefix, suffix, label }: { num: number; prefix: string; suffix: string; label: string }) {
+  const [count, setCount] = useState(0)
+  const ref     = useRef<HTMLDivElement>(null)
+  const started = useRef(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true
+          const duration = 2000
+          const startTime = performance.now()
+          const tick = (now: number) => {
+            const t    = Math.min((now - startTime) / duration, 1)
+            const ease = 1 - Math.pow(1 - t, 3) // easeOutCubic
+            setCount(Math.round(ease * num))
+            if (t < 1) requestAnimationFrame(tick)
+          }
+          requestAnimationFrame(tick)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.4 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [num])
+
+  return (
+    <div ref={ref} className="rs-stat">
+      <span className="rs-stat-value">{prefix}{count}{suffix}</span>
+      <span className="rs-stat-label">{label}</span>
+    </div>
+  )
+}
 
 const RESULTS_GRADIENT_CONFIG = {
   colors: [
@@ -708,6 +588,7 @@ function NeatGradientCardSection() {
   const [activeIdx, setActiveIdx] = useState(0)
   const [visibleIdx, setVisibleIdx] = useState(0)
   const [fading, setFading]   = useState(false)
+  const [openIdx, setOpenIdx] = useState<number | null>(0)   // mobile accordion
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -732,11 +613,13 @@ function NeatGradientCardSection() {
 
   return (
     <section className="ngc-section">
-      <div className="ngc-inner">
+
+      {/* ── DESKTOP layout ── */}
+      <div className="ngc-inner ngc-desktop">
 
         {/* Left — services list */}
         <div className="ngc-services">
-          <p className="ngc-label">Our Services</p>
+          <p className="ngc-label">Our Clients</p>
           <h2 className="ngc-heading">Solutions That Move<br />Businesses Forward</h2>
           {NGC_SERVICES.map((s, i) => (
             <div
@@ -753,33 +636,55 @@ function NeatGradientCardSection() {
 
         {/* Right — gradient card with laptop */}
         <div className="ngc-card">
-
-          {/* Gradient canvas — clipped to card shape via its own wrapper */}
           <div className="ngc-canvas-clip">
             <canvas ref={canvasRef} aria-hidden="true" className="ngc-canvas" />
           </div>
-
-          {/* Service number — top-left of card */}
           <div className={`ngc-card-num${fading ? ' fading' : ''}`}>{svc.num}</div>
-
-          {/* Items list — floats in upper card area */}
           <ul className={`ngc-card-items${fading ? ' fading' : ''}`}>
             {svc.items.map(item => <li key={item}>{item}</li>)}
           </ul>
-
-          {/* Laptop — fully visible, not clipped. Title sits inside screen area */}
           <div className="ngc-laptop-wrap">
             <img src="/laptop2.png" alt="" draggable={false} className="ngc-laptop-img" />
-
-            {/* Title inside the laptop screen */}
             <div className={`ngc-screen-title-wrap${fading ? ' fading' : ''}`}>
               <p className="ngc-screen-title">{svc.title}</p>
             </div>
           </div>
-
         </div>
 
       </div>
+
+      {/* ── MOBILE layout — accordion ── */}
+      <div className="ngc-mobile">
+        <p className="ngc-label">Our Clients</p>
+        <h2 className="ngc-mob-heading">Solutions That Move<br />Businesses Forward</h2>
+
+        <div className="ngc-mob-list">
+          {NGC_SERVICES.map((s, i) => {
+            const isOpen = openIdx === i
+            return (
+              <div
+                key={s.num}
+                className={`ngc-mob-item${isOpen ? ' ngc-mob-item--open' : ''}`}
+                onClick={() => setOpenIdx(isOpen ? null : i)}
+              >
+                <div className="ngc-mob-header">
+                  <span className="ngc-mob-num">{s.num}</span>
+                  <span className="ngc-mob-title">{s.title}</span>
+                  <span className="ngc-mob-chevron">{isOpen ? '−' : '+'}</span>
+                </div>
+                {isOpen && (
+                  <ul className="ngc-mob-items">
+                    {s.items.map(item => (
+                      <li key={item} className="ngc-mob-sub">{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
     </section>
   )
 }
@@ -828,11 +733,8 @@ function ResultsSection() {
 
         {/* Right — stat grid */}
         <div className="rs-stats">
-          {RESULTS_STATS.map(({ value, label }) => (
-            <div key={label} className="rs-stat">
-              <span className="rs-stat-value">{value}</span>
-              <span className="rs-stat-label">{label}</span>
-            </div>
+          {RESULTS_STATS.map((s) => (
+            <StatCounter key={s.label} {...s} />
           ))}
         </div>
 
@@ -926,36 +828,57 @@ function GradientBannerSection() {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-    const gradient = new NeatGradient({ ref: canvas, ...NEAT_CARD_CONFIG })
+    const gradient = new NeatGradient({ ref: canvas, ...NEAT_CARD_CONFIG, speed: 2 })
     return () => { gradient.destroy() }
   }, [])
 
   /* Smooth ease-in/out parallax via RAF + lerp */
   useEffect(() => {
     let raf: number
-    let cur1 = -100   // current translateX% for left hand
-    let cur2 =  100   // current translateX% for right hand
+    let cur1  = -100  // translateX% for left hand
+    let cur2  =  100  // translateX% for right hand
+    let curSc =  0.95 // scale (both hands share same p)
+    let curSat   = 0    // saturate() 0→1
+    let curBright = 0.05 // brightness() 0.05→1
 
     const getTargets = () => {
       const outer = outerRef.current
-      if (!outer) return { t1: -100, t2: 100 }
+      if (!outer) return { t1: -100, t2: 100, p: 0 }
       const rect = outer.getBoundingClientRect()
       const VH   = window.innerHeight
-      // p: 0 = section below viewport, 1 = animation fully complete
       const raw  = (VH - rect.top) / (VH * 0.88)
       const p    = Math.max(0, Math.min(1, raw))
       return {
-        t1: -100 + p * 75,   // left hand:  -100% → -25%  (~75% of image visible)
-        t2:  100 - p * 67,   // right hand:  100% →  33%  (~67% of image visible)
+        t1: -100 + p * 75,  // left hand:  -100% → -25%
+        t2:  100 - p * 67,  // right hand:  100% →  33%
+        p,
       }
     }
 
     const tick = () => {
-      const { t1, t2 } = getTargets()
-      cur1 += (t1 - cur1) * 0.07   // lerp factor — lower = more easing
-      cur2 += (t2 - cur2) * 0.07
-      if (hand1Ref.current) hand1Ref.current.style.transform = `translateX(${cur1}%)`
-      if (hand2Ref.current) hand2Ref.current.style.transform = `translateX(${cur2}%)`
+      const { t1, t2, p } = getTargets()
+      const L = 0.07
+      cur1   += (t1 - cur1)   * L
+      cur2   += (t2 - cur2)   * L
+      // scale: 0.95 at start → 1.05 at end
+      curSc  += (0.95 + p * 0.10 - curSc)  * L
+      // saturate + brightness: ramp starts at p=0.65, completes at p=1 — wider window = smoother
+      const reveal = Math.max(0, Math.min(1, (p - 0.65) / 0.35))
+      curSat    += (reveal - curSat)                 * 0.05
+      curBright += (0.05 + reveal * 0.95 - curBright) * 0.05
+
+      const sc  = curSc.toFixed(3)
+      const sat = curSat.toFixed(3)
+      const br  = curBright.toFixed(3)
+      const flt = `saturate(${sat}) brightness(${br})`
+      if (hand1Ref.current) {
+        hand1Ref.current.style.transform = `translateX(${cur1}%) scale(${sc})`
+        hand1Ref.current.style.filter    = flt
+      }
+      if (hand2Ref.current) {
+        hand2Ref.current.style.transform = `translateX(${cur2}%) scale(${sc})`
+        hand2Ref.current.style.filter    = flt
+      }
       raf = requestAnimationFrame(tick)
     }
 
@@ -1137,13 +1060,13 @@ export default function App() {
     if (!card || !canvas) return
 
     const onScroll = () => {
-      const sy = window.scrollY
+      const sy       = window.scrollY
+      const isMobile = window.innerWidth <= 768
 
       // Hero animation range = scroll needed for canvas to fully pass viewport
-      const heroRange = Math.max(canvas.offsetHeight - window.innerHeight, 1)
+      const heroRange    = Math.max(canvas.offsetHeight - window.innerHeight, 1)
       const heroProgress = Math.min(sy / heroRange, 1)
 
-      // Scale 1.0 → 0.7 = 15% inset on every side simultaneously
       const scale = 1 - heroProgress * 0.12
       card.style.transform    = `scale(${scale})`
       card.style.borderRadius = `${heroProgress * 24}px`
@@ -1348,11 +1271,11 @@ export default function App() {
                 x1="-5%" x2="5%"
                 y1="0%"  y2="0%"
               >
-                <stop offset="0%"   stopColor="#038f59" stopOpacity="0"   />
-                <stop offset="20%"  stopColor="#038f59" stopOpacity="0.8" />
-                <stop offset="50%"  stopColor="#038f59" stopOpacity="1"   />
-                <stop offset="80%"  stopColor="#038f59" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#038f59" stopOpacity="0"   />
+                <stop offset="0%"   stopColor="#b2ff59" stopOpacity="0"   />
+                <stop offset="20%"  stopColor="#b2ff59" stopOpacity="0.8" />
+                <stop offset="50%"  stopColor="#b2ff59" stopOpacity="1"   />
+                <stop offset="80%"  stopColor="#b2ff59" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#b2ff59" stopOpacity="0"   />
               </linearGradient>
             </defs>
 
@@ -1459,8 +1382,8 @@ export default function App() {
             Transforming Ideas Into Scalable Digital Solutions
           </p>
           <div className="hero-actions">
-            <a href="#" className="btn-cta">View Projects</a>
-            <a href="#" className="btn-outline">Explore Services</a>
+            <a href="/projects" className="btn-cta">View Projects</a>
+            <a href="/clients" className="btn-outline">Our Clients</a>
           </div>
         </div>
       </section>
@@ -1477,7 +1400,7 @@ export default function App() {
             <rect x="3" y="14" width="7" height="7" rx="1.5"/>
             <rect x="14" y="14" width="7" height="7" rx="1.5"/>
           </svg>
-          Trusted By
+          Powered by Technology
         </div>
         {/* Single track — two BrandSet copies sit side-by-side for seamless loop */}
         <div className="brands-track">

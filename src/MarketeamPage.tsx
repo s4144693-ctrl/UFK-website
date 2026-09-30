@@ -229,25 +229,308 @@ export default function MarketeamPage() {
         </div>
       </section>
 
-      {/* ── Services ── */}
-      <section className="mt-services">
-        <p className="mt-section-label">What We Offer</p>
-        <h2 className="mt-section-h2">Every marketing discipline, covered</h2>
-        <div className="mt-services-grid">
-          {[
-            { icon: '◈', title: 'Brand Strategy',       desc: 'Positioning, messaging frameworks, competitive differentiation.' },
-            { icon: '◉', title: 'Performance Marketing', desc: 'Paid search, social ads, CRO — growth you can measure.' },
-            { icon: '◎', title: 'Content & SEO',         desc: 'Long-form content, technical SEO, organic acquisition engines.' },
-            { icon: '⬡', title: 'Social Media',          desc: 'Community management, creator strategy, viral campaigns.' },
-            { icon: '◆', title: 'Email & CRM',           desc: 'Lifecycle automation, segmentation, retention programs.' },
-            { icon: '◇', title: 'Analytics & Data',      desc: 'Attribution modelling, dashboards, insight reports.' },
-          ].map(sv => (
-            <div key={sv.title} className="mt-service-card">
-              <div className="mt-service-icon">{sv.icon}</div>
-              <h3 className="mt-service-title">{sv.title}</h3>
-              <p className="mt-service-desc">{sv.desc}</p>
+      {/* ── Campaign Journey — editorial light section ── */}
+      <section className="mk-journey">
+        {/* Section intro */}
+        <div className="mk-journey-intro">
+          <p className="mk-journey-eyebrow">Our Process</p>
+          <h2 className="mk-journey-h2">Six stages from audit<br />to results.</h2>
+        </div>
+
+        {/* ── 1 / 6 — Campaign Audit ── */}
+        <div className="mk-row mk-row--normal">
+          <div className="mk-row-text">
+            <div className="mk-step-counter"><span className="mk-step-n">1</span><span className="mk-step-total">/6</span></div>
+            <h3 className="mk-row-title">Campaign Audit</h3>
+            <p className="mk-row-desc">Analyse existing channel performance, identify budget waste, and benchmark against competitors.</p>
+            <div className="mk-row-tags">
+              <span className="mk-tag">Channel Analysis</span>
+              <span className="mk-tag">Benchmarking</span>
+              <span className="mk-tag">Budget Review</span>
             </div>
-          ))}
+          </div>
+          <div className="mk-row-visual">
+            <div className="mk-audit-visual">
+              {/* Pinned note card */}
+              <div className="mk-pin-card mk-pin-card--main">
+                <div className="mk-pin" />
+                <div className="mk-pin-label">Performance Review</div>
+                <div className="mk-bar-row">
+                  <span className="mk-bar-name">Search</span>
+                  <div className="mk-bar-track"><div className="mk-bar-fill" style={{width:'78%', background:'rgba(100,160,80,0.7)'}}/></div>
+                  <span className="mk-bar-val">78%</span>
+                </div>
+                <div className="mk-bar-row">
+                  <span className="mk-bar-name">Social</span>
+                  <div className="mk-bar-track"><div className="mk-bar-fill" style={{width:'54%', background:'rgba(120,160,90,0.5)'}}/></div>
+                  <span className="mk-bar-val">54%</span>
+                </div>
+                <div className="mk-bar-row">
+                  <span className="mk-bar-name">Display</span>
+                  <div className="mk-bar-track"><div className="mk-bar-fill" style={{width:'32%', background:'rgba(200,200,100,0.5)'}}/></div>
+                  <span className="mk-bar-val">32%</span>
+                </div>
+              </div>
+              {/* Benchmark sticky */}
+              <div className="mk-sticky mk-sticky--1">
+                <div className="mk-sticky-dot mk-sticky-dot--red"/>
+                Waste identified<br/><strong>−£4.2k/mo</strong>
+              </div>
+              {/* Competitor sheet */}
+              <div className="mk-sheet mk-sheet--1">
+                <div className="mk-sheet-label">Competitor Gap</div>
+                <svg width="90" height="44" viewBox="0 0 90 44">
+                  <polyline points="0,36 18,28 36,32 54,14 72,20 90,8" fill="none" stroke="rgba(100,160,80,0.5)" strokeWidth="2"/>
+                  <polyline points="0,40 18,38 36,36 54,30 72,34 90,28" fill="none" stroke="rgba(180,180,140,0.4)" strokeWidth="1.5" strokeDasharray="4 3"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 2 / 6 — Growth Strategy ── */}
+        <div className="mk-row mk-row--reversed">
+          <div className="mk-row-visual">
+            <div className="mk-strategy-visual">
+              {/* Media planning board */}
+              <div className="mk-board">
+                <div className="mk-board-header">90-Day Roadmap</div>
+                {['Month 1','Month 2','Month 3'].map((m,i) => (
+                  <div key={m} className="mk-board-row">
+                    <span className="mk-board-month">{m}</span>
+                    <div className="mk-board-bar" style={{width:`${55+i*18}%`, opacity: 0.6+i*0.15}}/>
+                  </div>
+                ))}
+              </div>
+              {/* KPI chip stack */}
+              <div className="mk-kpi-stack">
+                {[
+                  {label:'Target CPA', val:'£18'},
+                  {label:'ROAS Goal', val:'4.2×'},
+                  {label:'CAC', val:'−22%'},
+                ].map(k => (
+                  <div key={k.label} className="mk-kpi-chip">
+                    <span className="mk-kpi-label">{k.label}</span>
+                    <span className="mk-kpi-val">{k.val}</span>
+                  </div>
+                ))}
+              </div>
+              {/* Channel mix donut placeholder */}
+              <div className="mk-donut-wrap">
+                <svg viewBox="0 0 80 80" width="80" height="80">
+                  <circle cx="40" cy="40" r="28" fill="none" stroke="rgba(220,230,210,0.6)" strokeWidth="12"/>
+                  <circle cx="40" cy="40" r="28" fill="none" stroke="rgba(100,160,80,0.7)" strokeWidth="12"
+                    strokeDasharray="52 124" strokeDashoffset="-31" strokeLinecap="round"/>
+                  <circle cx="40" cy="40" r="28" fill="none" stroke="rgba(140,190,110,0.5)" strokeWidth="12"
+                    strokeDasharray="36 140" strokeDashoffset="-83" strokeLinecap="round"/>
+                  <text x="40" y="44" textAnchor="middle" fontSize="10" fill="rgba(60,80,50,0.8)" fontWeight="600">Mix</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div className="mk-row-text">
+            <div className="mk-step-counter"><span className="mk-step-n">2</span><span className="mk-step-total">/6</span></div>
+            <h3 className="mk-row-title">Growth Strategy</h3>
+            <p className="mk-row-desc">Define KPIs and target CPA/ROAS, build channel-mix recommendations, set a 90-day growth roadmap.</p>
+            <div className="mk-row-tags">
+              <span className="mk-tag">KPI Setting</span>
+              <span className="mk-tag">Channel Mix</span>
+              <span className="mk-tag">90-Day Plan</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 3 / 6 — Creative Build ── */}
+        <div className="mk-row mk-row--normal">
+          <div className="mk-row-text">
+            <div className="mk-step-counter"><span className="mk-step-n">3</span><span className="mk-step-total">/6</span></div>
+            <h3 className="mk-row-title">Creative Build</h3>
+            <p className="mk-row-desc">Write high-converting ad copy, design creative assets, configure tracking and attribution.</p>
+            <div className="mk-row-tags">
+              <span className="mk-tag">Ad Copy</span>
+              <span className="mk-tag">Creative Assets</span>
+              <span className="mk-tag">Attribution</span>
+            </div>
+          </div>
+          <div className="mk-row-visual">
+            <div className="mk-creative-visual">
+              {/* Layered ad cards */}
+              <div className="mk-ad-card mk-ad-card--back"/>
+              <div className="mk-ad-card mk-ad-card--mid">
+                <div className="mk-ad-label">Version B</div>
+                <div className="mk-ad-headline">Grow 3× faster.</div>
+                <div className="mk-ad-cta-chip">Learn More →</div>
+              </div>
+              <div className="mk-ad-card mk-ad-card--front">
+                <div className="mk-ad-label mk-ad-label--active">✓ Winner</div>
+                <div className="mk-ad-headline">Scale what works.</div>
+                <div className="mk-ad-cta-chip mk-ad-cta-chip--green">Start Free →</div>
+              </div>
+              {/* Tracking pixel annotation */}
+              <div className="mk-annotation">
+                <div className="mk-annotation-line"/>
+                <div className="mk-annotation-text">Pixel ✓<br/>Conv. tracked</div>
+              </div>
+              {/* Copy snippet */}
+              <div className="mk-copy-snippet">
+                <span className="mk-copy-cursor">|</span>
+                "Turn clicks into customers"
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 4 / 6 — Campaign Launch ── */}
+        <div className="mk-row mk-row--reversed">
+          <div className="mk-row-visual">
+            <div className="mk-launch-visual">
+              {/* Launch sequence */}
+              <div className="mk-launch-board">
+                <div className="mk-launch-header">
+                  <span className="mk-launch-dot mk-launch-dot--green"/>
+                  Live — 72h Monitor
+                </div>
+                {[
+                  {ch:'Google Ads',  st:'Active', pct:94},
+                  {ch:'Meta Ads',    st:'Active', pct:87},
+                  {ch:'LinkedIn',    st:'Active', pct:76},
+                ].map(c => (
+                  <div key={c.ch} className="mk-launch-row">
+                    <span className="mk-launch-ch">{c.ch}</span>
+                    <div className="mk-launch-track">
+                      <div className="mk-launch-fill" style={{width:`${c.pct}%`}}/>
+                    </div>
+                    <span className="mk-launch-status">{c.st}</span>
+                  </div>
+                ))}
+              </div>
+              {/* Conv tracking badge */}
+              <div className="mk-conv-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(80,140,60,0.9)" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Conversion Tracking Airtight
+              </div>
+              {/* 72h sparkline */}
+              <div className="mk-sparkline-wrap">
+                <span className="mk-spark-label">Impressions / 72h</span>
+                <svg width="120" height="36" viewBox="0 0 120 36">
+                  <polyline points="0,30 20,26 40,20 60,16 80,10 100,6 120,2"
+                    fill="none" stroke="rgba(100,160,80,0.6)" strokeWidth="2"/>
+                  <polyline points="0,30 20,26 40,20 60,16 80,10 100,6 120,2"
+                    fill="rgba(100,160,80,0.08)" strokeWidth="0"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div className="mk-row-text">
+            <div className="mk-step-counter"><span className="mk-step-n">4</span><span className="mk-step-total">/6</span></div>
+            <h3 className="mk-row-title">Campaign Launch</h3>
+            <p className="mk-row-desc">Go live across all channels, monitor the first 72 hours, confirm conversion tracking is airtight.</p>
+            <div className="mk-row-tags">
+              <span className="mk-tag">Go Live</span>
+              <span className="mk-tag">72h Monitor</span>
+              <span className="mk-tag">Conversion QA</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 5 / 6 — Optimise & Scale ── */}
+        <div className="mk-row mk-row--normal">
+          <div className="mk-row-text">
+            <div className="mk-step-counter"><span className="mk-step-n">5</span><span className="mk-step-total">/6</span></div>
+            <h3 className="mk-row-title">Optimise & Scale</h3>
+            <p className="mk-row-desc">Weekly bid and budget adjustments, A/B test creatives and landing pages, expand winning audiences.</p>
+            <div className="mk-row-tags">
+              <span className="mk-tag">A/B Testing</span>
+              <span className="mk-tag">Bid Optimisation</span>
+              <span className="mk-tag">Audience Scaling</span>
+            </div>
+          </div>
+          <div className="mk-row-visual">
+            <div className="mk-optimise-visual">
+              {/* A/B test cards */}
+              <div className="mk-ab-wrap">
+                <div className="mk-ab-card">
+                  <div className="mk-ab-label">A</div>
+                  <div className="mk-ab-metric">CTR 2.1%</div>
+                  <div className="mk-ab-bar" style={{width:'42%', background:'rgba(180,180,140,0.4)'}}/>
+                </div>
+                <div className="mk-ab-divider">vs</div>
+                <div className="mk-ab-card mk-ab-card--win">
+                  <div className="mk-ab-label mk-ab-label--win">B ✓</div>
+                  <div className="mk-ab-metric">CTR 3.8%</div>
+                  <div className="mk-ab-bar" style={{width:'76%', background:'rgba(100,160,80,0.6)'}}/>
+                </div>
+              </div>
+              {/* Bid adjustment chart */}
+              <div className="mk-bid-chart">
+                <div className="mk-bid-label">Weekly Bid Adjustments</div>
+                <svg width="160" height="48" viewBox="0 0 160 48">
+                  {[0,1,2,3,4,5,6,7].map((i) => {
+                    const heights = [20,28,18,35,24,40,30,44]
+                    return <rect key={i} x={i*20+2} y={48-heights[i]} width="14" height={heights[i]}
+                      rx="3" fill={i===7?'rgba(100,160,80,0.7)':'rgba(160,170,140,0.3)'}/>
+                  })}
+                </svg>
+              </div>
+              {/* Audience expansion ring */}
+              <div className="mk-audience-note">
+                <div className="mk-aud-ring"/>
+                <span>Lookalike ×3 expanded</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 6 / 6 — Report & Refine ── */}
+        <div className="mk-row mk-row--reversed mk-row--last">
+          <div className="mk-row-visual">
+            <div className="mk-report-visual">
+              {/* Executive dashboard card */}
+              <div className="mk-dash-card">
+                <div className="mk-dash-header">
+                  <span>Monthly ROI Report</span>
+                  <span className="mk-dash-date">Oct 2026</span>
+                </div>
+                <div className="mk-dash-kpis">
+                  {[
+                    {label:'Revenue', val:'£184k', up:true},
+                    {label:'ROAS', val:'5.1×', up:true},
+                    {label:'CPA', val:'£14.2', up:false},
+                  ].map(k => (
+                    <div key={k.label} className="mk-dash-kpi">
+                      <span className="mk-dash-kpi-label">{k.label}</span>
+                      <span className="mk-dash-kpi-val">{k.val}</span>
+                      <span className={`mk-dash-arrow ${k.up ? 'mk-dash-arrow--up' : 'mk-dash-arrow--down'}`}>{k.up ? '↑' : '↓'}</span>
+                    </div>
+                  ))}
+                </div>
+                {/* Attribution flow */}
+                <div className="mk-attr-row">
+                  {['Search','Social','Email'].map((src,i) => (
+                    <div key={src} className="mk-attr-item">
+                      <div className="mk-attr-bar" style={{height:`${30+i*12}px`}}/>
+                      <span>{src}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* Forward-looking annotation */}
+              <div className="mk-fwd-note">
+                <div className="mk-fwd-arrow">→</div>
+                <div className="mk-fwd-text">Next 30-day<br/>recommendations ready</div>
+              </div>
+            </div>
+          </div>
+          <div className="mk-row-text">
+            <div className="mk-step-counter"><span className="mk-step-n">6</span><span className="mk-step-total">/6</span></div>
+            <h3 className="mk-row-title">Report & Refine</h3>
+            <p className="mk-row-desc">Monthly executive dashboard with clear ROI, attribution data, and forward-looking recommendations.</p>
+            <div className="mk-row-tags">
+              <span className="mk-tag">ROI Dashboard</span>
+              <span className="mk-tag">Attribution</span>
+              <span className="mk-tag">Recommendations</span>
+            </div>
+          </div>
         </div>
       </section>
 

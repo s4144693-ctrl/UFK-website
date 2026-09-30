@@ -6,7 +6,7 @@ const TESTIMONIALS = [
     role: 'E-Commerce 2.0',
     quote: 'Xero completely transformed how we protect customer data. Their zero-trust pipeline reduced our attack surface by 80% in the first quarter — results I never thought were possible.',
     bg: 'linear-gradient(155deg, #0e1f12 0%, #060e08 100%)',
-    accent: '#038f59',
+    accent: '#b2ff59',
   },
   {
     name: 'Timothée Moiroux',
@@ -59,27 +59,36 @@ const TESTIMONIALS = [
   },
 ]
 
-const T_VISIBLE = 4
-const T_GAP     = 20
+const T_GAP = 20
 
 export default function TestimonialsSection() {
-  const [index, setIndex]   = useState(0)
-  const [cardW, setCardW]   = useState(0)
-  const viewportRef         = useRef<HTMLDivElement>(null)
-  const maxIndex            = TESTIMONIALS.length - T_VISIBLE
-  const step                = cardW + T_GAP
+  const [index, setIndex]        = useState(0)
+  const [cardW, setCardW]        = useState(0)
+  const [visible, setVisible]    = useState(4)
+  const viewportRef              = useRef<HTMLDivElement>(null)
+
+  const maxIndex = TESTIMONIALS.length - visible
+  const step     = cardW + T_GAP
 
   useEffect(() => {
     const el = viewportRef.current
     if (!el) return
     const update = () => {
-      setCardW((el.offsetWidth - (T_VISIBLE - 1) * T_GAP) / T_VISIBLE)
+      const isMobile = window.innerWidth <= 768
+      const v = isMobile ? 2 : 4
+      setVisible(v)
+      setCardW((el.offsetWidth - (v - 1) * T_GAP) / v)
     }
     update()
     const ro = new ResizeObserver(update)
     ro.observe(el)
     return () => ro.disconnect()
   }, [])
+
+  // Reset index when visible count changes to avoid out-of-bounds
+  useEffect(() => {
+    setIndex(0)
+  }, [visible])
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -96,8 +105,8 @@ export default function TestimonialsSection() {
 
       <div className="testi-top-row">
         <div className="testi-heading-group">
-          <h2 className="testi-h2">Partnered with most of the</h2>
-          <p className="testi-h2-em">top people at each industry</p>
+          <h2 className="testi-h2">Read what our clients</h2>
+          <p className="testi-h2-em">have to say about our work</p>
         </div>
         <div className="testi-controls">
           <button className="testi-arrow" onClick={prev} disabled={index === 0} aria-label="Previous">

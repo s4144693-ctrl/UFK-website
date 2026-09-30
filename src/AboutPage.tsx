@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { Link } from 'react-router-dom'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
 
@@ -58,7 +59,7 @@ export default function AboutPage() {
                 padding: '8px 18px',
                 background: 'rgba(74,222,128,0.08)',
                 border: '1px solid rgba(74,222,128,0.18)',
-                color: '#038f59',
+                color: '#b2ff59',
                 fontSize: '0.72rem',
                 fontWeight: 600,
                 letterSpacing: '0.1em',
@@ -97,26 +98,25 @@ export default function AboutPage() {
             </p>
 
             {/* CTA */}
-            <motion.button
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                width: 'fit-content',
-                background: '#038f59',
-                color: '#04090d',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '1rem',
-                fontWeight: 600,
-                padding: '14px 36px',
-                borderRadius: '999px',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              Contact Us
-            </motion.button>
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} style={{ width: 'fit-content' }}>
+              <Link
+                to="/contact"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  background: '#b2ff59',
+                  color: '#04090d',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  padding: '14px 36px',
+                  borderRadius: '999px',
+                  textDecoration: 'none',
+                }}
+              >
+                Contact Us
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </div>
@@ -152,7 +152,7 @@ export default function AboutPage() {
             <div className="abj-col-top" />
             <div className="abj-dot" aria-hidden="true"><div className="abj-dot-inner" /></div>
             <div className="abj-col-bottom">
-              <span className="abj-period">2022</span>
+              <span className="abj-period">2024</span>
               <h3 className="abj-col-title">Full-Stack Expansion</h3>
               <p className="abj-col-desc">Grew from design into full-stack development, onboarding our first enterprise clients and launching complex web and mobile platforms.</p>
             </div>
@@ -167,7 +167,7 @@ export default function AboutPage() {
             </div>
             <div className="abj-dot abj-dot--active" aria-hidden="true"><div className="abj-dot-inner" /></div>
             <div className="abj-col-bottom">
-              <span className="abj-period">2024</span>
+              <span className="abj-period">2026</span>
               <h3 className="abj-col-title">Present</h3>
             </div>
           </div>
@@ -177,7 +177,7 @@ export default function AboutPage() {
             <div className="abj-col-top" />
             <div className="abj-dot" aria-hidden="true"><div className="abj-dot-inner" /></div>
             <div className="abj-col-bottom">
-              <span className="abj-period">2025+</span>
+              <span className="abj-period">2027+</span>
               <h3 className="abj-col-title">Global Reach</h3>
               <p className="abj-col-desc">Expanding into new markets and industries — building the infrastructure for the next generation of digital-first businesses worldwide.</p>
             </div>
