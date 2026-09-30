@@ -14120,12 +14120,12 @@ body {
   .mk2-hero-folder-wrap { height: 55%; opacity: 0.85; }
   .mk2-folder-pill { display: none; }
 }
-/* Desktop: show desktop button, hide mobile button */
-.mk2-hero-btns--mobile { display: none; }
+/* ── Button visibility: desktop shows --desktop, mobile shows --mobile ── */
 .mk2-hero-btns--desktop { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 44px; }
+.mk2-hero-btns--mobile  { display: none; }
 
 @media (max-width: 600px) {
-  /* Column stack: title → image → button */
+  /* Column stack using flex order: content(1) → image(2) → button(3) */
   .mk2-hero {
     flex-direction: column;
     align-items: flex-start;
@@ -14134,19 +14134,19 @@ body {
     min-height: auto;
   }
 
-  /* Hide the sub paragraph */
   .mk2-hero-sub { display: none; }
 
-  /* Hero content: just title at top, no bottom button */
   .mk2-hero-content {
+    order: 1;
     position: relative;
     z-index: 2;
     width: 100%;
   }
-  .mk2-hero-btns--desktop { display: none; }
+  .mk2-hero-btns--desktop { display: none !important; }
 
-  /* Image: in-flow below title */
+  /* Image block in-flow, order 2 */
   .mk2-hero-folder-wrap {
+    order: 2;
     position: relative;
     right: auto;
     bottom: auto;
@@ -14156,7 +14156,7 @@ body {
     align-items: flex-end;
     justify-content: center;
     z-index: 2;
-    margin: 16px 0;
+    margin: 12px 0;
   }
   .mk2-hero-hand {
     height: 100%;
@@ -14164,7 +14164,7 @@ body {
     object-position: center bottom;
   }
 
-  /* Pills: show smaller */
+  /* Pills smaller */
   .mk2-folder-pill {
     display: inline-flex;
     font-size: 0.68rem;
@@ -14174,12 +14174,14 @@ body {
   .mk2-fp-num { font-size: 0.75rem; }
   .mk2-fp-lbl { font-size: 0.62rem; }
 
-  /* Mobile button: below image */
+  /* Mobile button, order 3 */
   .mk2-hero-btns--mobile {
+    order: 3;
     display: flex;
     position: relative;
     z-index: 2;
     width: 100%;
+    margin-top: 4px;
   }
   .mk2-hero-btns--mobile .mk2-btn-primary {
     width: 100%;
@@ -14187,7 +14189,7 @@ body {
     justify-content: center;
   }
 
-  /* Dark overlay over bg image */
+  /* Dark overlay */
   .mk2-hero-overlay {
     display: block;
     position: absolute;
