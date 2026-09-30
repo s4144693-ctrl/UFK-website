@@ -1704,13 +1704,6 @@ function MarketingPage({ data }: { data: ServiceData }) {
     { num: '6', total: '6', title: 'Report & Refine', desc: 'Monthly executive dashboard with clear ROI, attribution data, and forward-looking recommendations.', shape: 'dot' },
   ]
 
-  const _BLOG_POSTS = [
-    { date: 'Sep 12, 2025', title: 'How AI Is Changing Paid Search — And What To Do About It', img: '/nirvana-cover.webp' },
-    { date: 'Aug 28, 2025', title: '5 Meta Ad Mistakes That Kill Your ROAS (And How To Fix Them)', img: '/flavourhub-cover.webp' },
-    { date: 'Aug 05, 2025', title: 'SEO in 2025: Why Technical Foundations Still Win', img: '/sarai-cover.webp' },
-    { date: 'Jul 19, 2025', title: 'Email Marketing Automation That Actually Converts', img: '/avyanna-cover.webp' },
-  ]
-
   return (
     <div className="mk-page">
       <SiteNav />
