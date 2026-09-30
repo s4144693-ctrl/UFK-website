@@ -1328,24 +1328,8 @@ export default function App() {
               id="node-x"
               ref={nodeXRef}
             >
-              {/* Xero multi-cut X logotype */}
-              <svg viewBox="0 0 40 40" width="32" height="32" fill="white">
-                <path d="
-                  M 11 8
-                  L 20 18.5
-                  L 29 8
-                  L 32 11
-                  L 22 20
-                  L 32 29
-                  L 29 32
-                  L 20 21.5
-                  L 11 32
-                  L 8  29
-                  L 18 20
-                  L 8  11
-                  Z
-                " />
-              </svg>
+              {/* Brand bird icon */}
+              <img src="/white-bird.png" alt="UFK" width="28" height="28" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
             </div>
           </div>
 
