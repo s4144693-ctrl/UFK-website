@@ -12688,6 +12688,10 @@ body {
   align-self: flex-end;
 }
 
+@media (max-width: 768px) {
+  .br-ms-desc { display: none; }
+}
+
 /* Hand Section */
 .br-hand-section {
   background: #ffffff;
