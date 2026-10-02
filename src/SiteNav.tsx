@@ -1,12 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function SiteNav({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const toggleMenu = () => setMenuOpen(o => !o)
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <nav className={`nav${theme === 'light' ? ' nav--light' : ''}`}>
+    <nav className={`nav${theme === 'light' ? ' nav--light' : ''}${scrolled ? ' nav--scrolled' : ''}`}>
       <a href="/" className="nav-logo">
         <img src="/logo.webp" alt="Xero" height="28" />
       </a>
@@ -31,7 +38,20 @@ export default function SiteNav({ theme = 'dark' }: { theme?: 'dark' | 'light' }
               </div>
             </div>
           </li>
-          <li><Link to="/industries">Industries</Link></li>
+          <li className="nav-has-dropdown">
+            <span className="nav-services-trigger">
+              <span>Industries</span>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <div className="nav-dropdown">
+              <div className="nav-dropdown-inner">
+                <Link to="/industries" className="nav-dd-item">All Industries</Link>
+                <Link to="/industries/aviation" className="nav-dd-item">Aviation</Link>
+              </div>
+            </div>
+          </li>
           <li><Link to="/clients">Clients</Link></li>
           <li><Link to="/projects">Projects</Link></li>
           <li><Link to="/about">About</Link></li>

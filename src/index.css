@@ -111,6 +111,16 @@ body {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: none;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+}
+
+/* Scrolled state — richer blur + more opaque bg */
+.nav--scrolled {
+  background: rgba(2, 13, 5, 0.55);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
 }
 
 /* Light nav variant (used on project detail pages) */
@@ -1164,6 +1174,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .menu-toggle {
@@ -4282,6 +4294,26 @@ body {
   transform: translateY(-4px);
 }
 
+/* Photo background */
+.testi-card-photo {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+}
+
+/* Dark overlay that sits between photo and dot grid */
+.testi-card-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(4, 8, 5, 0.18) 0%,
+    rgba(4, 8, 5, 0.45) 50%,
+    rgba(4, 8, 5, 0.82) 100%
+  );
+}
+
 /* Dot grid texture */
 .testi-card-grid {
   position: absolute;
@@ -4306,9 +4338,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 20px;
   padding: 28px;
+  padding-bottom: 32px;
   transition: opacity 0.32s ease;
 }
 .testi-card:hover .testi-card-face {
@@ -4393,7 +4426,7 @@ body {
 }
 
 .testi-hp-quote {
-  font-size: 0.73rem;
+  font-size: calc(0.73rem + 2px);
   line-height: 1.72;
   color: rgba(240, 245, 240, 0.5);
 }
@@ -5576,6 +5609,44 @@ body {
   background: var(--surface);
 }
 
+.ind-card--linked {
+  cursor: pointer;
+}
+
+/* ── Card background photo treatment ── */
+.ind-card-photo {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(0.8px) saturate(0.7) brightness(0.55);
+  transform: scale(1.05); /* prevent blur edge bleed */
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+.ind-card--has-photo:hover .ind-card-photo {
+  filter: blur(0.4px) saturate(0.8) brightness(0.45);
+}
+.ind-card-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(4, 12, 6, 0.55) 0%,
+    rgba(4, 12, 6, 0.72) 60%,
+    rgba(4, 12, 6, 0.88) 100%
+  );
+  mix-blend-mode: multiply;
+}
+/* Ensure all card content sits above the photo layers */
+.ind-card--has-photo .ind-card-top,
+.ind-card--has-photo .ind-name,
+.ind-card--has-photo .ind-desc,
+.ind-card--has-photo .ind-tags,
+.ind-card--has-photo .ind-card-arrow {
+  position: relative;
+  z-index: 1;
+}
+
 .ind-card-top {
   display: flex;
   align-items: center;
@@ -5662,6 +5733,264 @@ body {
 .ind-card--active .ind-card-arrow {
   opacity: 1;
   transform: translateX(0);
+}
+
+.ind-card-filler {
+  background: var(--bg);
+  position: relative;
+  z-index: 1;
+}
+.ind-card-filler::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: var(--bg);
+}
+
+/* ─────────────────────────────────────────────────────
+   AVIATION INDUSTRY PAGE — extra sections
+───────────────────────────────────────────────────── */
+
+/* Shared label + heading */
+.av-ind-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.av-ind-h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+/* ── Projects section ── */
+.av-ind-projects {
+  width: 100%;
+  max-width: 1200px;
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.av-ind-projects-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.av-ind-proj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.av-ind-proj-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  height: 320px;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.07);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.av-ind-proj-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 56px rgba(0,0,0,0.5);
+}
+.av-ind-proj-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+.av-ind-proj-body {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  z-index: 2;
+}
+.av-ind-proj-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.av-ind-proj-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ── Testimonials section — staggered layout ── */
+.av-ind-testi-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  text-align: center;
+}
+
+/* Full-width shell carries the line grid */
+.av-ind-testi-wrap {
+  width: 100%;
+  position: relative;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Inner content constrained to max-width */
+.av-ind-testi {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 60px 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+}
+.av-ind-testi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: center;
+}
+.av-ind-testi-card {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: #0a120d;
+  padding: 32px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.av-ind-testi-card:hover {
+  border-color: rgba(255,255,255,0.14);
+  box-shadow: 0 24px 72px rgba(0,0,0,0.5);
+  transform: translateY(-5px);
+}
+/* Large soft blob — the hero of each card */
+.av-ind-testi-blob {
+  position: absolute;
+  bottom: -30px;
+  left: -20px;
+  right: -20px;
+  height: 55%;
+  pointer-events: none;
+  filter: blur(32px);
+  opacity: 0.55;
+  border-radius: 50%;
+  transition: opacity 0.3s ease;
+}
+.av-ind-testi-card:hover .av-ind-testi-blob {
+  opacity: 0.75;
+}
+.av-ind-testi-quote {
+  position: relative;
+  font-size: calc(0.97rem - 3px);
+  line-height: 1.78;
+  color: rgba(230, 242, 232, 0.82);
+  z-index: 1;
+  padding-bottom: 80px; /* space so blob doesn't sit under text */
+}
+.av-ind-testi-author {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: auto;
+}
+.av-ind-testi-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center top;
+  border: 1.5px solid rgba(255,255,255,0.14);
+  flex-shrink: 0;
+}
+.av-ind-testi-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #edf5ee;
+  line-height: 1.2;
+}
+.av-ind-testi-role {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .av-ind-projects { padding: 60px 20px; }
+  .av-ind-proj-grid { grid-template-columns: 1fr; }
+  .av-ind-testi { padding: 48px 20px 60px; }
+  .av-ind-testi-grid { grid-template-columns: 1fr; }
+  .av-ind-testi-card { margin-top: 0 !important; }
+  .av-ind-projects-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+
+/* Aviation industry page — 2-col grid */
+.ind-grid--two {
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (max-width: 768px) {
+  .ind-grid--two { grid-template-columns: 1fr; }
+}
+
+/* Aviation clients strip */
+.ind-av-clients {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 60px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ind-av-clients-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+.ind-av-client-list {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.ind-av-dot {
+  color: var(--accent);
+}
+@media (max-width: 768px) {
+  .ind-av-clients { padding: 0 20px 36px; }
 }
 
 /* Industries CTA */

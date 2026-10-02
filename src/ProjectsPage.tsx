@@ -4,7 +4,7 @@ import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
 import { PROJECTS } from './lib/projectsData'
 
-const CATEGORIES = ['All', 'Web Application', 'Brand Design', 'Digital Marketing', 'Mobile App', 'Brand & Web', 'E-Commerce', 'Web Design']
+const CATEGORIES = ['All', 'Web Development', 'Brand Design', 'Publication Design']
 
 /* ─── Card ─── */
 function ProjectCard({ project }: { project: typeof PROJECTS[0] }) {

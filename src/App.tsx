@@ -253,7 +253,12 @@ function FeaturedWork() {
     <section className="featured-work" id="projects">
       <div className="fw-header">
         <h2 className="fw-title">Featured Work <span className="fw-diamond">◆</span></h2>
-        <button className="fw-view-all" onClick={() => navigate('/projects')}>View All Projects ↗</button>
+        <button className="fw-view-all" onClick={() => navigate('/projects')}>
+          View All Projects
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
       </div>
 
       {/* Row 1: large left + small right */}
@@ -267,7 +272,7 @@ function FeaturedWork() {
           <div className="fw-card-meta">
             <span className="fw-client">Aviation Academy</span>
             <div className="fw-tags">
-              <span className="fw-tag">Web Design</span>
+              <span className="fw-tag">Web Development</span>
               <span className="fw-tag">Development</span>
             </div>
           </div>
@@ -331,7 +336,7 @@ function FeaturedWork() {
           <div className="fw-card-meta">
             <span className="fw-client">Aviation Academy</span>
             <div className="fw-tags">
-              <span className="fw-tag">Web Design</span>
+              <span className="fw-tag">Web Development</span>
             </div>
           </div>
         </article>
@@ -345,7 +350,7 @@ function FeaturedWork() {
           <div className="fw-card-meta">
             <span className="fw-client">Pilot Training</span>
             <div className="fw-tags">
-              <span className="fw-tag">Web Design</span>
+              <span className="fw-tag">Web Development</span>
             </div>
           </div>
         </article>

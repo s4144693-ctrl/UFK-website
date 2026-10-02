@@ -13,6 +13,7 @@ import ProjectsPage from './ProjectsPage.tsx'
 import ProjectDetailPage from './ProjectDetailPage.tsx'
 import ServiceDetailPage from './ServiceDetailPage'
 import ProposalPage from './ProposalPage'
+import AviationIndustryPage from './AviationIndustryPage'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/industries" element={<IndustriesPage />} />
+        <Route path="/industries/aviation" element={<AviationIndustryPage />} />
         <Route path="/clients" element={<ClientsPage />} />
         <Route path="/marketeam" element={<MarketeamPage />} />
         <Route path="/projects" element={<ProjectsPage />} />

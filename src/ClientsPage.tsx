@@ -60,22 +60,53 @@ const STATS = [
 
 const TESTIMONIALS = [
   {
-    quote: 'Working with this team completely transformed how we present ourselves to the market. The rebrand drove a 40% increase in inbound leads within three months.',
-    author: 'Ravi Sharma',
-    role: 'CEO, ArZan Energy',
-    initials: 'RS',
+    quote: 'UFK Solutions has been a reliable end-to-end digital partner for VFTI. From our website and server management to SEO and social media, they handle everything with professionalism and consistency. Their understanding of our requirements and quick support has made our digital operations much more seamless.',
+    author: 'Parth Gupta',
+    role: 'Vision Flying Training Institute',
+    initials: 'PG',
+    photo: '/VFTI.png',
   },
   {
-    quote: "They don't just execute — they think strategically. Our platform launched ahead of schedule and exceeded every performance benchmark we set.",
-    author: 'Aamir Bhat',
-    role: 'Director, Avyanna Aviation Academy',
-    initials: 'AB',
+    quote: "Over the past three years, our association with UFK Solutions has been a great experience. They have played an important role in strengthening Avyanna's digital presence, from developing a modern, high-quality website to providing reliable IT and technical support. What we particularly value is their consistent support, responsiveness, and ability to turn our requirements into effective digital solutions.",
+    author: 'Shardul Seth',
+    role: "Avyanna Aviation Academy · India's only A-Rated FTO",
+    initials: 'SS',
+    photo: '/avyanna.png',
   },
   {
-    quote: 'The digital presence they built for Nirvana Holidays has been a game-changer. We went from near-zero online presence to our best booking season ever.',
-    author: 'Tariq Mir',
-    role: 'Founder, Nirvana Holidays',
-    initials: 'TM',
+    quote: 'UFK Solutions has been instrumental in building a strong digital foundation for VIBGYOR Travels. Their team understood our vision from day one and delivered exceptional results across our website, social media, and marketing campaigns. Their dedication and creative approach have truly elevated our brand.',
+    author: 'Burhan Mir',
+    role: 'VIBGYOR Travels',
+    initials: 'BM',
+    photo: '/VIBGYOR.jpeg',
+  },
+  {
+    quote: "Working with UFK Solutions has been a seamless experience from start to finish. They brought structure, creativity, and clarity to our digital presence. The team is always responsive and proactive — exactly what a growing business needs from a digital partner.",
+    author: 'Abrar Khan',
+    role: 'BTC Travels',
+    initials: 'AK',
+    photo: '/BTC.jpeg',
+  },
+  {
+    quote: "UFK Solutions delivered outstanding results for Pacific Consulting. Their expertise in digital strategy and execution helped us reach a wider audience and establish a credible online presence. I would highly recommend them to any business looking to grow digitally.",
+    author: 'Sourav Dey',
+    role: 'Pacific Consulting',
+    initials: 'SD',
+    photo: '/pacific-souravdey.png',
+  },
+  {
+    quote: "The Grand Kaisar's online presence has grown significantly since we partnered with UFK Solutions. Their team handles everything professionally — from our social media to campaigns — and the quality of their work consistently meets the high standards our brand demands.",
+    author: 'Sheikh Bashir Ahmed',
+    role: 'The Grand Kaisar',
+    initials: 'SB',
+    photo: '/KAISER.jpeg',
+  },
+  {
+    quote: "UFK Solutions transformed our digital operations completely. Their strategic approach to our online presence, combined with their technical expertise, has delivered measurable results. They are a true partner who genuinely cares about our growth.",
+    author: 'Jatin Paul Singh',
+    role: 'Nets India',
+    initials: 'JP',
+    photo: '/nets%20india.png',
   },
 ]
 
@@ -84,7 +115,7 @@ export default function ClientsPage() {
 
   return (
     <div className="cl2-page">
-      <SiteNav theme="light" />
+      <SiteNav />
 
       {/* ══ HERO + ICON CLOUD ═══════════════════════════════════════════════ */}
       <section className="cl2-hero-wall">
@@ -159,7 +190,12 @@ export default function ClientsPage() {
               <div className="cl2-testi-quote-mark">"</div>
               <p className="cl2-testi-quote">{t.quote}</p>
               <div className="cl2-testi-author">
-                <div className="cl2-testi-avatar">{t.initials}</div>
+                <div
+                  className="cl2-testi-avatar"
+                  style={t.photo ? { backgroundImage: `url(${t.photo})`, backgroundSize: 'cover', backgroundPosition: 'center', fontSize: 0 } : undefined}
+                >
+                  {!t.photo && t.initials}
+                </div>
                 <div>
                   <div className="cl2-testi-name">{t.author}</div>
                   <div className="cl2-testi-role">{t.role}</div>

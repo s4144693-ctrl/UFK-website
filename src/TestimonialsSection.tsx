@@ -2,60 +2,68 @@ import { useState, useEffect, useRef } from 'react'
 
 const TESTIMONIALS = [
   {
-    name: 'Yomi Denzel',
-    role: 'E-Commerce 2.0',
-    quote: 'Xero completely transformed how we protect customer data. Their zero-trust pipeline reduced our attack surface by 80% in the first quarter — results I never thought were possible.',
+    name: 'Parth Gupta',
+    role: 'Vision Flying Training Institute',
+    quote: 'UFK Solutions has been a reliable end-to-end digital partner for VFTI. From our website and server management to SEO and social media, they handle everything with professionalism and consistency. Their understanding of our requirements and quick support has made our digital operations much more seamless.',
     bg: 'linear-gradient(155deg, #0e1f12 0%, #060e08 100%)',
     accent: '#b2ff59',
+    photo: '/VFTI.png',
   },
   {
-    name: 'Timothée Moiroux',
-    role: 'Investissement Immo',
-    quote: 'Building my real estate portfolio in parallel with my studies demanded airtight financial security. Xero delivered infrastructure I could trust at every step of the journey.',
+    name: 'Shardul Seth',
+    role: 'Avyanna Aviation Academy · India\'s only A-Rated FTO',
+    quote: 'Over the past three years, our association with UFK Solutions has been a great experience. They have played an important role in strengthening Avyanna\'s digital presence, from developing a modern, high-quality website to providing reliable IT and technical support. What we particularly value is their consistent support, responsiveness, and ability to turn our requirements into effective digital solutions.',
+    bg: 'linear-gradient(155deg, #0d1a0f 0%, #071009 100%)',
+    accent: '#4ade80',
+    photo: '/avyanna.png',
+  },
+  {
+    name: 'Burhan Mir',
+    role: 'VIBGYOR Travels',
+    quote: 'We have been working with UFK Solutions for our travel website and social media for the last three years, and the experience has been great. We haven\'t faced any downtime with the website so far, which has been really good for us. They are responsive, understand our requirements well, and are good at what they do.',
     bg: 'linear-gradient(155deg, #0d1628 0%, #08101e 100%)',
-    accent: '#6080ff',
+    accent: '#60a5fa',
+    photo: '/VIBGYOR.jpeg',
   },
   {
-    name: 'David Sequeira',
-    role: 'Closing',
-    quote: 'From discovery to launch the team was surgical. Our key management scales across 40+ regions with zero incidents. Genuinely world-class execution every single time.',
-    bg: 'linear-gradient(155deg, #160d28 0%, #0d081a 100%)',
-    accent: '#a060ff',
-  },
-  {
-    name: 'Manuel Ravier',
-    role: 'Investissement Immobilier',
-    quote: "The quarterly red-team reviews alone have been invaluable. Xero found and patched vulnerabilities we didn't even know existed — before anyone could exploit them.",
+    name: 'Abrar Khan',
+    role: 'BTC Travels',
+    quote: 'We have been working with UFK Solutions for our website, social media, branding and regular maintenance. They have been handling our digital work well and are always available when we need any changes or support. Overall, we\'ve had a good experience working with their team.',
     bg: 'linear-gradient(155deg, #1a1408 0%, #100e06 100%)',
-    accent: '#d08840',
+    accent: '#fbbf24',
+    photo: '/BTC.jpeg',
   },
   {
-    name: 'Sarah Mitchell',
-    role: 'CEO, NexaFlow',
-    quote: 'Enterprise-grade security without the enterprise overhead. Compliance audits now take days instead of months. The ROI was evident within the very first sprint.',
+    name: 'Ashwajeet Shetty',
+    role: 'Locale Shack Cafe',
+    quote: 'UFK has been handling our branding for more than a year now and we can\'t think of anyone else. They are hardworking, creative and, most importantly, have a lot of patience. Thanks for creating our Logo, Menu Card, Visiting Card, Website, and more — keep doing the great job!',
+    bg: 'linear-gradient(155deg, #1c0f08 0%, #110906 100%)',
+    accent: '#fb923c',
+    photo: '',
+  },
+  {
+    name: 'Sourav Dey',
+    role: 'Co-Founder, Pacific Consulting',
+    quote: 'We\'ve been working with UFK Solutions since 2021, and it\'s been a seamless experience. They handle all our social media content, website development, and branding with precision, perfectly capturing our brand essence. Their prompt responses and swift action make them a standout choice. We highly recommend UFK Solutions for any business looking to elevate its presence.',
     bg: 'linear-gradient(155deg, #081e1e 0%, #061414 100%)',
-    accent: '#40c8b8',
+    accent: '#2dd4bf',
+    photo: '/pacific-souravdey.png',
   },
   {
-    name: 'James Okafor',
-    role: 'CTO, VaultKit',
-    quote: 'Their cryptographic layers passed every compliance audit on the first try. These are professionals who understand enterprise security at the deepest architectural level.',
+    name: 'Sheikh Bashir Ahmed',
+    role: 'Founder, The Kaisar Group of Hotels',
+    quote: 'UFK Solutions transformed our social media presence with remarkable results. Their commitment to our brand identity, prompt posting, and exceptional engagement sets them apart. They\'re not just service providers — they\'re invaluable partners in our digital journey.',
     bg: 'linear-gradient(155deg, #180d22 0%, #10081a 100%)',
-    accent: '#c050d0',
+    accent: '#c084fc',
+    photo: '/KAISER.jpeg',
   },
   {
-    name: 'Priya Sharma',
-    role: 'Founder, CipherAI',
-    quote: 'Zero-downtime rollout on a live platform with millions of users. Xero delivered exactly that — flawless execution, cryptographic integrity, and absolutely zero surprises.',
-    bg: 'linear-gradient(155deg, #200e0e 0%, #140808 100%)',
-    accent: '#e05040',
-  },
-  {
-    name: 'Amara Chen',
-    role: 'CISO, Orion Finance',
-    quote: 'Automated key rotation and continuous monitoring freed our security team to focus on strategy instead of firefighting. An absolute game-changer for our security posture.',
+    name: 'Jatin Paul Singh',
+    role: 'Founder, Nets',
+    quote: 'Working with UFK Solutions has been a delight. They are very professional when it comes to taking notes on client requirements. From website designing to editing and understanding the content, they are very focused on the job. They handle all queries and provide options to solve them, making it easier to get work done.',
     bg: 'linear-gradient(155deg, #0e1c0e 0%, #081208 100%)',
-    accent: '#80d040',
+    accent: '#86efac',
+    photo: '/nets%20india.png',
   },
 ]
 
@@ -139,15 +147,20 @@ export default function TestimonialsSection() {
               className="testi-card"
               style={{ background: t.bg, width: cardW || undefined }}
             >
+              {/* Photo background layer */}
+              {t.photo && (
+                <div className="testi-card-photo" style={{ backgroundImage: `url(${t.photo})` }} />
+              )}
+              {/* Dark colour overlay over photo */}
+              {t.photo && (
+                <div className="testi-card-photo-overlay" />
+              )}
               <div className="testi-card-grid" />
               <div
                 className="testi-card-glow"
                 style={{ background: `radial-gradient(ellipse 100% 55% at 50% 115%, ${t.accent}2e 0%, transparent 65%)` }}
               />
               <div className="testi-card-face">
-                <div className="testi-badge">
-                  {t.name.split(' ').map(n => n[0]).join('')}
-                </div>
                 <div className="testi-face-label">
                   <p className="testi-face-name">{t.name}</p>
                   <p className="testi-face-role" style={{ color: t.accent }}>{t.role}</p>

@@ -792,12 +792,12 @@ function AnimatedStat({ num, label }: { num: string; label: string }) {
    2. WEB DEVELOPMENT
 ═══════════════════════════════════════════════════════════════════════════ */
 const SLIDE_PROJECTS = [
-  { image: '/nets-cover.webp',       title: 'NETS Energy',        category: 'Web Design' },
-  { image: '/pacific-cover.webp',    title: 'Pacific Consulting',  category: 'Web Design' },
-  { image: '/avyanna-cover.webp',    title: 'Avyanna Aviation',    category: 'Web Design' },
-  { image: '/vfti-cover.webp',       title: 'VFTI',               category: 'Web Design' },
-  { image: '/fstc-cover.webp',       title: 'FSTC',               category: 'Web Design' },
-  { image: '/omarbazaz-cover.webp',  title: 'Omar Bazaz',         category: 'Web Design' },
+  { image: '/nets-cover.webp',       title: 'NETS Energy',        category: 'Web Development' },
+  { image: '/pacific-cover.webp',    title: 'Pacific Consulting',  category: 'Web Development' },
+  { image: '/avyanna-cover.webp',    title: 'Avyanna Aviation',    category: 'Web Development' },
+  { image: '/vfti-cover.webp',       title: 'VFTI',               category: 'Web Development' },
+  { image: '/fstc-cover.webp',       title: 'FSTC',               category: 'Web Development' },
+  { image: '/omarbazaz-cover.webp',  title: 'Omar Bazaz',         category: 'Web Development' },
 ]
 
 function WebDevPage({ data }: { data: ServiceData }) {
