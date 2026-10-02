@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { motion, useInView } from 'motion/react'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
@@ -195,8 +195,6 @@ function FadeIn({ children, delay = 0, className = '' }: { children: React.React
    PAGE
 ───────────────────────────────────────────── */
 export default function FeaturesPage() {
-  useEffect(() => { window.scrollTo(0, 0) }, [])
-
   return (
     <div className="fp-page">
       <SiteNav />

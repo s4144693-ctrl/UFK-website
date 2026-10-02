@@ -91,8 +91,6 @@ export default function MarketeamPage() {
   const count = useCountUp(20000, 2200, countStarted)
   const typed = useTypewriter(TYPEWRITER_WORDS)
 
-  useEffect(() => { window.scrollTo(0, 0) }, [])
-
   /* start count-up when hero enters view */
   useEffect(() => {
     const el = heroRef.current

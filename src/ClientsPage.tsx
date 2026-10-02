@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
@@ -111,8 +110,6 @@ const TESTIMONIALS = [
 ]
 
 export default function ClientsPage() {
-  useEffect(() => { window.scrollTo(0, 0) }, [])
-
   return (
     <div className="cl2-page">
       <SiteNav />

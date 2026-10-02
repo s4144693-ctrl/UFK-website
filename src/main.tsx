@@ -14,10 +14,12 @@ import ProjectDetailPage from './ProjectDetailPage.tsx'
 import ServiceDetailPage from './ServiceDetailPage'
 import ProposalPage from './ProposalPage'
 import AviationIndustryPage from './AviationIndustryPage'
+import ScrollToTop from './ScrollToTop'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/about" element={<AboutPage />} />

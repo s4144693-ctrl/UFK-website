@@ -184,9 +184,6 @@ export default function ProjectDetailPage() {
   const navigate = useNavigate()
   const project  = PROJECTS.find(p => String(p.id) === id)
 
-  /* Scroll to top on mount */
-  useEffect(() => { window.scrollTo(0, 0) }, [id])
-
   /* Override body background for this page */
   useEffect(() => {
     const prev = document.body.style.background
