@@ -3,44 +3,6 @@ import { useEffect, useRef, useState } from 'react'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
 
-/* ── Animated counter ─────────────────────────────────────────────────────── */
-function AnimatedStat({ raw }: { raw: string }) {
-  // Parse: "200+" → { num: 200, suffix: '+' }, "94%" → { num: 94, suffix: '%' }, "48h" → { num: 48, suffix: 'h' }
-  const match = raw.match(/^(\d+)(.*)$/)
-  const target = match ? parseInt(match[1]) : 0
-  const suffix = match ? match[2] : ''
-
-  const [count, setCount] = useState(0)
-  const ref = useRef<HTMLDivElement>(null)
-  const started = useRef(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true
-          const duration = 1600
-          const start = performance.now()
-          const tick = (now: number) => {
-            const progress = Math.min((now - start) / duration, 1)
-            // ease-out cubic
-            const eased = 1 - Math.pow(1 - progress, 3)
-            setCount(Math.round(eased * target))
-            if (progress < 1) requestAnimationFrame(tick)
-          }
-          requestAnimationFrame(tick)
-        }
-      },
-      { threshold: 0.4 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [target])
-
-  return <div ref={ref} className="pd-stat-num">{count}{suffix}</div>
-}
 
 /* ── Data ─────────────────────────────────────────────────────────────────── */
 const SERVICES = [
