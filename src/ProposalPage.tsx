@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
 
