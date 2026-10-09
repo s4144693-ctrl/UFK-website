@@ -1974,7 +1974,7 @@ function MarketingPage({ data }: { data: ServiceData }) {
       {/* ══ HERO — image background, overlaid text ══════════════════════════ */}
       <section className="mk2-hero">
         <div className="mk2-hero-bg" />
-        <div className="mk2-hero-img" style={{ backgroundImage: 'url(/hero-marketing-bg.png)' }} />
+        <div className="mk2-hero-img" style={{ backgroundImage: 'url(/hero-marketing-bg.webp)' }} />
         <div className="mk2-hero-overlay" />
 
 
