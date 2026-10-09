@@ -624,7 +624,7 @@ function NeatGradientCardSection() {
 
         {/* Left — services list */}
         <div className="ngc-services">
-          <p className="ngc-label">Our Clients</p>
+          <p className="ngc-label">Our Services</p>
           <h2 className="ngc-heading">Solutions That Move<br />Businesses Forward</h2>
           {NGC_SERVICES.map((s, i) => (
             <div
