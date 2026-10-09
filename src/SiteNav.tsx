@@ -31,7 +31,7 @@ export default function SiteNav({ theme = 'dark' }: { theme?: 'dark' | 'light' }
               <div className="nav-dropdown-inner">
                 <Link to="/services/software-development" className="nav-dd-item">Software Development</Link>
                 <Link to="/services/web-development" className="nav-dd-item">Web Development</Link>
-                <Link to="/services/digital-transformation" className="nav-dd-item">Digital Transformation</Link>
+                <Link to="/services/digital-transformation" className="nav-dd-item">Automation Development</Link>
                 <Link to="/services/branding" className="nav-dd-item">Branding</Link>
                 <Link to="/services/marketing" className="nav-dd-item">Marketing</Link>
                 <Link to="/services/proposal-development" className="nav-dd-item">Proposal Development</Link>

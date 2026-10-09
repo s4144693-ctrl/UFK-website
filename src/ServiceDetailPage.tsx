@@ -4,6 +4,7 @@ import { NeatGradient } from '@firecms/neat'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
 import DTHeroBackground from './DTHeroBackground'
+import TestimonialsSection from './TestimonialsSection'
 
 /* ─── Types ─────────────────────────────────────────────────────────────── */
 interface SubService {
@@ -110,7 +111,7 @@ const services: Record<string, ServiceData> = {
     ],
     process: ['Discovery', 'Architecture', 'Development', 'QA & Testing', 'Deployment', 'Support'],
     stats: [
-      { num: '150+', label: 'Apps Delivered' },
+      { num: '200+', label: 'Projects Delivered' },
       { num: '99.9%', label: 'Uptime SLA' },
       { num: '40%', label: 'Faster Time-to-Market' },
       { num: '8 yrs', label: 'Engineering Experience' },
@@ -180,7 +181,7 @@ const services: Record<string, ServiceData> = {
   },
 
   'digital-transformation': {
-    label: 'Digital Transformation',
+    label: 'Automation Development',
     headline: 'Automate the Ordinary. Focus on the Extraordinary.',
     description:
       'We help organisations reimagine their operations through AI, intelligent automation, and conversational technology — cutting costs, eliminating bottlenecks, and unlocking new revenue streams.',
@@ -392,10 +393,11 @@ function SoftwareDevPage({ data }: { data: ServiceData }) {
         </div>
         <div className="sw-hero-right">
           <div className="sw-laptop-wrap">
+            <img src="/sw-dashboard.png" alt="Dashboard" className="sw-screen-img" />
             <img src="/laptop.png" alt="Software product on laptop" className="sw-laptop-img" />
             <div className="sw-stat-card sw-stat-card-tl">
-              <div className="sw-stat-card-num">150+</div>
-              <div className="sw-stat-card-lbl">Apps Delivered</div>
+              <div className="sw-stat-card-num">200+</div>
+              <div className="sw-stat-card-lbl">Projects Delivered</div>
             </div>
             <div className="sw-stat-card sw-stat-card-br">
               <div className="sw-stat-card-num">99.9%</div>
@@ -903,6 +905,90 @@ function WebDevPage({ data }: { data: ServiceData }) {
     }
   }, [])
 
+  useEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (isMobile || reducedMotion) {
+      document.querySelectorAll('.wd-service-row').forEach(r => r.classList.add('wd-sr-visible'))
+      return
+    }
+
+    let gsapCtx: any
+    let onResize: (() => void) | undefined
+
+    const setup = async () => {
+      const gsap = (await import('gsap')).default
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+      gsap.registerPlugin(ScrollTrigger)
+
+      const section = document.getElementById('wd-services-section')
+      const list    = document.getElementById('wd-svc-list')
+      const right   = document.querySelector<HTMLElement>('.wd-services-right')
+      if (!section || !list || !right) return
+
+      const NAV_H       = 80
+      const ROWS_SHOWN  = 4
+      const PAD_V       = 200   // section's 100px top + 100px bottom padding
+      const rows        = Array.from(list.querySelectorAll<HTMLElement>('.wd-service-row'))
+      const N           = rows.length
+
+      const ROW_H      = Math.max(110, Math.floor((window.innerHeight - NAV_H - PAD_V) / ROWS_SHOWN))
+      const scrollDist = (N - ROWS_SHOWN) * ROW_H
+      const PAUSE      = Math.round(ROW_H * 1.5)   // hold after last row is visible
+      const totalDist  = scrollDist + PAUSE
+
+      // Apply heights and make all rows visible immediately
+      rows.forEach(r => {
+        r.style.height    = `${ROW_H}px`
+        r.style.minHeight = `${ROW_H}px`
+        r.classList.add('wd-sr-visible')
+      })
+      right.style.height   = `${ROW_H * ROWS_SHOWN}px`
+      right.style.overflow = 'hidden'
+
+      // Kill any existing triggers on this section
+      ScrollTrigger.getAll().filter(st => st.trigger === section).forEach(st => st.kill())
+
+      gsapCtx = gsap.context(() => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: `top top+=${NAV_H}`,
+            end: `+=${totalDist}`,
+            scrub: 1,
+            pin: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+          },
+        })
+        tl.to(list, { y: -scrollDist, ease: 'none', duration: scrollDist })
+        tl.to({}, { duration: PAUSE })  // hold at end before pin releases
+      })
+
+      onResize = () => {
+        gsapCtx?.revert()
+        right.style.height = ''
+        right.style.overflow = ''
+        rows.forEach(r => { r.style.height = ''; r.style.minHeight = '' })
+        setup()
+      }
+      window.addEventListener('resize', onResize)
+    }
+
+    setup()
+
+    return () => {
+      gsapCtx?.revert()
+      onResize && window.removeEventListener('resize', onResize)
+      const right = document.querySelector<HTMLElement>('.wd-services-right')
+      if (right) { right.style.height = ''; right.style.overflow = '' }
+      document.querySelectorAll<HTMLElement>('.wd-service-row').forEach(r => {
+        r.style.height = ''; r.style.minHeight = ''
+      })
+    }
+  }, [])
+
   return (
     <div className="wd-page">
       <SiteNav />
@@ -1081,7 +1167,7 @@ function WebDevPage({ data }: { data: ServiceData }) {
       </div>
 
       {/* ── Services List ── */}
-      <section className="wd-services-section">
+      <section className="wd-services-section" id="wd-services-section">
         <div className="wd-services-inner">
           <div className="wd-services-left">
             <span className="sdp-section-eyebrow">Our Capabilities</span>
@@ -1089,8 +1175,9 @@ function WebDevPage({ data }: { data: ServiceData }) {
             <p className="wd-services-desc">From single-page marketing sites to complex multi-tenant SaaS platforms, we cover every dimension of modern web development.</p>
           </div>
           <div className="wd-services-right">
+            <div id="wd-svc-list">
             {data.subServices.map((svc, i) => (
-              <div className="wd-service-row" key={svc.title}>
+              <div className="wd-service-row" key={svc.title} data-row-idx={i}>
                 <div className="wd-sr-num">{String(i + 1).padStart(2, '0')}</div>
                 <div className="wd-sr-body">
                   <div className="wd-sr-title">{svc.title}</div>
@@ -1098,6 +1185,7 @@ function WebDevPage({ data }: { data: ServiceData }) {
                 </div>
               </div>
             ))}
+            </div>{/* end wd-svc-list */}
           </div>
         </div>
       </section>
@@ -1183,6 +1271,170 @@ function DigitalTransformPage({ data }: { data: ServiceData }) {
     'Go Live': 'Deploy to production with SLA monitoring and a hypercare support period.',
   }
 
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 768px)').matches)          return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    let unmounted    = false
+    let gsapCtx: any
+    let rafId:   number
+    let onResize: (() => void) | undefined
+
+    const setup = async () => {
+      const gsap              = (await import('gsap')).default
+      const { ScrollTrigger }  = await import('gsap/ScrollTrigger')
+      if (unmounted) return
+
+      gsap.registerPlugin(ScrollTrigger)
+
+      const wrapper = document.getElementById('dt-stack-wrap')
+      if (!wrapper || unmounted) return
+
+      // One frame so layout is settled before we measure
+      await new Promise<void>(r => { rafId = requestAnimationFrame(() => r()) })
+      if (unmounted) return
+
+      // ── Geometry ────────────────────────────────────────────────────────────
+      const NAV_H         = 80   // nav bar height (fixed)
+      const BAND_H        = 50   // visible strip per buried layer
+      const N_BANDS       = 3    // bands above active card
+      const BOTTOM_MARGIN = 40   // breathing room at viewport bottom
+
+      const CARD_TOP = NAV_H + N_BANDS * BAND_H          // 230 px from viewport top
+      const PANEL_H  = window.innerHeight - CARD_TOP - BOTTOM_MARGIN
+
+      // Entering cards start at the bottom of the viewport (relative to wrapper top)
+      const ENTER_Y = window.innerHeight - CARD_TOP
+
+      const layerY     = (d: number) => -(d * BAND_H)
+      const layerScale = (d: number) => 1 - d * 0.10
+
+      wrapper.style.height = `${PANEL_H}px`
+
+      // ── Manual spacer geometry ───────────────────────────────────────────────
+      // We use pinSpacing:false so GSAP adds no automatic spacer. Instead we
+      // place a measured div (#dt-process-spacer) between the card stack and
+      // "How We Work". With pinSpacing:false the process section's natural page
+      // offset = wrapperOffset + PANEL_H + SPACER_H.
+      //
+      // We want: at pin-end (scroll = wrapperOffset - CARD_TOP + PANEL_H*4),
+      // the section's natural viewport position = NAV_H (just below nav),
+      // fully covering the deck including all three band strips.
+      //
+      // Solving:  (PANEL_H + SPACER_H) - (PANEL_H*4 - CARD_TOP) = NAV_H
+      //           SPACER_H = PANEL_H*3 - CARD_TOP + NAV_H
+      //                     = PANEL_H*3 - N_BANDS*BAND_H
+      const SPACER_H = Math.max(0, PANEL_H * 3 - N_BANDS * BAND_H)
+      const spacerEl = document.getElementById('dt-process-spacer')
+      if (spacerEl) spacerEl.style.height = `${SPACER_H}px`
+
+      ScrollTrigger.getAll()
+        .filter(st => st.trigger === wrapper)
+        .forEach(st => st.kill())
+
+      gsapCtx = gsap.context(() => {
+        gsap.set('#dtPanel0', { y: 0, scale: 1 })
+        gsap.set(['#dtPanel1', '#dtPanel2'], { y: ENTER_Y, scale: 1 })
+
+        // ── Pinned timeline: 4 steps ───────────────────────────────────────────
+        // Steps 1–3: card stack transitions.
+        // Step 4: pin holds while the process section scrolls naturally into
+        //         position (no fixed-positioning, no handoff needed).
+        // pinSpacing:false — the manual spacer above accounts for the scroll
+        // distance, so page layout stays continuous throughout.
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger:       wrapper,
+            start:         `top top+=${CARD_TOP}`,
+            end:           `+=${PANEL_H * 4}`,
+            scrub:         1.5,
+            pin:           true,
+            pinSpacing:    false,
+            anticipatePin: 1,
+          },
+        })
+
+        // Step 1 (0→1) — panel 1 rises; panel 0 → depth-1 band
+        tl.to('#dtPanel1', { y: 0,           scale: 1,              duration: 1, ease: 'none' }, 0)
+        tl.to('#dtPanel0', { y: layerY(1),   scale: layerScale(1),  duration: 1, ease: 'none' }, 0)
+
+        // Step 2 (1→2) — panel 2 rises; panel 1 → depth-1, panel 0 → depth-2
+        tl.to('#dtPanel2', { y: 0,           scale: 1,              duration: 1, ease: 'none' }, 1)
+        tl.to('#dtPanel1', { y: layerY(1),   scale: layerScale(1),  duration: 1, ease: 'none' }, 1)
+        tl.to('#dtPanel0', { y: layerY(2),   scale: layerScale(2),  duration: 1, ease: 'none' }, 1)
+
+        // Step 3 (2→3) — deck settles: all three cards at their final band positions
+        tl.to('#dtPanel2', { y: layerY(1),   scale: layerScale(1),  duration: 1, ease: 'none' }, 2)
+        tl.to('#dtPanel1', { y: layerY(2),   scale: layerScale(2),  duration: 1, ease: 'none' }, 2)
+        tl.to('#dtPanel0', { y: layerY(3),   scale: layerScale(3),  duration: 1, ease: 'none' }, 2)
+
+        // Step 4 (3→4) — no animation; pin holds while "How We Work" rises into
+        // view from below at normal scroll speed, arriving at NAV_H at pin-end.
+        // (Blank step: just extends the scrub timeline to hold progress at 1.)
+        tl.to({}, { duration: 1 }, 3)
+      })
+
+      const refreshAfterLoad = () => { if (!unmounted) ScrollTrigger.refresh() }
+      if (document.readyState !== 'complete') {
+        window.addEventListener('load', refreshAfterLoad, { once: true })
+      }
+
+      onResize = () => {
+        if (unmounted) return
+        gsapCtx?.revert()
+        wrapper.style.height = ''
+        if (spacerEl) spacerEl.style.height = ''
+        setup()
+      }
+      window.addEventListener('resize', onResize)
+    }
+
+    setup()
+
+    return () => {
+      unmounted = true
+      cancelAnimationFrame(rafId)
+      onResize && window.removeEventListener('resize', onResize)
+      gsapCtx?.revert()
+      const wrap = document.getElementById('dt-stack-wrap')
+      if (wrap) wrap.style.height = ''
+      const sp = document.getElementById('dt-process-spacer')
+      if (sp) sp.style.height = ''
+    }
+  }, [])
+
+  // ── Timeline dot animation ──
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const timeline = document.querySelector('.dt-timeline')
+    if (!timeline) return
+
+    // Mark as animated so CSS initial-hidden states kick in
+    timeline.setAttribute('data-tl-animated', '')
+
+    const items = Array.from(document.querySelectorAll('.dt-tl-item'))
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('dt-tl-item--active')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.25, rootMargin: '0px 0px -40px 0px' }
+    )
+
+    items.forEach(item => observer.observe(item))
+
+    return () => {
+      observer.disconnect()
+      timeline.removeAttribute('data-tl-animated')
+      items.forEach(item => item.classList.remove('dt-tl-item--active'))
+    }
+  }, [])
+
   return (
     <div className="dt-page">
       <SiteNav />
@@ -1190,7 +1442,7 @@ function DigitalTransformPage({ data }: { data: ServiceData }) {
       {/* ── Hero ── */}
       <section className="dt-hero">
         <DTHeroBackground />
-        <span className="dt-pill-badge">Digital Transformation</span>
+        <span className="dt-pill-badge">Automation Development</span>
         <h1 className="dt-h1">
           <span className="dt-h1-white">Automate the Ordinary.</span>
           <span className="dt-h1-accent">Focus on the Extraordinary.</span>
@@ -1201,7 +1453,7 @@ function DigitalTransformPage({ data }: { data: ServiceData }) {
         </div>
         <div className="dt-stat-bubbles">
           <div className="dt-stat-bubble">
-            <span className="dt-sb-num">70%</span>
+            <span className="dt-sb-num">100%</span>
             <span className="dt-sb-lbl">Task Automation</span>
           </div>
           <div className="dt-stat-bubble">
@@ -1215,8 +1467,12 @@ function DigitalTransformPage({ data }: { data: ServiceData }) {
         </div>
       </section>
 
+      {/* ── Stacked Panels ── */}
+      <div className="dt-stack-outer">
+      <div id="dt-stack-wrap" className="dt-stack-wrap">
+
       {/* ── Panel 1: Chatbot ── */}
-      <section className="dt-panel dt-panel-dark">
+      <section id="dtPanel0" className="dt-panel dt-panel-dark">
         <div className="dt-panel-inner">
           <div className="dt-panel-text">
             <div className="dt-panel-bignum">01</div>
@@ -1302,7 +1558,7 @@ function DigitalTransformPage({ data }: { data: ServiceData }) {
       </section>
 
       {/* ── Panel 2: RPA ── */}
-      <section className="dt-panel dt-panel-mid">
+      <section id="dtPanel1" className="dt-panel dt-panel-mid">
         <div className="dt-panel-inner dt-panel-reverse">
           <div className="dt-panel-visual">
             <div className="dt-rpa-wrap" aria-hidden="true">
@@ -1391,7 +1647,7 @@ function DigitalTransformPage({ data }: { data: ServiceData }) {
       </section>
 
       {/* ── Panel 3: AI ── */}
-      <section className="dt-panel dt-panel-dark">
+      <section id="dtPanel2" className="dt-panel dt-panel-dark">
         <div className="dt-panel-inner">
           <div className="dt-panel-text">
             <div className="dt-panel-bignum">03</div>
@@ -1511,6 +1767,13 @@ function DigitalTransformPage({ data }: { data: ServiceData }) {
           </div>
         </div>
       </section>
+
+      </div>{/* end dt-stack-wrap */}
+      </div>{/* end dt-stack-outer */}
+
+      {/* Manual scroll spacer — height set by JS so "How We Work" reaches
+          the top of the visible viewport exactly when the card pin releases */}
+      <div id="dt-process-spacer" aria-hidden="true" />
 
       {/* ── Timeline Process ── */}
       <section className="dt-process-section">
@@ -1796,7 +2059,7 @@ function MarketingPage({ data }: { data: ServiceData }) {
               <span className="mk2-perf-label">Performance</span>
             </div>
             <div className="mk2-perf-big">
-              <span className="mk2-perf-num">49%</span>
+              <span className="mk2-perf-num">99%</span>
               <span className="mk2-perf-arrow">↑</span>
             </div>
             <div className="mk2-perf-bars">
@@ -1833,169 +2096,32 @@ function MarketingPage({ data }: { data: ServiceData }) {
         </div>
       </section>
 
-      {/* ══ HOW WE WORK — editorial light panels ════════════════════════════ */}
-      <div className="mkp-journey">
-        <div className="mkp-journey-intro">
-          <p className="mkp-eyebrow">Our Process</p>
-          <h2 className="mkp-journey-h2">Six stages from audit<br />to results.</h2>
+      {/* ══ OUR PROCESS ══════════════════════════════════════════════════════ */}
+      <section className="mkp-process-section">
+        <div className="mkp-process-hdr">
+          <span className="sdp-section-eyebrow">Our Process</span>
+          <h2 className="mkp-process-h2">Six stages from audit<br/>to results.</h2>
         </div>
-
-        {/* 1 / Campaign Audit */}
-        <div className="mkp-row mkp-row--normal">
-          <div className="mkp-text">
-            <div className="mkp-counter"><span className="mkp-n">1</span><span className="mkp-total">/6</span></div>
-            <h3 className="mkp-title">Campaign Audit</h3>
-            <p className="mkp-desc">Analyse existing channel performance, identify budget waste, and benchmark against competitors.</p>
-            <div className="mkp-tags"><span className="mkp-tag">Channel Analysis</span><span className="mkp-tag">Benchmarking</span><span className="mkp-tag">Budget Review</span></div>
-          </div>
-          <div className="mkp-visual">
-            <div className="mkp-audit-wrap">
-              <div className="mkp-card mkp-card--main">
-                <div className="mkp-pin-dot"/><div className="mkp-card-lbl">Performance Review</div>
-                {[{n:'Search',w:'76%',c:'rgba(80,140,55,0.65)'},{n:'Social',w:'52%',c:'rgba(110,160,70,0.5)'},{n:'Display',w:'31%',c:'rgba(180,190,100,0.5)'}].map(b=>(
-                  <div key={b.n} className="mkp-bar-row"><span className="mkp-bar-nm">{b.n}</span><div className="mkp-bar-tr"><div className="mkp-bar-fl" style={{width:b.w,background:b.c}}/></div><span className="mkp-bar-vl">{b.w}</span></div>
-                ))}
-              </div>
-              <div className="mkp-sticky mkp-sticky--rot1">
-                <span className="mkp-sdot mkp-sdot--red"/>Waste: <strong>−£4.2k/mo</strong>
-              </div>
-              <div className="mkp-sheet mkp-sheet--rot2">
-                <div className="mkp-sheet-lbl">Competitor Gap</div>
-                <svg width="88" height="40" viewBox="0 0 88 40"><polyline points="0,34 22,26 44,30 66,12 88,6" fill="none" stroke="rgba(80,140,55,0.5)" strokeWidth="2"/><polyline points="0,38 22,35 44,32 66,26 88,22" fill="none" stroke="rgba(160,160,120,0.35)" strokeWidth="1.5" strokeDasharray="4 3"/></svg>
+        <div className="mkp-process-grid">
+          {([
+            { title: 'Campaign Audit',    desc: 'Analyse existing channel performance, identify budget waste, and benchmark against competitors.',                                    tags: ['Channel Analysis','Benchmarking','Budget Review'] },
+            { title: 'Growth Strategy',   desc: 'Define KPIs and target CPA/ROAS, build channel-mix recommendations, and set a 90-day growth roadmap.',                            tags: ['KPI Setting','Channel Mix','90-Day Plan'] },
+            { title: 'Creative Build',    desc: 'Write high-converting ad copy, design creative assets, and configure tracking and attribution.',                                   tags: ['Ad Copy','Creative Assets','Attribution'] },
+            { title: 'Campaign Launch',   desc: 'Go live across all channels, monitor the first 72 hours, and confirm conversion tracking is airtight.',                           tags: ['Go Live','72h Monitor','Conversion QA'] },
+            { title: 'Optimise & Scale',  desc: 'Weekly bid and budget adjustments, A/B test creatives and landing pages, and expand winning audiences.',                          tags: ['A/B Testing','Bid Optimisation','Audience Scaling'] },
+            { title: 'Report & Refine',   desc: 'Monthly executive dashboard with clear ROI, attribution data, and forward-looking recommendations.',                              tags: ['ROI Dashboard','Attribution','Recommendations'] },
+          ] as { title: string; desc: string; tags: string[] }[]).map((step, i) => (
+            <div className="mkp-step" key={step.title}>
+              <span className="mkp-step-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 className="mkp-step-title">{step.title}</h3>
+              <p className="mkp-step-desc">{step.desc}</p>
+              <div className="mkp-step-tags">
+                {step.tags.map(t => <span key={t}>{t}</span>)}
               </div>
             </div>
-          </div>
+          ))}
         </div>
-
-        {/* 2 / Growth Strategy */}
-        <div className="mkp-row mkp-row--flip">
-          <div className="mkp-visual">
-            <div className="mkp-strategy-wrap">
-              <div className="mkp-card mkp-card--board">
-                <div className="mkp-card-lbl">90-Day Roadmap</div>
-                {['Month 1','Month 2','Month 3'].map((m,i)=>(
-                  <div key={m} className="mkp-board-row"><span className="mkp-bm">{m}</span><div className="mkp-bbar" style={{width:`${50+i*20}%`,opacity:0.55+i*0.15}}/></div>
-                ))}
-              </div>
-              <div className="mkp-kpi-row">
-                {[{l:'Target CPA',v:'£18'},{l:'ROAS Goal',v:'4.2×'},{l:'CAC',v:'−22%'}].map(k=>(
-                  <div key={k.l} className="mkp-kpi"><span className="mkp-kl">{k.l}</span><span className="mkp-kv">{k.v}</span></div>
-                ))}
-              </div>
-              <div className="mkp-donut">
-                <svg viewBox="0 0 72 72" width="72" height="72">
-                  <circle cx="36" cy="36" r="24" fill="none" stroke="rgba(210,220,195,0.6)" strokeWidth="10"/>
-                  <circle cx="36" cy="36" r="24" fill="none" stroke="rgba(80,140,55,0.65)" strokeWidth="10" strokeDasharray="45 107" strokeDashoffset="-27" strokeLinecap="round"/>
-                  <circle cx="36" cy="36" r="24" fill="none" stroke="rgba(130,180,90,0.45)" strokeWidth="10" strokeDasharray="30 122" strokeDashoffset="-72" strokeLinecap="round"/>
-                  <text x="36" y="40" textAnchor="middle" fontSize="9" fill="rgba(50,80,35,0.7)" fontWeight="700">Mix</text>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div className="mkp-text">
-            <div className="mkp-counter"><span className="mkp-n">2</span><span className="mkp-total">/6</span></div>
-            <h3 className="mkp-title">Growth Strategy</h3>
-            <p className="mkp-desc">Define KPIs and target CPA/ROAS, build channel-mix recommendations, set a 90-day growth roadmap.</p>
-            <div className="mkp-tags"><span className="mkp-tag">KPI Setting</span><span className="mkp-tag">Channel Mix</span><span className="mkp-tag">90-Day Plan</span></div>
-          </div>
-        </div>
-
-        {/* 3 / Creative Build */}
-        <div className="mkp-row mkp-row--normal">
-          <div className="mkp-text">
-            <div className="mkp-counter"><span className="mkp-n">3</span><span className="mkp-total">/6</span></div>
-            <h3 className="mkp-title">Creative Build</h3>
-            <p className="mkp-desc">Write high-converting ad copy, design creative assets, configure tracking and attribution.</p>
-            <div className="mkp-tags"><span className="mkp-tag">Ad Copy</span><span className="mkp-tag">Creative Assets</span><span className="mkp-tag">Attribution</span></div>
-          </div>
-          <div className="mkp-visual">
-            <div className="mkp-creative-wrap">
-              <div className="mkp-adcard mkp-adcard--b3"/>
-              <div className="mkp-adcard mkp-adcard--b2"><div className="mkp-adlbl">Version B</div><div className="mkp-adhl">Grow 3× faster.</div></div>
-              <div className="mkp-adcard mkp-adcard--b1"><div className="mkp-adlbl mkp-adlbl--win">✓ Winner</div><div className="mkp-adhl">Scale what works.</div><div className="mkp-adcta">Start Free →</div></div>
-              <div className="mkp-annot"><div className="mkp-annot-line"/><div className="mkp-annot-txt">Pixel ✓<br/>Conv. tracked</div></div>
-              <div className="mkp-copy-note">"Turn clicks into customers"</div>
-            </div>
-          </div>
-        </div>
-
-        {/* 4 / Campaign Launch */}
-        <div className="mkp-row mkp-row--flip">
-          <div className="mkp-visual">
-            <div className="mkp-launch-wrap">
-              <div className="mkp-card mkp-card--launch">
-                <div className="mkp-launch-hdr"><span className="mkp-ldot"/>Live — 72h Monitor</div>
-                {[{ch:'Google Ads',pct:94},{ch:'Meta Ads',pct:87},{ch:'LinkedIn',pct:76}].map(c=>(
-                  <div key={c.ch} className="mkp-lrow"><span className="mkp-lch">{c.ch}</span><div className="mkp-ltr"><div className="mkp-lfl" style={{width:`${c.pct}%`}}/></div><span className="mkp-lst">Active</span></div>
-                ))}
-              </div>
-              <div className="mkp-conv-badge">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(60,120,40,0.9)" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                Conversion Tracking Airtight
-              </div>
-              <div className="mkp-spark"><span className="mkp-spark-lbl">Impressions / 72h</span><svg width="110" height="32" viewBox="0 0 110 32"><polyline points="0,28 18,24 36,18 55,12 73,7 91,4 110,1" fill="none" stroke="rgba(80,140,55,0.6)" strokeWidth="2"/></svg></div>
-            </div>
-          </div>
-          <div className="mkp-text">
-            <div className="mkp-counter"><span className="mkp-n">4</span><span className="mkp-total">/6</span></div>
-            <h3 className="mkp-title">Campaign Launch</h3>
-            <p className="mkp-desc">Go live across all channels, monitor the first 72 hours, confirm conversion tracking is airtight.</p>
-            <div className="mkp-tags"><span className="mkp-tag">Go Live</span><span className="mkp-tag">72h Monitor</span><span className="mkp-tag">Conversion QA</span></div>
-          </div>
-        </div>
-
-        {/* 5 / Optimise & Scale */}
-        <div className="mkp-row mkp-row--normal">
-          <div className="mkp-text">
-            <div className="mkp-counter"><span className="mkp-n">5</span><span className="mkp-total">/6</span></div>
-            <h3 className="mkp-title">Optimise & Scale</h3>
-            <p className="mkp-desc">Weekly bid and budget adjustments, A/B test creatives and landing pages, expand winning audiences.</p>
-            <div className="mkp-tags"><span className="mkp-tag">A/B Testing</span><span className="mkp-tag">Bid Optimisation</span><span className="mkp-tag">Audience Scaling</span></div>
-          </div>
-          <div className="mkp-visual">
-            <div className="mkp-optimise-wrap">
-              <div className="mkp-ab">
-                <div className="mkp-ab-card"><div className="mkp-ablbl">A</div><div className="mkp-abmet">CTR 2.1%</div><div className="mkp-abbar" style={{width:'42%',background:'rgba(170,175,140,0.4)'}}/></div>
-                <span className="mkp-ab-vs">vs</span>
-                <div className="mkp-ab-card mkp-ab-card--win"><div className="mkp-ablbl mkp-ablbl--win">B ✓</div><div className="mkp-abmet">CTR 3.8%</div><div className="mkp-abbar" style={{width:'76%',background:'rgba(80,140,55,0.6)'}}/></div>
-              </div>
-              <div className="mkp-card mkp-bid-card">
-                <div className="mkp-card-lbl">Weekly Bid Adjustments</div>
-                <svg width="150" height="44" viewBox="0 0 150 44">{[0,1,2,3,4,5,6,7].map(i=>{const h=[18,26,16,32,22,38,28,42][i];return<rect key={i} x={i*18+2} y={44-h} width="13" height={h} rx="3" fill={i===7?'rgba(80,140,55,0.7)':'rgba(150,165,130,0.3)'}/>})}</svg>
-              </div>
-              <div className="mkp-aud"><div className="mkp-aud-ring"/>Lookalike ×3 expanded</div>
-            </div>
-          </div>
-        </div>
-
-        {/* 6 / Report & Refine */}
-        <div className="mkp-row mkp-row--flip mkp-row--last">
-          <div className="mkp-visual">
-            <div className="mkp-report-wrap">
-              <div className="mkp-card mkp-card--dash">
-                <div className="mkp-dash-hdr"><span>Monthly ROI Report</span><span className="mkp-dash-dt">Oct 2026</span></div>
-                <div className="mkp-dash-kpis">
-                  {[{l:'Revenue',v:'£184k',up:true},{l:'ROAS',v:'5.1×',up:true},{l:'CPA',v:'£14.2',up:false}].map(k=>(
-                    <div key={k.l} className="mkp-dkpi"><span className="mkp-dkl">{k.l}</span><span className="mkp-dkv">{k.v}</span><span className={k.up?'mkp-up':'mkp-dn'}>{k.up?'↑':'↓'}</span></div>
-                  ))}
-                </div>
-                <div className="mkp-attr">
-                  {[{src:'Search',h:30},{src:'Social',h:42},{src:'Email',h:54}].map(a=>(
-                    <div key={a.src} className="mkp-attr-col"><div className="mkp-attr-bar" style={{height:a.h}}/><span>{a.src}</span></div>
-                  ))}
-                </div>
-              </div>
-              <div className="mkp-fwd"><span className="mkp-fwd-arr">→</span><span>Next 30-day<br/>recommendations ready</span></div>
-            </div>
-          </div>
-          <div className="mkp-text">
-            <div className="mkp-counter"><span className="mkp-n">6</span><span className="mkp-total">/6</span></div>
-            <h3 className="mkp-title">Report & Refine</h3>
-            <p className="mkp-desc">Monthly executive dashboard with clear ROI, attribution data, and forward-looking recommendations.</p>
-            <div className="mkp-tags"><span className="mkp-tag">ROI Dashboard</span><span className="mkp-tag">Attribution</span><span className="mkp-tag">Recommendations</span></div>
-          </div>
-        </div>
-      </div>
+      </section>
 
       {/* dummy closing tag to satisfy old block removal */}
       {false && PROCESS_STEPS.map((step, _i) => (
@@ -2013,27 +2139,8 @@ function MarketingPage({ data }: { data: ServiceData }) {
         </section>
       ))}
 
-      {/* ══ TESTIMONIAL ══════════════════════════════════════════════════════ */}
-      <section className="mk2-testi-section">
-        <div className="mk2-testi-inner">
-          <p className="mk2-testi-quote">
-            "They brought clarity to our marketing chaos — breaking down silos,
-            cutting wasted spend by 58%, and delivering a pipeline that actually
-            converts. The ROI was visible within the first sprint."
-          </p>
-          <div className="mk2-testi-author">
-            <div className="mk2-testi-avatar">JO</div>
-            <div>
-              <div className="mk2-testi-name">James Okafor</div>
-              <div className="mk2-testi-role">CEO, VaultKit</div>
-            </div>
-          </div>
-          <div className="mk2-testi-nav">
-            <button className="mk2-testi-btn" aria-label="Previous">‹</button>
-            <button className="mk2-testi-btn" aria-label="Next">›</button>
-          </div>
-        </div>
-      </section>
+      {/* ══ TESTIMONIALS ═════════════════════════════════════════════════════ */}
+      <TestimonialsSection />
 
 
       {/* ══ CTA — landscape image bg ══════════════════════════════════════════ */}

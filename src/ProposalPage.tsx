@@ -215,31 +215,17 @@ export default function ProposalPage() {
 
             {/* Floating win-rate chip */}
             <div className="pd-float-chip pd-float-chip--top">
-              <div className="pd-chip-num">#1</div>
+              <div className="pd-chip-num" style={{fontSize:'0.95rem'}}>One of the Best</div>
               <div className="pd-chip-label">Ranked Proposal</div>
             </div>
             <div className="pd-float-chip pd-float-chip--bottom">
               <div className="pd-chip-num">200+</div>
-              <div className="pd-chip-label">Proposals Won</div>
+              <div className="pd-chip-label">Projects Delivered</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══ STATS BAND ════════════════════════════════════════════════════════ */}
-      <div className="pd-stats-band">
-        {[
-          { num: '200+', label: 'Proposals Delivered' },
-          { num: '94%',  label: 'Win Rate' },
-          { num: '10+',  label: 'Industries Served' },
-          { num: '48h',  label: 'Initial Strategy Review' },
-        ].map((s, i) => (
-          <div className="pd-stat" key={s.label} style={{ borderLeft: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.06)' }}>
-            <AnimatedStat raw={s.num} />
-            <div className="pd-stat-label">{s.label}</div>
-          </div>
-        ))}
-      </div>
 
       {/* ══ SERVICES GRID ═════════════════════════════════════════════════════ */}
       <section className="pd-services-section">
