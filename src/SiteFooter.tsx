@@ -59,7 +59,7 @@ export default function SiteFooter({ light = false }: { light?: boolean }) {
           {/* Brand column */}
           <div className="footer-brand-col">
             <div className="footer-logo">
-              <img src="/logo.webp" alt="UFK Solutions" height="36" style={{ height: '36px', width: 'auto', display: 'block' }} />
+              <img src="/logo-footer.webp" alt="UFK Solutions" height="52" style={{ height: '52px', width: 'auto', display: 'block' }} />
             </div>
             <p className="footer-desc">
               Designing products, powering ecosystems and laying the foundation of a
