@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import { Link } from 'react-router-dom'
 import { NeatGradient } from '@firecms/neat'
@@ -519,8 +519,59 @@ const WHY = [
 ]
 
 
+const STATS = [
+  { prefix: '',  value: 2,   suffix: 'M+',   label: 'Monthly Organic Visitors' },
+  { prefix: '',  value: 1,   suffix: 'M+',   label: 'Monthly Search Impressions' },
+  { prefix: '',  value: 200, suffix: '+',    label: 'Lead Generation for Clients' },
+  { prefix: '₹', value: 172, suffix: 'CR+',  label: 'Business Generated for Clients' },
+]
+
+function useCountUp(target: number, duration: number, triggered: boolean) {
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    if (!triggered) return
+    let start: number | null = null
+    const step = (ts: number) => {
+      if (!start) start = ts
+      const progress = Math.min((ts - start) / duration, 1)
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCount(Math.floor(eased * target))
+      if (progress < 1) requestAnimationFrame(step)
+      else setCount(target)
+    }
+    requestAnimationFrame(step)
+  }, [triggered, target, duration])
+  return count
+}
+
+function StatCard({ prefix, value, suffix, label, triggered }: {
+  prefix: string; value: number; suffix: string; label: string; triggered: boolean
+}) {
+  const count = useCountUp(value, 1600, triggered)
+  return (
+    <div className="abu-stat-card">
+      <span className="abu-stat-num">{prefix}{count}{suffix}</span>
+      <span className="abu-stat-label">{label}</span>
+    </div>
+  )
+}
+
 export default function AboutPage() {
   const introCanvasRef = useRef<HTMLCanvasElement>(null)
+  const statsRef = useRef<HTMLDivElement>(null)
+  const [statsTriggered, setStatsTriggered] = useState(false)
+
+  useEffect(() => {
+    const el = statsRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setStatsTriggered(true); obs.disconnect() } },
+      { threshold: 0.3 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
 
   useEffect(() => {
     const canvas = introCanvasRef.current
@@ -637,23 +688,10 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="abu-intro-right">
-            <div className="abu-stat-card">
-              <span className="abu-stat-num">2M+</span>
-              <span className="abu-stat-label">Monthly Organic Visitors</span>
-            </div>
-            <div className="abu-stat-card">
-              <span className="abu-stat-num">1M+</span>
-              <span className="abu-stat-label">Monthly Search Impressions</span>
-            </div>
-            <div className="abu-stat-card">
-              <span className="abu-stat-num">200+</span>
-              <span className="abu-stat-label">Lead Generation for Clients</span>
-            </div>
-            <div className="abu-stat-card">
-              <span className="abu-stat-num">₹172CR+</span>
-              <span className="abu-stat-label">Business Generated for Clients</span>
-            </div>
+          <div className="abu-intro-right" ref={statsRef}>
+            {STATS.map((s, i) => (
+              <StatCard key={i} {...s} triggered={statsTriggered} />
+            ))}
           </div>
         </div>
       </section>
