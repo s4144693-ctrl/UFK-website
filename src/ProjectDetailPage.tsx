@@ -204,7 +204,7 @@ export default function ProjectDetailPage() {
 
   return (
     <div className={`pd-page${project.wideSpacing ? ' pd-page--wide' : ''}`} style={project.pageBg ? { background: project.pageBg } : undefined}>
-      <SiteNav theme="light" />
+      <SiteNav alwaysGlass darkTint />
 
       {/* ── Back breadcrumb ── */}
       <div className="pd-breadcrumb">

@@ -73,6 +73,7 @@ export default function TestimonialsSection() {
   const [index, setIndex]        = useState(0)
   const [cardW, setCardW]        = useState(0)
   const [visible, setVisible]    = useState(4)
+  const [paused, setPaused]      = useState(false)
   const viewportRef              = useRef<HTMLDivElement>(null)
 
   const maxIndex = TESTIMONIALS.length - visible
@@ -99,11 +100,12 @@ export default function TestimonialsSection() {
   }, [visible])
 
   useEffect(() => {
+    if (paused) return
     const id = setInterval(() => {
       setIndex(i => (i >= maxIndex ? 0 : i + 1))
-    }, 3500)
+    }, 2500)
     return () => clearInterval(id)
-  }, [maxIndex])
+  }, [maxIndex, paused])
 
   const prev = () => setIndex(i => Math.max(0, i - 1))
   const next = () => setIndex(i => Math.min(maxIndex, i + 1))
@@ -132,7 +134,12 @@ export default function TestimonialsSection() {
         </div>
       </div>
 
-      <div className="testi-viewport" ref={viewportRef}>
+      <div
+        className="testi-viewport"
+        ref={viewportRef}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
         <div
           className="testi-track"
           style={{

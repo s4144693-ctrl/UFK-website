@@ -108,47 +108,32 @@ body {
   align-items: center;
   padding: 12px 24px;
   background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
   border-bottom: none;
-  transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+  box-shadow: none;
+  transition: background 300ms ease,
+              backdrop-filter 300ms ease,
+              -webkit-backdrop-filter 300ms ease;
 }
 
-/* Scrolled state — frosted glass */
+/* Unified frosted-glass state — same on every page.
+   No dark tint: the background is a bare-minimum neutral so the blur
+   shows through clearly. Text-shadow on the links (below) provides
+   contrast on light pages without adding a visible overlay. */
 .nav--scrolled {
-  background: rgba(3, 12, 5, 0.22);
-  backdrop-filter: blur(60px) saturate(200%);
-  -webkit-backdrop-filter: blur(60px) saturate(200%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-bottom: none;
+  box-shadow: none;
 }
 
-/* Light nav variant (used on project detail pages) */
-.nav--light {
-  background: rgba(210, 210, 210, 0.6);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-}
-.nav--light .nav-links a {
-  color: rgba(0,0,0,0.55);
-}
-.nav--light .nav-links a:hover {
-  color: #111;
-}
-.nav--light .btn-contact {
-  background: rgba(0,0,0,0.08);
-  border-color: rgba(0,0,0,0.12);
-  color: #111;
-}
-.nav--light .btn-contact:hover {
-  background: rgba(0,0,0,0.14);
-}
-/* Dropdown always keeps its dark-bg white text regardless of nav theme */
-.nav--light .nav-dropdown .nav-dd-item {
-  color: rgba(255,255,255,0.78);
-}
-.nav--light .nav-dropdown .nav-dd-item:hover {
-  background: rgba(178,255,89,0.08);
-  color: #b2ff59;
+/* Dark-tint variant — light-background pages (e.g. project detail).
+   Overrides the background to a dark translucent layer so white
+   links and the logo stay readable on light grey page backgrounds. */
+.nav--dark-tint.nav--scrolled {
+  background: rgba(10, 10, 12, 0.34);
 }
 
 .nav-logo {
@@ -162,6 +147,7 @@ body {
   height: 28px;
   width: auto;
   display: block;
+  filter: drop-shadow(0 1px 5px rgba(0, 0, 0, 0.5));
 }
 
 .nav-menu {
@@ -176,15 +162,17 @@ body {
 }
 
 .nav-links a {
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.82);
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 500;
+  /* shadow keeps links legible on light page backgrounds without a dark overlay */
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
   transition: color 0.2s ease;
 }
 
 .nav-links a:hover {
-  color: var(--text);
+  color: #ffffff;
 }
 
 .nav-actions {
@@ -206,9 +194,10 @@ body {
   text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
-  background: rgba(178, 255, 89, 0.10);
-  border: 1px solid rgba(178, 255, 89, 0.30);
+  background: rgba(178, 255, 89, 0.18);
+  border: 1px solid rgba(178, 255, 89, 0.50);
   color: #b2ff59;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
@@ -1174,8 +1163,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    /* backdrop-filter is inherited from the scrolled state — do not override */
   }
 
   .menu-toggle {
@@ -5512,6 +5500,884 @@ body {
 @media (max-width: 540px) {
   .abj-section { padding: 60px 20px; }
   .abj-track   { grid-template-columns: 1fr; }
+}
+
+/* ─────────────────────────────────────────────────────
+   ABOUT PAGE — NEW SECTIONS  (.abu-*)
+───────────────────────────────────────────────────── */
+
+/* Shared label pill used across all abu- sections */
+.abu-section-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #b2ff59;
+  margin: 0;
+}
+
+/* ── Who We Are ── */
+.abu-intro-section {
+  width: 100%;
+  padding: 100px 60px;
+  background: #04090d;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle dot-grid texture */
+.abu-intro-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.abu-intro-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1160px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 80px;
+  align-items: center;
+}
+.abu-intro-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.abu-intro-heading {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: #ffffff;
+  margin: 0;
+}
+.abu-intro-heading-em {
+  color: #b2ff59;
+}
+.abu-intro-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.97rem;
+  line-height: 1.72;
+  color: rgba(255, 255, 255, 0.46);
+  margin: 0;
+}
+
+/* 2×2 stat grid */
+.abu-intro-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.abu-stat-card {
+  background: rgba(10, 22, 14, 0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.abu-stat-card:hover {
+  border-color: rgba(178,255,89,0.20);
+  background: rgba(15, 35, 20, 0.85);
+}
+.abu-stat-num {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  line-height: 1;
+}
+.abu-stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.38);
+  line-height: 1.4;
+}
+
+/* ── Our Values (merged) ── */
+.abv-section {
+  width: 100%;
+  padding: 96px 60px 100px;
+  background: #04090d;
+}
+.abv-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.abv-inner > .abu-section-label {
+  margin-bottom: 52px;
+}
+
+/* Top row */
+.abv-top-row {
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  gap: 80px;
+  align-items: start;
+  padding-bottom: 64px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+/* Left — headline */
+.abv-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.abv-headline {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #ffffff;
+  margin: 0;
+}
+.abv-headline-em {
+  color: rgba(255,255,255,0.38);
+  font-weight: 400;
+  font-style: italic;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.abv-support {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.45);
+  margin: 0;
+  max-width: 420px;
+}
+
+/* Right — mission + vision */
+.abv-right {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-top: 6px;
+}
+.abv-mv-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.abv-mv-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #b2ff59;
+}
+.abv-mv-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.72;
+  color: rgba(255,255,255,0.52);
+  margin: 0;
+}
+
+/* Tags row */
+.abv-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 48px;
+}
+.abv-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 24px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: -0.01em;
+  cursor: default;
+  transition: border-color 0.22s ease, color 0.22s ease;
+}
+.abv-tag:hover {
+  border-color: rgba(178,255,89,0.4);
+  color: #b2ff59;
+}
+
+@media (max-width: 900px) {
+  .abv-top-row { grid-template-columns: 1fr; gap: 48px; padding-bottom: 48px; }
+  .abv-section { padding: 72px 32px 80px; }
+}
+@media (max-width: 540px) {
+  .abv-section { padding: 60px 20px 72px; }
+  .abv-headline { font-size: 1.75rem; }
+  .abv-tags { gap: 8px; }
+  .abv-tag { font-size: 0.82rem; padding: 9px 18px; }
+}
+
+/* ── Our Journey (vertical timeline) ── */
+.abu-journey-section {
+  width: 100%;
+  padding: 80px 60px 100px;
+  background: linear-gradient(180deg, #04090d 0%, #060f08 40%, #04090d 100%);
+}
+.abu-journey-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.abu-journey-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 64px;
+}
+.abu-timeline {
+  display: flex;
+  flex-direction: column;
+}
+.abu-tl-row {
+  display: grid;
+  grid-template-columns: 80px 40px 1fr;
+  gap: 0 24px;
+  position: relative;
+}
+.abu-tl-year-col {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 2px;
+}
+.abu-tl-year {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: rgba(255,255,255,0.28);
+  line-height: 1;
+  padding-top: 2px;
+}
+.abu-tl-row--active .abu-tl-year {
+  color: #b2ff59;
+}
+.abu-tl-spine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.abu-tl-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #111;
+  border: 2px solid rgba(255,255,255,0.18);
+  flex-shrink: 0;
+  margin-top: 3px;
+  position: relative;
+  z-index: 1;
+  transition: border-color 0.3s ease;
+}
+.abu-tl-row--active .abu-tl-dot {
+  background: #b2ff59;
+  border-color: #b2ff59;
+  box-shadow: 0 0 0 4px rgba(3,8,4,1), 0 0 14px rgba(178,255,89,0.5);
+}
+.abu-tl-line {
+  flex: 1;
+  width: 1px;
+  background: rgba(255,255,255,0.08);
+  min-height: 32px;
+}
+.abu-tl-content {
+  padding-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.abu-tl-row:last-child .abu-tl-content {
+  padding-bottom: 0;
+}
+.abu-tl-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.abu-tl-row--active .abu-tl-title {
+  color: #e8ffcc;
+}
+.abu-tl-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.68;
+  color: rgba(255,255,255,0.40);
+  margin: 0;
+}
+.abu-tl-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+.abu-tl-chip {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #b2ff59;
+  background: rgba(178,255,89,0.08);
+  border: 1px solid rgba(178,255,89,0.18);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+/* ── Global Presence (globe card) ── */
+.abu-globe-section {
+  width: 100%;
+  padding: 80px 60px 100px;
+  background: #04090d;
+}
+.abu-globe-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+/* The card is full-width here (not half of a 2-col grid).
+   Fix: reduce wrap to 100% width so aspect-ratio height fits the container. */
+.abu-globe-inner .gf-card--globe {
+  width: 100%;
+  max-width: 100%;
+}
+.abu-globe-inner .gf-globe-inner {
+  flex: none;
+  height: 500px;
+  min-height: 500px;
+}
+.abu-globe-inner .gf-globe-wrap {
+  width: 100%;
+}
+.abu-globe-countries {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+  padding: 28px 32px 32px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.abu-globe-country {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.abu-globe-flag {
+  font-size: 2rem;
+  line-height: 1;
+}
+.abu-globe-cname {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.50);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 900px) {
+  .abu-globe-section { padding: 60px 32px 80px; }
+  .abu-globe-inner .gf-globe-inner { height: 380px; min-height: 380px; }
+}
+@media (max-width: 540px) {
+  .abu-globe-section { padding: 48px 20px 64px; }
+  .abu-globe-inner .gf-globe-inner { height: 260px; min-height: 260px; }
+  .abu-globe-countries { gap: 20px; }
+}
+
+/* ── Where We Operate ── */
+.abu-ops-section {
+  width: 100%;
+  padding: 80px 60px 100px;
+  background: #04090d;
+  text-align: center;
+}
+.abu-ops-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.abu-ops-heading {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #ffffff;
+  margin: 0 0 48px;
+}
+.abu-ops-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+.abu-ops-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 999px;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.abu-ops-pill:hover {
+  border-color: rgba(178,255,89,0.28);
+  background: rgba(178,255,89,0.05);
+}
+.abu-ops-flag {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+.abu-ops-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.80);
+  letter-spacing: -0.01em;
+}
+
+/* ── Why Choose UFK — numbered columns ── */
+.abu-why-section {
+  width: 100%;
+  padding: 80px 60px 100px;
+  background: #04090d;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle line grid */
+.abu-why-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(178,255,89,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(178,255,89,0.04) 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Radial glow — centre, fades outward */
+.abu-why-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 65% at 50% 60%,
+    rgba(20, 80, 40, 0.28) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+.abu-why-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.abu-why-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 64px;
+}
+
+/* 4-column open grid — no cards, no borders */
+.abu-why-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+/* Each column has a left border as divider, except the first */
+.abu-why-col {
+  padding: 0 36px 0 32px;
+  border-left: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* staggered fade-in on scroll */
+  opacity: 0;
+  transform: translateY(18px);
+  animation: abu-why-fadein 0.55s ease forwards;
+  animation-delay: var(--delay, 0s);
+}
+.abu-why-col:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+@keyframes abu-why-fadein {
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .abu-why-col {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* Oversized muted number */
+.abu-why-num {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: rgba(255,255,255,0.12);
+  transition: color 0.3s ease;
+  display: block;
+}
+.abu-why-col:hover .abu-why-num {
+  color: #b2ff59;
+}
+
+/* Column heading */
+.abu-why-col-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+/* Column description */
+.abu-why-col-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.68;
+  color: rgba(255,255,255,0.38);
+  margin: 0;
+}
+
+/* ── Our Promise ── */
+.abu-promise-section {
+  width: 100%;
+  padding: 100px 60px 120px;
+  background: #04090d;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.abu-promise-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(178,255,89,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.abu-promise-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.abu-promise-heading {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #ffffff;
+  margin: 0;
+}
+.abu-promise-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.45);
+  max-width: 500px;
+  margin: 0 0 12px;
+}
+
+/* ─────────────────────────────────────────────────────
+   ABOUT — SOCIAL PROOF  (.absp-*)
+───────────────────────────────────────────────────── */
+.absp-section {
+  width: 100%;
+  background: #04090d;
+  padding: 80px 0 100px;
+}
+
+/* ── 8-column arch ── */
+.absp-arch-outer {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 520px;
+  overflow: hidden;
+}
+/* Bottom gradient fades images into the dark bg */
+.absp-arch-outer::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 220px;
+  background: linear-gradient(to top, #04090d 30%, transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.absp-arch {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  height: 100%;
+}
+
+.absp-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Arch stagger — center cols start highest, outer cols pushed down */
+.absp-col--1 { margin-top: 200px; }
+.absp-col--2 { margin-top: 110px; }
+.absp-col--3 { margin-top: 40px; }
+.absp-col--4 { margin-top: 0; }
+.absp-col--5 { margin-top: 0; }
+.absp-col--6 { margin-top: 40px; }
+.absp-col--7 { margin-top: 110px; }
+.absp-col--8 { margin-top: 200px; }
+
+/* Image tiles */
+.absp-tile {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0b1410;
+  flex-shrink: 0;
+  height: 93px;
+}
+/* Portrait tiles for center four columns */
+.absp-tile--port { height: 280px; }
+
+.absp-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.absp-tile:hover img { transform: scale(1.06); }
+
+/* Heading overlaid in the arch opening — bottom-center, above the gradient */
+.absp-arch-label {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+.absp-pill {
+  display: inline-block;
+  padding: 6px 16px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.absp-heading {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0;
+}
+.absp-heading-em {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 0.92em;
+  color: rgba(255,255,255,0.38);
+}
+
+/* ── Open testimonials — no cards ── */
+.absp-testi-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  max-width: 1100px;
+  margin: 52px auto 0;
+  padding: 48px 60px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.absp-testi {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.absp-stars {
+  color: #b2ff59;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+}
+.absp-quote {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.52);
+  margin: 0;
+  flex: 1;
+}
+.absp-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+.absp-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: #0e1a0e;
+}
+.absp-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.absp-author-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.absp-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+.absp-role {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.36);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .absp-arch-outer { height: 440px; padding: 0 24px; }
+  .absp-col--1 { margin-top: 160px; }
+  .absp-col--2 { margin-top: 90px; }
+  .absp-col--8 { margin-top: 160px; }
+  .absp-col--7 { margin-top: 90px; }
+  .absp-tile { height: 80px; }
+  .absp-tile--port { height: 240px; }
+}
+@media (max-width: 768px) {
+  .absp-arch-outer { height: 360px; padding: 0 16px; }
+  .absp-arch { gap: 8px; }
+  .absp-col--1 { margin-top: 130px; }
+  .absp-col--2 { margin-top: 70px; }
+  .absp-col--3 { margin-top: 24px; }
+  .absp-col--6 { margin-top: 24px; }
+  .absp-col--7 { margin-top: 70px; }
+  .absp-col--8 { margin-top: 130px; }
+  .absp-col { gap: 8px; }
+  .absp-tile { height: 64px; }
+  .absp-tile--port { height: 200px; }
+  .absp-arch-label { white-space: normal; width: 260px; }
+  .absp-heading { font-size: 1.4rem; }
+  .absp-testi-row {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 40px 24px 0;
+    margin-top: 40px;
+  }
+}
+@media (max-width: 480px) {
+  .absp-arch-outer { height: 300px; }
+  .absp-col--1, .absp-col--8 { display: none; }
+  .absp-col--2 { margin-top: 90px; }
+  .absp-col--7 { margin-top: 90px; }
+  .absp-tile { height: 60px; }
+  .absp-tile--port { height: 170px; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+}
+@media (max-width: 900px) {
+  .abu-intro-section,
+  .abu-journey-section,
+  .abu-ops-section,
+  .abu-why-section,
+  .abu-promise-section { padding-left: 32px; padding-right: 32px; }
+  .abu-intro-inner { grid-template-columns: 1fr; gap: 48px; }
+  /* 2 columns on tablet */
+  .abu-why-cols { grid-template-columns: repeat(2, 1fr); gap: 40px 0; }
+  .abu-why-col:nth-child(odd) { border-left: none; padding-left: 0; }
+  .abu-why-col:nth-child(even) { padding-left: 32px; }
+  .abu-tl-row { grid-template-columns: 60px 32px 1fr; }
+}
+@media (max-width: 540px) {
+  .abu-intro-section,
+  .abu-journey-section,
+  .abu-ops-section,
+  .abu-why-section,
+  .abu-promise-section { padding-left: 20px; padding-right: 20px; }
+  .abu-intro-right { grid-template-columns: 1fr 1fr; }
+  /* single column on mobile — number sits inline beside text */
+  .abu-why-cols { grid-template-columns: 1fr; gap: 32px; }
+  .abu-why-col,
+  .abu-why-col:nth-child(odd),
+  .abu-why-col:nth-child(even) { border-left: none; padding-left: 0; flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 0 20px; }
+  .abu-why-num { flex-shrink: 0; font-size: 2.4rem; padding-top: 2px; }
+  .abu-why-col-title,
+  .abu-why-col-desc { flex: 1 1 100%; }
+  .abu-tl-row { grid-template-columns: 52px 28px 1fr; gap: 0 12px; }
 }
 
 /* ─────────────────────────────────────────────────────
@@ -10703,6 +11569,7 @@ body {
   gap: 6px;
   cursor: pointer;
   color: inherit;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
 }
 
 .nav-dropdown {
@@ -15430,9 +16297,10 @@ body {
 .cl2-cta-section {
   background: linear-gradient(to bottom,
     #060e08  0%,
-    #03401a 30%,
-    #1d8a4a 55%,
-    #dceee4 100%
+    #03401a 25%,
+    #1d8a4a 50%,
+    #03401a 75%,
+    #060e08 100%
   );
   padding: 80px 7% 100px;
   text-align: center;
@@ -15483,7 +16351,7 @@ body {
 
 /* ── Footer wrapper — bridges CTA lime into footer dark ── */
 .cl2-footer-wrap {
-  background: #dceee4;
+  background: #060e08;
 }
 .cl2-footer-wrap .footer-stage {
   margin-top: 0;
@@ -15493,9 +16361,9 @@ body {
 .cl2-footer-wrap .footer-card {
   background: linear-gradient(
     to bottom,
-    #dceee4   0%,
-    #1d8a4a  35%,
-    #03401a  65%,
+    #060e08   0%,
+    #03401a  35%,
+    #030a04  65%,
     #000000 100%
   ) !important;
   border-radius: 28px;

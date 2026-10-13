@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-export default function SiteNav({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
+export default function SiteNav({ alwaysGlass = false, darkTint = false }: { alwaysGlass?: boolean; darkTint?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled, setScrolled] = useState(alwaysGlass)
   const toggleMenu = () => setMenuOpen(o => !o)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
+    if (alwaysGlass) {
+      setScrolled(true)
+      return
+    }
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [alwaysGlass])
 
   return (
-    <nav className={`nav${theme === 'light' ? ' nav--light' : ''}${scrolled ? ' nav--scrolled' : ''}`}>
+    <nav className={`nav${scrolled ? ' nav--scrolled' : ''}${darkTint ? ' nav--dark-tint' : ''}`}>
       <a href="/" className="nav-logo">
         <img src="/logo.webp" alt="UFK Solutions" height="29" />
       </a>

@@ -215,9 +215,7 @@ export default function ClientsPage() {
         </div>
       </section>
 
-      <div className="cl2-footer-wrap">
-        <SiteFooter />
-      </div>
+      <SiteFooter />
     </div>
   )
 }
