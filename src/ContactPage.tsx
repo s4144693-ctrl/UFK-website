@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { NeatGradient } from '@firecms/neat'
 import { motion } from 'motion/react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Phone, Mail } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
@@ -221,27 +221,40 @@ export default function ContactPage() {
     const neat = new NeatGradient({
       ref: canvas,
       colors: [
-        { color: '#012C19', enabled: true },
-        { color: '#4AA551', enabled: true },
-        { color: '#156939', enabled: true },
-        { color: '#2E904C', enabled: true },
-        { color: '#054A28', enabled: true },
+        { color: '#010104', enabled: true },
+        { color: '#00313F', enabled: true },
+        { color: '#038F59', enabled: true },
+        { color: '#1B231B', enabled: true },
+        { color: '#067552', enabled: true },
+        { color: '#FF9A9E', enabled: false },
       ],
-      speed: 2,
-      horizontalPressure: 4,
-      verticalPressure: 5,
+      speed: 6,
+      horizontalPressure: 3,
+      verticalPressure: 4,
       waveFrequencyX: 2,
       waveFrequencyY: 3,
       waveAmplitude: 5,
-      shadows: 0,
-      highlights: 2,
+      shadows: 1,
+      highlights: 5,
       colorBrightness: 1,
       colorSaturation: 7,
-      wireframe: true,
-      colorBlending: 6,
-      backgroundColor: '#00313F',
+      wireframe: false,
+      antialias: false,
+      colorBlending: 8,
+      backgroundColor: '#142014',
       backgroundAlpha: 1,
+      grainScale: 0,
+      grainSparsity: 0,
+      grainIntensity: 0.15,
+      grainSpeed: 1,
       resolution: 1,
+      yOffset: 1050,
+      yOffsetWaveMultiplier: 4,
+      yOffsetColorMultiplier: 4,
+      yOffsetFlowMultiplier: 4,
+      flowDistortionA: 0,
+      flowDistortionB: 0,
+      flowScale: 1,
     })
     return () => neat.destroy()
   }, [])
@@ -360,6 +373,38 @@ export default function ContactPage() {
                 <Step n={1} label="Share your details"        active={true}  />
                 <Step n={2} label="Tell us about your project" active={false} />
                 <Step n={3} label="We'll get back to you"     active={false} />
+              </motion.div>
+
+              {/* Contact details */}
+              <motion.div
+                variants={fadeUp}
+                transition={{ duration: 0.55 }}
+                style={{ marginTop: '28px', display: 'flex', flexDirection: 'column', gap: '12px' }}
+              >
+                <a href="tel:+917006624359" style={{
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  color: 'rgba(255,255,255,0.72)', textDecoration: 'none',
+                  fontSize: '14px', letterSpacing: '0.01em',
+                  transition: 'color 0.2s',
+                }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#ffffff')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.72)')}
+                >
+                  <Phone size={14} style={{ flexShrink: 0, opacity: 0.75 }} />
+                  +91 70066 24359
+                </a>
+                <a href="mailto:reachufk@gmail.com" style={{
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  color: 'rgba(255,255,255,0.72)', textDecoration: 'none',
+                  fontSize: '14px', letterSpacing: '0.01em',
+                  transition: 'color 0.2s',
+                }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#ffffff')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.72)')}
+                >
+                  <Mail size={14} style={{ flexShrink: 0, opacity: 0.75 }} />
+                  reachufk@gmail.com
+                </a>
               </motion.div>
             </motion.div>
           </motion.div>

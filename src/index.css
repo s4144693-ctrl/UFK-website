@@ -108,23 +108,20 @@ body {
   align-items: center;
   padding: 12px 24px;
   background: transparent;
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
   border-bottom: none;
   box-shadow: none;
-  transition: background 300ms ease,
-              backdrop-filter 300ms ease,
-              -webkit-backdrop-filter 300ms ease;
+  transition: background 300ms ease;
 }
 
 /* Unified frosted-glass state — same on every page.
-   No dark tint: the background is a bare-minimum neutral so the blur
-   shows through clearly. Text-shadow on the links (below) provides
-   contrast on light pages without adding a visible overlay. */
+   Only the standard backdrop-filter is written here — do NOT add
+   -webkit-backdrop-filter manually. @tailwindcss/vite (Lightning CSS)
+   strips the standard property when both are written, leaving only
+   the webkit version. Writing only the standard property lets Lightning
+   CSS autoprefix correctly for all targets. */
 .nav--scrolled {
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  background: rgba(14, 14, 14, 0.30);
+  backdrop-filter: blur(20px) saturate(1.6);
   border-bottom: none;
   box-shadow: none;
 }
@@ -1168,26 +1165,66 @@ body {
 
   .menu-toggle {
     display: flex;
+    position: relative;
+    z-index: 1001; /* above nav-menu so it stays tappable */
+  }
+
+  /* When mobile menu is open, strip backdrop-filter from the nav so it
+     no longer acts as a containing block for position:fixed children.
+     Without this the nav-menu gets clipped to the nav bar height. */
+  .nav.nav--menu-open {
+    backdrop-filter: none !important;
+    background: transparent !important;
+    transition: none !important;
   }
 
   .nav-menu {
     display: flex;
     position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     bottom: 0;
-    right: -100%;
-    width: 100vw;
-    background: var(--bg);
-    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: 999;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 40px;
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+    transition:
+      opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .nav-menu.active {
-    right: 0;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    background: #080e08;
+  }
+
+  /* Stagger nav links on open */
+  .nav-menu.active .nav-links li {
+    animation: mobileNavItem 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .nav-menu.active .nav-links li:nth-child(1) { animation-delay: 0.06s; }
+  .nav-menu.active .nav-links li:nth-child(2) { animation-delay: 0.10s; }
+  .nav-menu.active .nav-links li:nth-child(3) { animation-delay: 0.14s; }
+  .nav-menu.active .nav-links li:nth-child(4) { animation-delay: 0.18s; }
+  .nav-menu.active .nav-links li:nth-child(5) { animation-delay: 0.22s; }
+  .nav-menu.active .nav-links li:nth-child(6) { animation-delay: 0.26s; }
+  .nav-menu.active .nav-actions {
+    animation: mobileNavItem 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.30s both;
+  }
+
+  @keyframes mobileNavItem {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   .nav-links {
@@ -4448,12 +4485,36 @@ body {
   .testi-viewport { padding: 0 32px; }
 }
 @media (max-width: 768px) {
-  .testi-section  { padding: 72px 0 64px; gap: 32px; }
-  .testi-top-row  { padding: 0 20px; flex-direction: column; align-items: flex-start; gap: 20px; }
-  .testi-viewport { padding: 0 20px; overflow: hidden; }
-  .testi-card     { height: 420px; flex-shrink: 0; }
-  .testi-h2       { font-size: clamp(1.4rem, 6vw, 2rem); }
-  .testi-h2-em    { font-size: clamp(1.2rem, 5vw, 1.75rem); }
+  .testi-section        { padding: 72px 0 64px; gap: 32px; }
+  .testi-top-row        { padding: 0 20px; flex-direction: column; align-items: flex-start; gap: 20px; }
+  /* overflow: visible so the narrower card shows the next card peeking */
+  .testi-viewport       { padding: 0 20px; overflow: visible; }
+  .testi-card           { height: 500px; flex-shrink: 0; }
+  .testi-h2             { font-size: clamp(1.4rem, 6vw, 2rem); }
+  .testi-h2-em          { font-size: clamp(1.2rem, 5vw, 1.75rem); }
+  /* On mobile: always show the hover panel, hide the face label */
+  .testi-card-face      { opacity: 0; }
+  .testi-hover-panel    {
+    transform: translateY(0);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    /* lighter gradient so the photo shows through at the top */
+    background: linear-gradient(to top,
+      rgba(4, 8, 4, 0.94) 0%,
+      rgba(8, 14, 8, 0.80) 40%,
+      rgba(12, 20, 12, 0.40) 70%,
+      rgba(12, 20, 12, 0.10) 100%);
+  }
+  .testi-hp-name        { font-size: 1rem; }
+  .testi-hp-role        { font-size: 0.68rem; margin-bottom: 4px; }
+  .testi-hp-quote       {
+    font-size: 0.8rem;
+    line-height: 1.65;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
 /* ─────────────────────────────────────────────────────

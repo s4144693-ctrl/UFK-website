@@ -1887,31 +1887,31 @@ function BrandingPage({ data }: { data: ServiceData }) {
                 </div>
                 <div className="br-ms-arrow">→</div>
                 {i === 0 && (
-                  <img src="/br-graphic-design.png" alt="" className="br-ms-card-img" aria-hidden="true" />
+                  <img src="/br-graphic-design.webp" alt="" className="br-ms-card-img" aria-hidden="true" loading="lazy" decoding="async" />
                 )}
                 {i === 1 && (
-                  <img src="/br-video-reel.png" alt="" className="br-ms-card-img br-ms-card-img--reel" aria-hidden="true" />
+                  <img src="/br-video-reel.webp" alt="" className="br-ms-card-img br-ms-card-img--reel" aria-hidden="true" loading="lazy" decoding="async" />
                 )}
                 {i === 2 && (
-                  <img src="/br-property-photo.png" alt="" className="br-ms-card-img br-ms-card-img--property" aria-hidden="true" />
+                  <img src="/br-property-photo.webp" alt="" className="br-ms-card-img br-ms-card-img--property" aria-hidden="true" loading="lazy" decoding="async" />
                 )}
                 {i === 3 && (
-                  <img src="/br-script-writing.png" alt="" className="br-ms-card-img br-ms-card-img--script" aria-hidden="true" />
+                  <img src="/br-script-writing.webp" alt="" className="br-ms-card-img br-ms-card-img--script" aria-hidden="true" loading="lazy" decoding="async" />
                 )}
                 {i === 4 && (
-                  <img src="/br-photo-processing.png" alt="" className="br-ms-card-img br-ms-card-img--photo" aria-hidden="true" />
+                  <img src="/br-photo-processing.webp" alt="" className="br-ms-card-img br-ms-card-img--photo" aria-hidden="true" loading="lazy" decoding="async" />
                 )}
                 {i === 5 && (
-                  <img src="/br-product-photo.png" alt="" className="br-ms-card-img br-ms-card-img--product" aria-hidden="true" />
+                  <img src="/br-product-photo.webp" alt="" className="br-ms-card-img br-ms-card-img--product" aria-hidden="true" loading="lazy" decoding="async" />
                 )}
                 {i === 6 && (
-                  <img src="/ass1@2x.png" alt="" className="br-ms-card-img br-ms-card-img--strategy" aria-hidden="true" />
+                  <img src="/ass1@2x.webp" alt="" className="br-ms-card-img br-ms-card-img--strategy" aria-hidden="true" loading="lazy" decoding="async" />
                 )}
                 {i === 7 && (
-                  <img src="/br-stationery.png" alt="" className="br-ms-card-img br-ms-card-img--stationery" aria-hidden="true" />
+                  <img src="/br-stationery.webp" alt="" className="br-ms-card-img br-ms-card-img--stationery" aria-hidden="true" loading="lazy" decoding="async" />
                 )}
                 {i === 8 && (
-                  <img src="/br-ai-design.png" alt="" className="br-ms-card-img br-ms-card-img--ai" aria-hidden="true" />
+                  <img src="/br-ai-design.webp" alt="" className="br-ms-card-img br-ms-card-img--ai" aria-hidden="true" loading="lazy" decoding="async" />
                 )}
               </div>
             ))}
@@ -1923,7 +1923,7 @@ function BrandingPage({ data }: { data: ServiceData }) {
       <section className="br-hand-section">
         <div className="br-hand-inner">
           <div className="br-hand-img-wrap">
-            <img src="/branding.png" alt="Human-led creativity" className="br-hand-img" />
+            <img src="/branding.webp" alt="Human-led creativity" className="br-hand-img" loading="lazy" decoding="async" />
           </div>
           <div className="br-hand-text">
             <h2 className="br-hand-h2">

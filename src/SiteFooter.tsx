@@ -1,5 +1,6 @@
 import { motion } from 'motion/react'
 import { Link } from 'react-router-dom'
+import { Phone, Mail } from 'lucide-react'
 
 const LINKS = {
   Company: [
@@ -18,10 +19,9 @@ const LINKS = {
     { label: 'SME Support',             to: '/services/sme' },
   ],
   Contact: [
-    { label: 'Get in Touch',     to: '/contact' },
-    { label: 'Book a Call',      to: '/contact' },
-    { label: 'Start a Project',  to: '/contact' },
+    { label: 'Get in Touch', to: '/contact' },
   ],
+
 }
 
 const InstagramIcon = () => (
@@ -79,6 +79,18 @@ export default function SiteFooter({ light = false }: { light?: boolean }) {
                     </li>
                   ))}
                 </ul>
+                {heading === 'Contact' && (
+                  <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <a href="tel:+917006624359" className="footer-link" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Phone size={13} style={{ flexShrink: 0, opacity: 0.7 }} />
+                      +91 70066 24359
+                    </a>
+                    <a href="mailto:reachufk@gmail.com" className="footer-link" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Mail size={13} style={{ flexShrink: 0, opacity: 0.7 }} />
+                      reachufk@gmail.com
+                    </a>
+                  </div>
+                )}
               </div>
             ))}
           </div>

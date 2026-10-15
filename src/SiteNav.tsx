@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-export default function SiteNav({ alwaysGlass = false, darkTint = false }: { alwaysGlass?: boolean; darkTint?: boolean }) {
+export default function SiteNav({ alwaysGlass = true, darkTint = false }: { alwaysGlass?: boolean; darkTint?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(alwaysGlass)
+  const [scrolled, setScrolled] = useState(true)
   const toggleMenu = () => setMenuOpen(o => !o)
 
   useEffect(() => {
@@ -17,9 +17,11 @@ export default function SiteNav({ alwaysGlass = false, darkTint = false }: { alw
     return () => window.removeEventListener('scroll', onScroll)
   }, [alwaysGlass])
 
+  const close = () => setMenuOpen(false)
+
   return (
-    <nav className={`nav${scrolled ? ' nav--scrolled' : ''}${darkTint ? ' nav--dark-tint' : ''}`}>
-      <a href="/" className="nav-logo">
+    <nav className={`nav${scrolled ? ' nav--scrolled' : ''}${darkTint ? ' nav--dark-tint' : ''}${menuOpen ? ' nav--menu-open' : ''}`}>
+      <a href="/" className="nav-logo" onClick={close}>
         <img src="/logo.webp" alt="UFK Solutions" height="29" />
       </a>
 
@@ -34,12 +36,12 @@ export default function SiteNav({ alwaysGlass = false, darkTint = false }: { alw
             </span>
             <div className="nav-dropdown">
               <div className="nav-dropdown-inner">
-                <Link to="/services/software-development" className="nav-dd-item">Software Development</Link>
-                <Link to="/services/web-development" className="nav-dd-item">Web Development</Link>
-                <Link to="/services/digital-transformation" className="nav-dd-item">Automation Development</Link>
-                <Link to="/services/branding" className="nav-dd-item">Branding</Link>
-                <Link to="/services/marketing" className="nav-dd-item">Marketing</Link>
-                <Link to="/services/proposal-development" className="nav-dd-item">Proposal Development</Link>
+                <Link to="/services/software-development" className="nav-dd-item" onClick={close}>Software Development</Link>
+                <Link to="/services/web-development" className="nav-dd-item" onClick={close}>Web Development</Link>
+                <Link to="/services/digital-transformation" className="nav-dd-item" onClick={close}>Automation Development</Link>
+                <Link to="/services/branding" className="nav-dd-item" onClick={close}>Branding</Link>
+                <Link to="/services/marketing" className="nav-dd-item" onClick={close}>Marketing</Link>
+                <Link to="/services/proposal-development" className="nav-dd-item" onClick={close}>Proposal Development</Link>
               </div>
             </div>
           </li>
@@ -52,18 +54,19 @@ export default function SiteNav({ alwaysGlass = false, darkTint = false }: { alw
             </span>
             <div className="nav-dropdown">
               <div className="nav-dropdown-inner">
-                <Link to="/industries" className="nav-dd-item">All Industries</Link>
-                <Link to="/industries/aviation" className="nav-dd-item">Aviation</Link>
+                <Link to="/industries" className="nav-dd-item" onClick={close}>All Industries</Link>
+                <Link to="/industries/aviation" className="nav-dd-item" onClick={close}>Aviation</Link>
+                <Link to="/services/proposal-development" className="nav-dd-item" onClick={close}>Proposal Development</Link>
               </div>
             </div>
           </li>
-          <li><Link to="/clients">Clients</Link></li>
-          <li><Link to="/projects">Projects</Link></li>
-          <li><Link to="/about">About</Link></li>
-          <li><Link to="/blog">Blogs</Link></li>
+          <li><Link to="/clients" onClick={close}>Clients</Link></li>
+          <li><Link to="/projects" onClick={close}>Projects</Link></li>
+          <li><Link to="/about" onClick={close}>About</Link></li>
+          <li><Link to="/blog" onClick={close}>Blogs</Link></li>
         </ul>
         <div className="nav-actions">
-          <Link to="/contact" className="btn-contact" aria-label="Contact us">
+          <Link to="/contact" className="btn-contact" aria-label="Contact us" onClick={close}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" strokeWidth="2"
               strokeLinecap="round" strokeLinejoin="round">

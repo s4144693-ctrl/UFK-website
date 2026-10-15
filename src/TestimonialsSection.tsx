@@ -74,6 +74,7 @@ export default function TestimonialsSection() {
   const [cardW, setCardW]        = useState(0)
   const [visible, setVisible]    = useState(4)
   const [paused, setPaused]      = useState(false)
+  const [intervalMs, setIntervalMs] = useState(2500)
   const viewportRef              = useRef<HTMLDivElement>(null)
 
   const maxIndex = TESTIMONIALS.length - visible
@@ -84,9 +85,13 @@ export default function TestimonialsSection() {
     if (!el) return
     const update = () => {
       const isMobile = window.innerWidth <= 768
-      const v = isMobile ? 2 : 4
+      const v = isMobile ? 1 : 4
       setVisible(v)
-      setCardW((el.offsetWidth - (v - 1) * T_GAP) / v)
+      // On mobile: make card slightly narrower than viewport so the next card peeks
+      setCardW(isMobile
+        ? el.offsetWidth * 0.87
+        : (el.offsetWidth - (v - 1) * T_GAP) / v)
+      setIntervalMs(isMobile ? 4500 : 2500)
     }
     update()
     const ro = new ResizeObserver(update)
@@ -100,12 +105,12 @@ export default function TestimonialsSection() {
   }, [visible])
 
   useEffect(() => {
-    if (paused) return
+    if (paused || window.innerWidth <= 768) return
     const id = setInterval(() => {
       setIndex(i => (i >= maxIndex ? 0 : i + 1))
-    }, 2500)
+    }, intervalMs)
     return () => clearInterval(id)
-  }, [maxIndex, paused])
+  }, [maxIndex, paused, intervalMs])
 
   const prev = () => setIndex(i => Math.max(0, i - 1))
   const next = () => setIndex(i => Math.min(maxIndex, i + 1))
