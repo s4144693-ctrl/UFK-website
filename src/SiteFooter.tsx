@@ -81,13 +81,13 @@ export default function SiteFooter({ light = false }: { light?: boolean }) {
                 </ul>
                 {heading === 'Contact' && (
                   <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <a href="tel:+917006624359" className="footer-link" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <a href="tel:+919019160002" className="footer-link" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <Phone size={13} style={{ flexShrink: 0, opacity: 0.7 }} />
-                      +91 70066 24359
+                      +91 90191 60002
                     </a>
-                    <a href="mailto:reachufk@gmail.com" className="footer-link" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <a href="mailto:info@ufksolutions.com" className="footer-link" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <Mail size={13} style={{ flexShrink: 0, opacity: 0.7 }} />
-                      reachufk@gmail.com
+                      info@ufksolutions.com
                     </a>
                   </div>
                 )}

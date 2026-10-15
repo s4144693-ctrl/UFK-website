@@ -381,7 +381,7 @@ export default function ContactPage() {
                 transition={{ duration: 0.55 }}
                 style={{ marginTop: '28px', display: 'flex', flexDirection: 'column', gap: '12px' }}
               >
-                <a href="tel:+917006624359" style={{
+                <a href="tel:+919019160002" style={{
                   display: 'flex', alignItems: 'center', gap: '10px',
                   color: 'rgba(255,255,255,0.72)', textDecoration: 'none',
                   fontSize: '14px', letterSpacing: '0.01em',
@@ -391,9 +391,9 @@ export default function ContactPage() {
                   onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.72)')}
                 >
                   <Phone size={14} style={{ flexShrink: 0, opacity: 0.75 }} />
-                  +91 70066 24359
+                  +91 90191 60002
                 </a>
-                <a href="mailto:reachufk@gmail.com" style={{
+                <a href="mailto:info@ufksolutions.com" style={{
                   display: 'flex', alignItems: 'center', gap: '10px',
                   color: 'rgba(255,255,255,0.72)', textDecoration: 'none',
                   fontSize: '14px', letterSpacing: '0.01em',
@@ -403,7 +403,7 @@ export default function ContactPage() {
                   onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.72)')}
                 >
                   <Mail size={14} style={{ flexShrink: 0, opacity: 0.75 }} />
-                  reachufk@gmail.com
+                  info@ufksolutions.com
                 </a>
               </motion.div>
             </motion.div>
