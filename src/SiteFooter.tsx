@@ -1,6 +1,6 @@
 import { motion } from 'motion/react'
 import { Link } from 'react-router-dom'
-import { Phone, Mail } from 'lucide-react'
+import { Phone, Mail, MapPin } from 'lucide-react'
 
 const LINKS = {
   Company: [
@@ -89,6 +89,10 @@ export default function SiteFooter({ light = false }: { light?: boolean }) {
                       <Mail size={13} style={{ flexShrink: 0, opacity: 0.7 }} />
                       info@ufksolutions.com
                     </a>
+                    <div className="footer-link" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                      <MapPin size={13} style={{ flexShrink: 0, opacity: 0.7, marginTop: '2px' }} />
+                      Srinagar, Kashmir, India
+                    </div>
                   </div>
                 )}
               </div>

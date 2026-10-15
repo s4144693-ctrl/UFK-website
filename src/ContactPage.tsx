@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { NeatGradient } from '@firecms/neat'
 import { motion } from 'motion/react'
-import { ArrowRight, Phone, Mail } from 'lucide-react'
+import { ArrowRight, Phone, Mail, MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import SiteNav from './SiteNav'
 import SiteFooter from './SiteFooter'
@@ -405,6 +405,14 @@ export default function ContactPage() {
                   <Mail size={14} style={{ flexShrink: 0, opacity: 0.75 }} />
                   info@ufksolutions.com
                 </a>
+                <div style={{
+                  display: 'flex', alignItems: 'flex-start', gap: '10px',
+                  color: 'rgba(255,255,255,0.72)',
+                  fontSize: '14px', letterSpacing: '0.01em',
+                }}>
+                  <MapPin size={14} style={{ flexShrink: 0, opacity: 0.75, marginTop: '1px' }} />
+                  Srinagar, Kashmir, India
+                </div>
               </motion.div>
             </motion.div>
           </motion.div>
