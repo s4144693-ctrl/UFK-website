@@ -48,6 +48,7 @@ const CLIENTS = [
   { file: 'logo-7.png',   name: 'Coral Quartz' },
   { file: 'logo2.png',    name: 'Nifty Focus' },
   { file: 'asset-28.png', name: 'EH' },
+  { file: 'images (1).jpeg', name: 'Mad for Momos' },
 ]
 
 const STATS = [
