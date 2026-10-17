@@ -4,6 +4,7 @@ import SiteFooter from './SiteFooter'
 
 /* ─── All real client logos ─── */
 const CLIENTS = [
+  { file: 'images (1).jpeg', name: 'Mad for Momos' },
   { file: 'asset-41.png', name: 'Avyanna Aviation' },
   { file: 'asset-60.png', name: 'Vision Flying Training' },
   { file: 'asset-59.png', name: 'Adani Defence & FSTC' },
@@ -48,7 +49,6 @@ const CLIENTS = [
   { file: 'logo-7.png',   name: 'Coral Quartz' },
   { file: 'logo2.png',    name: 'Nifty Focus' },
   { file: 'asset-28.png', name: 'EH' },
-  { file: 'images (1).jpeg', name: 'Mad for Momos' },
 ]
 
 const STATS = [
