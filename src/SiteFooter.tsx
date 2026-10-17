@@ -40,6 +40,12 @@ const LinkedInIcon = () => (
   </svg>
 )
 
+const FacebookIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+  </svg>
+)
+
 export default function SiteFooter({ light = false }: { light?: boolean }) {
   const inner = (
     <div className="footer-stage">
@@ -106,11 +112,14 @@ export default function SiteFooter({ light = false }: { light?: boolean }) {
           <div className="footer-socials">
             <span className="footer-social-label">Join the Journey:</span>
             <div className="footer-social-icons">
-              <a href="https://www.instagram.com/ufksolutions" target="_blank" rel="noopener noreferrer" className="footer-social-icon">
+              <a href="https://www.instagram.com/ufksolutions/" target="_blank" rel="noopener noreferrer" className="footer-social-icon">
                 <InstagramIcon />
               </a>
-              <a href="https://www.linkedin.com/company/ufksolutions" target="_blank" rel="noopener noreferrer" className="footer-social-icon">
+              <a href="https://www.linkedin.com/company/ufk-solutions/" target="_blank" rel="noopener noreferrer" className="footer-social-icon">
                 <LinkedInIcon />
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=100086742984265" target="_blank" rel="noopener noreferrer" className="footer-social-icon">
+                <FacebookIcon />
               </a>
             </div>
           </div>

@@ -58,6 +58,14 @@ const TESTIMONIALS = [
     photo: '/KAISER.jpeg',
   },
   {
+    name: 'Jyotsana Basraon',
+    role: 'Director, FSTC',
+    quote: 'We\'ve been working with UFK Solutions for our website, SEO and social media, and the experience has been really good. They understand our requirements well and are always available whenever we need support. Their team has been consistent with the work and has become an important part of our digital presence.',
+    bg: 'linear-gradient(155deg, #0d1520 0%, #080f18 100%)',
+    accent: '#38bdf8',
+    photo: '/fstc.png',
+  },
+  {
     name: 'Jatin Paul Singh',
     role: 'Founder, Nets',
     quote: 'Working with UFK Solutions has been a delight. They are very professional when it comes to taking notes on client requirements. From website designing to editing and understanding the content, they are very focused on the job. They handle all queries and provide options to solve them, making it easier to get work done.',
@@ -74,8 +82,10 @@ export default function TestimonialsSection() {
   const [cardW, setCardW]        = useState(0)
   const [visible, setVisible]    = useState(4)
   const [paused, setPaused]      = useState(false)
+  const [inView, setInView]      = useState(false)
   const [intervalMs, setIntervalMs] = useState(2500)
   const viewportRef              = useRef<HTMLDivElement>(null)
+  const sectionRef               = useRef<HTMLElement>(null)
 
   const maxIndex = TESTIMONIALS.length - visible
   const step     = cardW + T_GAP
@@ -105,18 +115,29 @@ export default function TestimonialsSection() {
   }, [visible])
 
   useEffect(() => {
-    if (paused || window.innerWidth <= 768) return
+    const el = sectionRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.2 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!inView || paused || window.innerWidth <= 768) return
     const id = setInterval(() => {
       setIndex(i => (i >= maxIndex ? 0 : i + 1))
     }, intervalMs)
     return () => clearInterval(id)
-  }, [maxIndex, paused, intervalMs])
+  }, [maxIndex, paused, intervalMs, inView])
 
   const prev = () => setIndex(i => Math.max(0, i - 1))
   const next = () => setIndex(i => Math.min(maxIndex, i + 1))
 
   return (
-    <section className="testi-section">
+    <section className="testi-section" ref={sectionRef}>
 
       <div className="testi-top-row">
         <div className="testi-heading-group">
