@@ -347,6 +347,16 @@ export default function AboutPage() {
             </div>
           </div>
 
+          <div className="abj-col">
+            <div className="abj-col-top" />
+            <div className="abj-dot" aria-hidden="true"><div className="abj-dot-inner" /></div>
+            <div className="abj-col-bottom">
+              <span className="abj-period">2025</span>
+              <h3 className="abj-col-title">Leading Partnerships</h3>
+              <p className="abj-col-desc">Partnered with FSTC by Adani and Vision Flying Training Institute, one of India's fastest-growing FTOs. Also partnered with a US-based magazine publisher, extending our work into the publishing and media space.</p>
+            </div>
+          </div>
+
           <div className="abj-col abj-col--active">
             <div className="abj-col-top abj-col-top--active">
               <span className="abj-now-badge">We are Here</span>
