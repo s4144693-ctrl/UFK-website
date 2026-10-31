@@ -1253,11 +1253,12 @@ body {
     justify-content: center;
   }
 
-  /* Match trigger font size/style to other nav links */
+  /* Match trigger font size/style to other nav links, centered */
   .nav-services-trigger {
     font-size: 1.2rem;
     color: rgba(255, 255, 255, 0.82);
     font-weight: inherit;
+    justify-content: center;
   }
 
   .hero-scroll-canvas {
