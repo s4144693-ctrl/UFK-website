@@ -1253,70 +1253,11 @@ body {
     justify-content: center;
   }
 
-  /* ── Mobile dropdown fixes ───────────────────────────── */
-
   /* Match trigger font size/style to other nav links */
   .nav-services-trigger {
     font-size: 1.2rem;
     color: rgba(255, 255, 255, 0.82);
     font-weight: inherit;
-  }
-
-  /* Disable hover-based open on mobile */
-  .nav-has-dropdown:hover .nav-dropdown {
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-    max-height: 0;
-  }
-
-  /* Dropdown: static flow, click-toggled */
-  .nav-dropdown {
-    position: static;
-    transform: none;
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    visibility: hidden;
-    pointer-events: none;
-    padding: 0;
-    min-width: unset;
-    width: 100%;
-    transition: max-height 0.3s ease, opacity 0.2s ease;
-  }
-
-  .nav-dropdown.open {
-    opacity: 1;
-    max-height: 500px;
-    visibility: visible;
-    pointer-events: auto;
-    padding-top: 8px;
-  }
-
-  /* Solid background so text is readable */
-  .nav-dropdown-inner {
-    background: rgba(20, 36, 20, 0.98);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 8px;
-    width: 100%;
-    min-width: 220px;
-  }
-
-  .nav-dd-item {
-    font-size: 1rem;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.82);
-  }
-
-  /* Rotate chevron when dropdown is open */
-  .nav-has-dropdown.dropdown-open .nav-services-trigger svg {
-    transform: rotate(180deg);
-    transition: transform 0.2s ease;
-  }
-
-  .nav-services-trigger svg {
-    transition: transform 0.2s ease;
   }
 
   .hero-scroll-canvas {
@@ -11750,6 +11691,66 @@ body {
 .nav-dd-item:hover {
   background: rgba(178, 255, 89, 0.08);
   color: #b2ff59;
+}
+
+/* ── Mobile nav dropdown overrides (must come after base dropdown styles) ── */
+@media (max-width: 768px) {
+  /* Disable hover-based open */
+  .nav-has-dropdown:hover .nav-dropdown {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    max-height: 0;
+  }
+
+  /* Static flow, click-toggled */
+  .nav-dropdown {
+    position: static !important;
+    transform: none !important;
+    top: auto;
+    left: auto;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+    padding: 0;
+    min-width: unset;
+    width: 100%;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+  }
+
+  .nav-dropdown.open {
+    opacity: 1;
+    max-height: 600px;
+    visibility: visible;
+    pointer-events: auto;
+    padding-top: 8px;
+  }
+
+  /* Solid readable background */
+  .nav-dropdown-inner {
+    background: rgba(18, 32, 18, 0.99);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 8px;
+    width: 100%;
+  }
+
+  .nav-dd-item {
+    font-size: 1rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 12px 16px;
+  }
+
+  /* Rotate chevron when open */
+  .nav-services-trigger svg {
+    transition: transform 0.2s ease;
+  }
+  .nav-has-dropdown.dropdown-open .nav-services-trigger svg {
+    transform: rotate(180deg);
+  }
 }
 
 /* ── Mobile Responsive ───────────────────────────────────────────────────── */
