@@ -11719,7 +11719,8 @@ body {
     transition: opacity 0.2s ease, visibility 0.2s ease;
   }
 
-  .nav-dropdown.open {
+  /* specificity 0,3,0 — beats the hover-disable rule above */
+  .nav-has-dropdown .nav-dropdown.open {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
