@@ -1253,6 +1253,72 @@ body {
     justify-content: center;
   }
 
+  /* ── Mobile dropdown fixes ───────────────────────────── */
+
+  /* Match trigger font size/style to other nav links */
+  .nav-services-trigger {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.82);
+    font-weight: inherit;
+  }
+
+  /* Disable hover-based open on mobile */
+  .nav-has-dropdown:hover .nav-dropdown {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    max-height: 0;
+  }
+
+  /* Dropdown: static flow, click-toggled */
+  .nav-dropdown {
+    position: static;
+    transform: none;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+    padding: 0;
+    min-width: unset;
+    width: 100%;
+    transition: max-height 0.3s ease, opacity 0.2s ease;
+  }
+
+  .nav-dropdown.open {
+    opacity: 1;
+    max-height: 500px;
+    visibility: visible;
+    pointer-events: auto;
+    padding-top: 8px;
+  }
+
+  /* Solid background so text is readable */
+  .nav-dropdown-inner {
+    background: rgba(20, 36, 20, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 8px;
+    width: 100%;
+    min-width: 220px;
+  }
+
+  .nav-dd-item {
+    font-size: 1rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  /* Rotate chevron when dropdown is open */
+  .nav-has-dropdown.dropdown-open .nav-services-trigger svg {
+    transform: rotate(180deg);
+    transition: transform 0.2s ease;
+  }
+
+  .nav-services-trigger svg {
+    transition: transform 0.2s ease;
+  }
+
   .hero-scroll-canvas {
     height: 100vh;
   }

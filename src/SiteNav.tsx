@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 export default function SiteNav({ alwaysGlass = true, darkTint = false }: { alwaysGlass?: boolean; darkTint?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(true)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const toggleMenu = () => setMenuOpen(o => !o)
 
   useEffect(() => {
@@ -17,7 +18,14 @@ export default function SiteNav({ alwaysGlass = true, darkTint = false }: { alwa
     return () => window.removeEventListener('scroll', onScroll)
   }, [alwaysGlass])
 
-  const close = () => setMenuOpen(false)
+  const close = () => {
+    setMenuOpen(false)
+    setOpenDropdown(null)
+  }
+
+  const toggleDropdown = (name: string) => {
+    setOpenDropdown(prev => prev === name ? null : name)
+  }
 
   return (
     <nav className={`nav${scrolled ? ' nav--scrolled' : ''}${darkTint ? ' nav--dark-tint' : ''}${menuOpen ? ' nav--menu-open' : ''}`}>
@@ -27,14 +35,14 @@ export default function SiteNav({ alwaysGlass = true, darkTint = false }: { alwa
 
       <div className={`nav-menu${menuOpen ? ' active' : ''}`}>
         <ul className="nav-links">
-          <li className="nav-has-dropdown">
-            <span className="nav-services-trigger">
+          <li className={`nav-has-dropdown${openDropdown === 'services' ? ' dropdown-open' : ''}`}>
+            <span className="nav-services-trigger" onClick={() => toggleDropdown('services')}>
               <span>Services</span>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
-            <div className="nav-dropdown">
+            <div className={`nav-dropdown${openDropdown === 'services' ? ' open' : ''}`}>
               <div className="nav-dropdown-inner">
                 <Link to="/services/software-development" className="nav-dd-item" onClick={close}>Software Development</Link>
                 <Link to="/services/web-development" className="nav-dd-item" onClick={close}>Web Development</Link>
@@ -45,14 +53,14 @@ export default function SiteNav({ alwaysGlass = true, darkTint = false }: { alwa
               </div>
             </div>
           </li>
-          <li className="nav-has-dropdown">
-            <span className="nav-services-trigger">
+          <li className={`nav-has-dropdown${openDropdown === 'industries' ? ' dropdown-open' : ''}`}>
+            <span className="nav-services-trigger" onClick={() => toggleDropdown('industries')}>
               <span>Industries</span>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
-            <div className="nav-dropdown">
+            <div className={`nav-dropdown${openDropdown === 'industries' ? ' open' : ''}`}>
               <div className="nav-dropdown-inner">
                 <Link to="/industries" className="nav-dd-item" onClick={close}>All Industries</Link>
                 <Link to="/industries/aviation" className="nav-dd-item" onClick={close}>Aviation</Link>
